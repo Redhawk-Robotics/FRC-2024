@@ -6,10 +6,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 public class CTREModuleState {
 
   /**
-   * Minimize the change in heading the desired swerve module state would require
-   * by potentially
-   * reversing the direction the wheel spins. Customized from WPILib's version to
-   * include placing in
+   * Minimize the change in heading the desired swerve module state would require by potentially
+   * reversing the direction the wheel spins. Customized from WPILib's version to include placing in
    * appropriate scope for CTRE onboard control.
    *
    * @param desiredState The desired state.
@@ -17,7 +15,8 @@ public class CTREModuleState {
    */
   public static SwerveModuleState optimize(
       SwerveModuleState desiredState, Rotation2d currentAngle) {
-    double targetAngle = placeInAppropriate0To360Scope(currentAngle.getDegrees(), desiredState.angle.getDegrees());
+    double targetAngle =
+        placeInAppropriate0To360Scope(currentAngle.getDegrees(), desiredState.angle.getDegrees());
     double targetSpeed = desiredState.speedMetersPerSecond;
     double delta = targetAngle - currentAngle.getDegrees();
     if (Math.abs(delta) > 90) {
@@ -29,7 +28,7 @@ public class CTREModuleState {
 
   /**
    * @param scopeReference Current Angle
-   * @param newAngle       Target Angle
+   * @param newAngle Target Angle
    * @return Closest angle within scope
    */
   private static double placeInAppropriate0To360Scope(double scopeReference, double newAngle) {

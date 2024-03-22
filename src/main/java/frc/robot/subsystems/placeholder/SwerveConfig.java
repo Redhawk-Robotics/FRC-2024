@@ -1,4 +1,4 @@
-package frc.robot.subsystems.swerve;
+package frc.robot.subsystems.placeholder;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
@@ -22,22 +22,24 @@ public class SwerveConfig {
 
   public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-  public static final COTSFalconSwerveConstants chosenModule =
-      COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+  public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants
+      .SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
   /* Drivetrain Constants */
   public static final double trackWidth = Units.inchesToMeters(28.5);
   public static final double wheelBase = Units.inchesToMeters(28.5);
   public static final double wheelCircumference = chosenModule.wheelCircumference;
 
-  /* Swerve Kinematics
-   * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
-  public static final SwerveDriveKinematics swerveKinematics =
-      new SwerveDriveKinematics(
-          new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-          new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-          new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-          new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+  /*
+   * Swerve Kinematics
+   * No need to ever change this unless you are not doing a traditional
+   * rectangular/square 4 module swerve
+   */
+  public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+      new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+      new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+      new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+      new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
   /* Module Gear Ratios */
   public static final double driveGearRatio = chosenModule.driveGearRatio;
@@ -47,7 +49,8 @@ public class SwerveConfig {
   // meters per rotation
   public static final double driveRevToMeters = wheelCircumference / (driveGearRatio);
   public static final double driveRpmToMetersPerSecond = driveRevToMeters / 60;
-  // the number of degrees that a single rotation of the turn motor turns the wheel.
+  // the number of degrees that a single rotation of the turn motor turns the
+  // wheel.
   public static final double DegreesPerTurnRotation = 360 / angleGearRatio;
 
   /* Motor Inverts */
@@ -68,8 +71,11 @@ public class SwerveConfig {
   public static final double drivePeakCurrentDuration = 0.1;
   public static final boolean driveEnableCurrentLimit = true;
 
-  /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
-   * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
+  /*
+   * These values are used by the drive falcon to ramp in open loop and closed
+   * loop driving.
+   * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
+   */
   public static final double openLoopRamp = 0.25;
   public static final double closedLoopRamp = 0.0;
 
@@ -85,8 +91,10 @@ public class SwerveConfig {
   public static final double driveKD = 0.0;
   public static final double driveKF = 0.0;
 
-  /* Drive Motor Characterization Values
-   * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
+  /*
+   * Drive Motor Characterization Values
+   * Divide SYSID values by 12 to convert from volts to percent output for CTRE
+   */
   public static final double driveKS = (0.32);
   public static final double driveKV = (1.51);
   public static final double driveKA = (0.27);
@@ -99,14 +107,14 @@ public class SwerveConfig {
 
   public SwerveConfig() {
     canCoderConfig = new CANcoderConfiguration();
-    canCoderConfig.MagnetSensor =
-        new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1);
+    canCoderConfig.MagnetSensor = new MagnetSensorConfigs()
+        .withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1);
     // canCoderConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
-    canCoderConfig.MagnetSensor =
-        new MagnetSensorConfigs()
-            .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive);
+    canCoderConfig.MagnetSensor = new MagnetSensorConfigs()
+        .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive);
     // canCoderConfig.sensorDirection = canCoderInvert;
-    // canCoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+    // canCoderConfig.initializationStrategy =
+    // SensorInitializationStrategy.BootToAbsolutePosition;
     // canCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
   }
 }
