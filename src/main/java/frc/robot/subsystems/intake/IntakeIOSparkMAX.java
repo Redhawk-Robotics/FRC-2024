@@ -1,8 +1,7 @@
 package frc.robot.subsystems.intake;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.IntakeConstants;
 
@@ -32,9 +31,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
    */
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {
-
-  }
+  public void updateInputs(IntakeIOInputs inputs) {}
 
   @Override
   public void intakeFloorNote() {
