@@ -57,7 +57,6 @@ public final class Constants {
 
     public CANcoderConfiguration canCoderConfig;
 
-    //
     public static final IdleMode driveIdleMode = IdleMode.kBrake;
     public static final IdleMode angleIdleMode = IdleMode.kBrake;
     public static final double drivePower = 1;
@@ -81,6 +80,10 @@ public final class Constants {
         new Translation2d(-wheelBase / 2, trackWidth / 2);
     public static final Translation2d m_backRightTranslation =
         new Translation2d(-wheelBase / 2, -trackWidth / 2);
+
+    public static final Translation2d[] m_swerveTranslation2d = {
+      m_frontLeftTranslation, m_frontRightTranslation, m_backLeftTranslation, m_backRightTranslation
+    };
 
     /*
      * Swerve Kinematics
@@ -218,6 +221,13 @@ public final class Constants {
         public static final RevSwerveModuleConstants constants =
             new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       }
+
+      public static final RevSwerveModuleConstants[] revSwerveModuleConstants = {
+        frontLeftModule.constants,
+        frontRightModule.constants,
+        backLeftModule.constants,
+        backRightModule.constants
+      };
     }
   }
 

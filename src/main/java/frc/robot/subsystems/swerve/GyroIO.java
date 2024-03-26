@@ -1,8 +1,7 @@
 package frc.robot.subsystems.swerve;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.geometry.Rotation2d;
+import org.littletonrobotics.junction.AutoLog;
 
 public interface GyroIO {
   @AutoLog
@@ -14,14 +13,11 @@ public interface GyroIO {
     public double angle = 0;
   }
 
-  public default void updateInputs(GyroIOInputs inputs) {
-  }
+  public default void updateInputs(GyroIOInputs inputs) {}
 
-  public default void reset() {
-  }
+  public default void reset() {}
 
-  public default void setYaw(double deg) {
-  }
+  public default void setYaw(double deg) {}
 
   public Rotation2d getRotation2d();
 }

@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -55,9 +54,9 @@ public class ModuleIOSparkMAX implements ModuleIO {
   }
 
   /*
-   * 
+   *
    * Overriden Interface methods
-   * 
+   *
    */
 
   public void updateInputs(ModuleIOInputs inputs) {
@@ -97,7 +96,6 @@ public class ModuleIOSparkMAX implements ModuleIO {
   }
 
   @Override
-
   public SwerveModuleState getState() {
     return new SwerveModuleState(relDriveEncoder.getVelocity(), getAngle());
   }
@@ -108,9 +106,9 @@ public class ModuleIOSparkMAX implements ModuleIO {
   }
 
   /*
-   * 
+   *
    * Class methods
-   * 
+   *
    */
 
   private void configEncoders() {
@@ -163,7 +161,8 @@ public class ModuleIOSparkMAX implements ModuleIO {
   }
 
   private void resetToAbsolute() {
-    relAngleEncoder.setPosition((360 * getCanCoder().getDegrees()) - (angleOffset.getDegrees() + 180));
+    relAngleEncoder.setPosition(
+        (360 * getCanCoder().getDegrees()) - (angleOffset.getDegrees() + 180));
   }
 
   private Rotation2d getAngle() {
@@ -198,5 +197,4 @@ public class ModuleIOSparkMAX implements ModuleIO {
     SparkPIDController controller = mDriveMotor.getPIDController();
     controller.setReference(velocity, ControlType.kVelocity, 0);
   }
-
 }

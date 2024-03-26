@@ -33,21 +33,28 @@ public class Swerve extends SubsystemBase {
   private SwerveModule[] mSwerveMods;
 
   private final Translation2d[] m_swerveTranslation2d = {
-      SwerveConfig.m_frontLeftTranslation,
-      SwerveConfig.m_frontRightTranslation,
-      SwerveConfig.m_backLeftTranslation,
-      SwerveConfig.m_backRightTranslation
+    SwerveConfig.m_frontLeftTranslation,
+    SwerveConfig.m_frontRightTranslation,
+    SwerveConfig.m_backLeftTranslation,
+    SwerveConfig.m_backRightTranslation
   };
-  private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_swerveTranslation2d);
+  private final SwerveDriveKinematics m_kinematics =
+      new SwerveDriveKinematics(m_swerveTranslation2d);
   // public Pigeon2 gyro;
   private AHRS m_gyro;
 
-  private LoggedDashboardNumber PPtranslationP = new LoggedDashboardNumber("Pathplanner_ TranslationConstants P");
-  private LoggedDashboardNumber PProtationP = new LoggedDashboardNumber("Pathplanner_ RotationConstants P");
-  private LoggedDashboardNumber PPtranslationI = new LoggedDashboardNumber("Pathplanner_ TranslationConstants I");
-  private LoggedDashboardNumber PProtationI = new LoggedDashboardNumber("Pathplanner_ RotationConstants I");
-  private LoggedDashboardNumber PPtranslationD = new LoggedDashboardNumber("Pathplanner_ TranslationConstants D");
-  private LoggedDashboardNumber PProtationD = new LoggedDashboardNumber("Pathplanner_ RotationConstants D");
+  private LoggedDashboardNumber PPtranslationP =
+      new LoggedDashboardNumber("Pathplanner_ TranslationConstants P");
+  private LoggedDashboardNumber PProtationP =
+      new LoggedDashboardNumber("Pathplanner_ RotationConstants P");
+  private LoggedDashboardNumber PPtranslationI =
+      new LoggedDashboardNumber("Pathplanner_ TranslationConstants I");
+  private LoggedDashboardNumber PProtationI =
+      new LoggedDashboardNumber("Pathplanner_ RotationConstants I");
+  private LoggedDashboardNumber PPtranslationD =
+      new LoggedDashboardNumber("Pathplanner_ TranslationConstants D");
+  private LoggedDashboardNumber PProtationD =
+      new LoggedDashboardNumber("Pathplanner_ RotationConstants D");
 
   SwerveDrivePoseEstimator swerveDrivePoseEstimator;
 
@@ -57,14 +64,16 @@ public class Swerve extends SubsystemBase {
     // gyro.configFactoryDefault();
     m_gyro = new AHRS();
 
-    mSwerveMods = new SwerveModule[] {
-        new SwerveMod(0, SwerveConfig.REV.frontLeftModule.constants),
-        new SwerveMod(1, SwerveConfig.REV.frontRightModule.constants),
-        new SwerveMod(2, SwerveConfig.REV.backLeftModule.constants),
-        new SwerveMod(3, SwerveConfig.REV.backRightModule.constants)
-    };
+    mSwerveMods =
+        new SwerveModule[] {
+          new SwerveMod(0, SwerveConfig.REV.frontLeftModule.constants),
+          new SwerveMod(1, SwerveConfig.REV.frontRightModule.constants),
+          new SwerveMod(2, SwerveConfig.REV.backLeftModule.constants),
+          new SwerveMod(3, SwerveConfig.REV.backRightModule.constants)
+        };
 
-    swerveOdometry = new SwerveDriveOdometry(SwerveConfig.swerveKinematics, getYaw(), getModulePositions());
+    swerveOdometry =
+        new SwerveDriveOdometry(SwerveConfig.swerveKinematics, getYaw(), getModulePositions());
     zeroGyro();
 
     AutoBuilder.configureHolonomic(
@@ -83,7 +92,7 @@ public class Swerve extends SubsystemBase {
           return false;
         },
         this // Reference to this subsystem to set requirements
-    );
+        );
 
     PProtationP.setDefault(2);
     PProtationI.setDefault(0);
@@ -92,36 +101,41 @@ public class Swerve extends SubsystemBase {
     PPtranslationI.set(0);
     PPtranslationD.setDefault(0);
 
-    swerveDrivePoseEstimator = new SwerveDrivePoseEstimator(
-        m_kinematics, m_gyro.getRotation2d(), getModulePositions(), getPose());
+    swerveDrivePoseEstimator =
+        new SwerveDrivePoseEstimator(
+            m_kinematics, m_gyro.getRotation2d(), getModulePositions(), getPose());
   }
 
   private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
     final double LOOP_TIME_S = 0.02;
-    Pose2d futureRobotPose = new Pose2d(
-        originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
-        originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
-        Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
+    Pose2d futureRobotPose =
+        new Pose2d(
+            originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
+            originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
+            Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
     Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
-    ChassisSpeeds updatedSpeeds = new ChassisSpeeds(
-        twistForPose.dx / LOOP_TIME_S,
-        twistForPose.dy / LOOP_TIME_S,
-        twistForPose.dtheta / LOOP_TIME_S);
+    ChassisSpeeds updatedSpeeds =
+        new ChassisSpeeds(
+            twistForPose.dx / LOOP_TIME_S,
+            twistForPose.dy / LOOP_TIME_S,
+            twistForPose.dtheta / LOOP_TIME_S);
     return updatedSpeeds;
   }
 
   public void drive(
       Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-    ChassisSpeeds desiredChassisSpeeds = fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(
-            translation.getX(),
-            translation.getY(),
-            rotation,
-            Rotation2d.fromDegrees(-m_gyro.getAngle()))
-        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    ChassisSpeeds desiredChassisSpeeds =
+        fieldRelative
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                translation.getX(),
+                translation.getY(),
+                rotation,
+                Rotation2d.fromDegrees(-m_gyro.getAngle()))
+            : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
     desiredChassisSpeeds = correctForDynamics(desiredChassisSpeeds);
 
-    SwerveModuleState[] swerveModuleStates = SwerveConfig.swerveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
+    SwerveModuleState[] swerveModuleStates =
+        SwerveConfig.swerveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConfig.maxSpeed);
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
@@ -224,8 +238,7 @@ public class Swerve extends SubsystemBase {
   /**
    * Returns the position of the robot on the field.
    *
-   * @return the robots estimated Pose2d on the field based off
-   *         SwerveDrivePoseEstimator, in meters
+   * @return the robots estimated Pose2d on the field based off SwerveDrivePoseEstimator, in meters
    */
   public Pose2d getRobotPose() {
     return swerveOdometry.getPoseMeters();
@@ -274,7 +287,8 @@ public class Swerve extends SubsystemBase {
             new PIDConstants(
                 PProtationP.get(), PProtationI.get(), PProtationD.get()), // Rotation PID constants
             AutoConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-            AutoConstants.kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to
+            AutoConstants
+                .kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to
             // furthest module.
             new ReplanningConfig(false, false)),
         () -> {
@@ -292,6 +306,6 @@ public class Swerve extends SubsystemBase {
           return false;
         },
         this // Reference to this subsystem to set requirements
-    );
+        );
   }
 }

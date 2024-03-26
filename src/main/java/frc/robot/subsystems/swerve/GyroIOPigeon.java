@@ -1,7 +1,6 @@
 package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class GyroIOPigeon implements GyroIO {

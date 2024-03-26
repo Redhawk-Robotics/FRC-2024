@@ -1,10 +1,9 @@
 package frc.robot.subsystems.swerve;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.littletonrobotics.junction.Logger;
 
 public class Module {
   private ModuleIO modIo;
@@ -18,7 +17,13 @@ public class Module {
 
   public void periodic() {
     modIo.updateInputs(inputs);
-    Logger.processInputs("Swerve/Module " + modIndex, inputs);
+    Logger.processInputs("Swerve/Module " + getModuleNumber(), inputs);
+
+    Logger.recordOutput("REV Mod " + getModuleNumber() + " Cancoder", getCanCoder().getDegrees());
+    Logger.recordOutput(
+        "REV Mod " + getModuleNumber() + " Integrated", getPosition().angle.getDegrees());
+    Logger.recordOutput(
+        "REV Mod " + getModuleNumber() + " Velocity", getState().speedMetersPerSecond);
   }
 
   // Sets the desired state of a swerve module
@@ -41,4 +46,7 @@ public class Module {
     return modIo.getPosition();
   }
 
+  public int getModuleNumber() {
+    return modIndex;
+  }
 }

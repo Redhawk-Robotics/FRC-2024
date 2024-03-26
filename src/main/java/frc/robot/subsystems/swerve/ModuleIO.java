@@ -1,10 +1,9 @@
 package frc.robot.subsystems.swerve;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.littletonrobotics.junction.AutoLog;
 
 public interface ModuleIO {
   @AutoLog
@@ -20,11 +19,9 @@ public interface ModuleIO {
     public double angleTemp = 0;
   }
 
-  public default void updateInputs(ModuleIOInputs inputs) {
-  }
+  public default void updateInputs(ModuleIOInputs inputs) {}
 
-  public default void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-  }
+  public default void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {}
 
   public Rotation2d getCanCoder();
 

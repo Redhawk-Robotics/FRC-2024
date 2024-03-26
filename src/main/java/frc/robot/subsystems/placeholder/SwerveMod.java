@@ -16,10 +16,7 @@ import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
 import frc.robot.Constants.SwerveConfig;
 import org.littletonrobotics.junction.AutoLogOutput;
 
-/**
- * a Swerve Modules using REV Robotics motor controllers and CTRE CANcoder
- * absolute encoders.
- */
+/** a Swerve Modules using REV Robotics motor controllers and CTRE CANcoder absolute encoders. */
 public class SwerveMod implements SwerveModule {
   public int moduleNumber;
   private Rotation2d angleOffset;
@@ -39,7 +36,7 @@ public class SwerveMod implements SwerveModule {
     mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
     configAngleMotor();
 
-    /* Drive Motor Config */
+    /* Drive MotorModuleIO Config */
     mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
     configDriveMotor();
 
