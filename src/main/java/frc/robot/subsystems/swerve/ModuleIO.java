@@ -1,5 +1,3 @@
 package frc.robot.subsystems.swerve;
 
-public interface ModuleIO {
-
-}
+public interface ModuleIO {}

@@ -13,12 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.lib.util.swerveUtil.CTREModuleState;
 import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
+import frc.robot.Constants.SwerveConfig;
 import org.littletonrobotics.junction.AutoLogOutput;
 
-/**
- * a Swerve Modules using REV Robotics motor controllers and CTRE CANcoder
- * absolute encoders.
- */
+/** a Swerve Modules using REV Robotics motor controllers and CTRE CANcoder absolute encoders. */
 public class SwerveMod implements SwerveModule {
   public int moduleNumber;
   private Rotation2d angleOffset;
@@ -166,9 +164,19 @@ public class SwerveMod implements SwerveModule {
     this.moduleNumber = moduleNumber;
   }
 
-  private void resetToAbsolute() {
+  @AutoLogOutput(key = "thing{moduleNumber}")
+  double absolutePosition;
 
-    double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
+  @AutoLogOutput(key = "thing{moduleNumber} part1")
+  double part1;
+
+  @AutoLogOutput(key = "thing{moduleNumber} offset")
+  double offset;
+
+  private void resetToAbsolute() {
+    absolutePosition = (360 * getCanCoder().getDegrees()) - (angleOffset.getDegrees() + 180);
+    part1 = getCanCoder().getDegrees();
+    offset = angleOffset.getDegrees();
     relAngleEncoder.setPosition(absolutePosition);
   }
 
