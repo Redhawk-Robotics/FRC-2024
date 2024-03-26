@@ -2,6 +2,8 @@ package frc.robot.subsystems.swerve;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public class GyroIONavX implements GyroIO {
 
   private final AHRS m_gyro;
@@ -28,5 +30,10 @@ public class GyroIONavX implements GyroIO {
   @Override
   public void setYaw(double deg) {
     m_gyro.setAngleAdjustment(deg);
+  }
+
+  @Override
+  public Rotation2d getRotation2d() {
+    return m_gyro.getRotation2d();
   }
 }

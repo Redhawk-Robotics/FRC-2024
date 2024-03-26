@@ -11,7 +11,6 @@ public interface GyroIO {
     public double roll = 0.0;
     public double pitch = 0.0;
     public double yaw = 0.0;
-    public Rotation2d rotation = new Rotation2d();
     public double angle = 0;
   }
 
@@ -23,4 +22,6 @@ public interface GyroIO {
 
   public default void setYaw(double deg) {
   }
+
+  public Rotation2d getRotation2d();
 }

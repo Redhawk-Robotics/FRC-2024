@@ -2,11 +2,13 @@ package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public class GyroIOPigeon implements GyroIO {
   private final Pigeon2 m_pigeon;
 
   public GyroIOPigeon() {
-    System.out.println("[Init] Creating GyroIOPigeon2");
+    System.out.println("[Init] Creating GyroIOPigeon");
 
     this.m_pigeon = new Pigeon2(39);
   }
@@ -26,5 +28,10 @@ public class GyroIOPigeon implements GyroIO {
   @Override
   public void setYaw(double deg) {
     m_pigeon.setYaw(deg);
+  }
+
+  @Override
+  public Rotation2d getRotation2d() {
+    return m_pigeon.getRotation2d();
   }
 }

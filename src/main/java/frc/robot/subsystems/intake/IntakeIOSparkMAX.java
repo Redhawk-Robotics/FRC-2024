@@ -27,11 +27,14 @@ public class IntakeIOSparkMAX implements IntakeIO {
   }
 
   /*
+   * 
+   * 
    * Overriden Interface methods
    */
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {}
+  public void updateInputs(IntakeIOInputs inputs) {
+  }
 
   @Override
   public void intakeFloorNote() {
@@ -59,7 +62,9 @@ public class IntakeIOSparkMAX implements IntakeIO {
   }
 
   /*
+   * 
    * Class methods
+   * 
    */
 
   public void setMotorSpeeds(double speed) {
