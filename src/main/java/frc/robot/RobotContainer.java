@@ -110,7 +110,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    var path = swerve.followPathCommand("yipiiiiiiiii");
+    var path = swerve.followPathCommand("T1");
     return new FunctionalCommand(
         path::initialize,
         path::execute,
