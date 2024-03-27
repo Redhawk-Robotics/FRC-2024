@@ -65,7 +65,7 @@ public final class Constants {
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
     public static final COTSFalconSwerveConstants chosenModule =
-        COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+        COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
 
     /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(28.5);
@@ -86,9 +86,8 @@ public final class Constants {
     };
 
     /*
-     * Swerve Kinematics
-     * No need to ever change this unless you are not doing a traditional
-     * rectangular/square 4 module swerve
+     * Swerve Kinematics No need to ever change this unless you are not doing a
+     * traditional rectangular/square 4 module swerve
      */
     public static final SwerveDriveKinematics swerveKinematics =
         new SwerveDriveKinematics(
@@ -117,20 +116,20 @@ public final class Constants {
     public static final boolean canCoderInvert = chosenModule.canCoderInvert;
 
     /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 20;
-    public static final int anglePeakCurrentLimit = 40;
+    public static final int angleContinuousCurrentLimit = 40;
+    public static final int anglePeakCurrentLimit = 60;
     public static final double anglePeakCurrentDuration = 0.1;
     public static final boolean angleEnableCurrentLimit = true;
 
-    public static final int driveContinuousCurrentLimit = 35;
+    public static final int driveContinuousCurrentLimit = 40;
     public static final int drivePeakCurrentLimit = 60;
     public static final double drivePeakCurrentDuration = 0.1;
     public static final boolean driveEnableCurrentLimit = true;
 
     /*
      * These values are used by the drive falcon to ramp in open loop and closed
-     * loop driving.
-     * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
+     * loop driving. We found a small open loop ramp (0.25) helps with tread wear,
+     * tipping, etc
      */
     public static final double openLoopRamp = 0.25;
     public static final double closedLoopRamp = 0.0;
@@ -148,8 +147,8 @@ public final class Constants {
     public static final double driveKF = 0.0;
 
     /*
-     * Drive Motor Characterization Values
-     * Divide SYSID values by 12 to convert from volts to percent output for CTRE
+     * Drive Motor Characterization Values Divide SYSID values by 12 to convert from
+     * volts to percent output for CTRE
      */
     public static final double driveKS = (0.32);
     public static final double driveKV = (1.51);
@@ -157,9 +156,9 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double maxSpeed = 4.0;
+    public static final double maxSpeed = 4.469892;
     /** Radians per Second */
-    public static final double maxAngularVelocity = 5.0; // max 10 or.....
+    public static final double maxAngularVelocity = 5; // max 10 or.....
 
     // public void SwerveConfig() {
     // canCoderConfig = new CANcoderConfiguration();
@@ -186,8 +185,8 @@ public final class Constants {
         public static final int angleMotorID = 8;
         public static final int canCoderID = 44;
         public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees(.334 * 360); // Rotation2d.fromDegrees(37.7);
-        // 0.540283*360
+            Rotation2d.fromDegrees(.263 * 360); // Rotation2d.fromDegrees(37.7);
+        // 0.540283*360 .334 * 360
         public static final RevSwerveModuleConstants constants =
             new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       }
@@ -197,7 +196,8 @@ public final class Constants {
         public static final int driveMotorID = 5;
         public static final int angleMotorID = 6;
         public static final int canCoderID = 33;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(.394 * 360);
+        public static final Rotation2d angleOffset =
+            Rotation2d.fromDegrees((.196 * 360) + 180); // .394 * 360
         public static final RevSwerveModuleConstants constants =
             new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       }
@@ -207,7 +207,8 @@ public final class Constants {
         public static final int driveMotorID = 1;
         public static final int angleMotorID = 2;
         public static final int canCoderID = 11;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(.449 * 360);
+        public static final Rotation2d angleOffset =
+            Rotation2d.fromDegrees(.228 * 360); // .449 * 360
         public static final RevSwerveModuleConstants constants =
             new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       }
@@ -217,7 +218,8 @@ public final class Constants {
         public static final int driveMotorID = 3;
         public static final int angleMotorID = 4;
         public static final int canCoderID = 22;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(.586 * 360);
+        public static final Rotation2d angleOffset =
+            Rotation2d.fromDegrees((.014 * 360) + 180); // .586 * 360
         public static final RevSwerveModuleConstants constants =
             new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       }
@@ -256,7 +258,7 @@ public final class Constants {
         new HolonomicPathFollowerConfig(
             new PIDConstants(1.9, 0, 0), // Translation PID constants, around 2.25
             new PIDConstants(2, 0, 0), // Rotation PID constants
-            kMaxSpeedMetersPerSecond, // Max module speed, in m/s
+            SwerveConfig.maxSpeed, // Max module speed, in m/s
             kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
             // module.
             new ReplanningConfig(false, false));

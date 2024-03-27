@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -12,18 +11,16 @@ import frc.robot.Constants.SwerveConfig.REV;
 import frc.robot.commands.Drive;
 import frc.robot.subsystems.swerve.GyroIO;
 import frc.robot.subsystems.swerve.GyroIONavX;
+import frc.robot.subsystems.swerve.GyroIOPigeon;
 import frc.robot.subsystems.swerve.ModuleIOSparkMAX;
 import frc.robot.subsystems.swerve.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -38,11 +35,13 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(DRIVER, XboxController.Button.kA.value);
+  private final JoystickButton zeroGyro =
+      new JoystickButton(DRIVER, XboxController.Button.kA.value);
   // private final JoystickButton robotCentric = new JoystickButton(DRIVER,
   // XboxController.Button.kLeftBumper.value);
 
-  private final JoystickButton dampen = new JoystickButton(DRIVER, XboxController.Button.kRightBumper.value);
+  private final JoystickButton dampen =
+      new JoystickButton(DRIVER, XboxController.Button.kRightBumper.value);
 
   private final POVButton up = new POVButton(DRIVER, 90);
   private final POVButton down = new POVButton(DRIVER, 270);
@@ -53,9 +52,7 @@ public class RobotContainer {
   private Swerve swerve;
   private GyroIO gyroIO;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // ! Currently ONLY run Robot on REAL
     switch (Constants.currentMode) {
@@ -70,13 +67,14 @@ public class RobotContainer {
         this.swerve = new Swerve(gyroIO, null, null, null, null);
         break;
       default:
-        this.gyroIO = new GyroIONavX();
-        this.swerve = new Swerve(
-            gyroIO,
-            new ModuleIOSparkMAX(0, REV.revSwerveModuleConstants[0]),
-            new ModuleIOSparkMAX(1, REV.revSwerveModuleConstants[1]),
-            new ModuleIOSparkMAX(2, REV.revSwerveModuleConstants[2]),
-            new ModuleIOSparkMAX(3, REV.revSwerveModuleConstants[3]));
+        this.gyroIO = new GyroIOPigeon();
+        this.swerve =
+            new Swerve(
+                gyroIO,
+                new ModuleIOSparkMAX(0, REV.revSwerveModuleConstants[0]),
+                new ModuleIOSparkMAX(1, REV.revSwerveModuleConstants[1]),
+                new ModuleIOSparkMAX(2, REV.revSwerveModuleConstants[2]),
+                new ModuleIOSparkMAX(3, REV.revSwerveModuleConstants[3]));
     }
 
     swerve.setDefaultCommand(
@@ -87,8 +85,9 @@ public class RobotContainer {
             () -> -DRIVER.getRawAxis(rotationAxis),
             () -> true,
             () -> dampen.getAsBoolean(),
-            () -> 1 // speed multiplier
-        ));
+            () -> 1 // speed
+            // multiplier
+            ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -111,7 +110,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    var path = swerve.followPathCommand("TEST");
+    var path = swerve.followPathCommand("yipiiiiiiiii");
     return new FunctionalCommand(
         path::initialize,
         path::execute,

@@ -19,6 +19,7 @@ public class GyroIONavX implements GyroIO {
     inputs.roll = m_gyro.getRoll();
     inputs.pitch = m_gyro.getPitch();
     inputs.yaw = m_gyro.getYaw();
+    inputs.angle = m_gyro.getAngle();
   }
 
   @Override

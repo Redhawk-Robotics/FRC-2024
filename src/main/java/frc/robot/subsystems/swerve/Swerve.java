@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.GeometryUtils;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConfig;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -36,26 +37,35 @@ public class Swerve extends SubsystemBase {
   private SwerveDriveOdometry swerveOdometry;
 
   private final Translation2d[] m_swerveTranslation2d = SwerveConfig.m_swerveTranslation2d;
-  private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_swerveTranslation2d);
+  private final SwerveDriveKinematics m_kinematics =
+      new SwerveDriveKinematics(m_swerveTranslation2d);
   private SwerveDrivePoseEstimator swerveDrivePoseEstimator;
 
-  private LoggedDashboardNumber PPtranslationP = new LoggedDashboardNumber("Pathplanner_ TranslationConstants P");
-  private LoggedDashboardNumber PProtationP = new LoggedDashboardNumber("Pathplanner_ RotationConstants P");
-  private LoggedDashboardNumber PPtranslationI = new LoggedDashboardNumber("Pathplanner_ TranslationConstants I");
-  private LoggedDashboardNumber PProtationI = new LoggedDashboardNumber("Pathplanner_ RotationConstants I");
-  private LoggedDashboardNumber PPtranslationD = new LoggedDashboardNumber("Pathplanner_ TranslationConstants D");
-  private LoggedDashboardNumber PProtationD = new LoggedDashboardNumber("Pathplanner_ RotationConstants D");
+  private LoggedDashboardNumber PPtranslationP =
+      new LoggedDashboardNumber("Pathplanner_ TranslationConstants P");
+  private LoggedDashboardNumber PProtationP =
+      new LoggedDashboardNumber("Pathplanner_ RotationConstants P");
+  private LoggedDashboardNumber PPtranslationI =
+      new LoggedDashboardNumber("Pathplanner_ TranslationConstants I");
+  private LoggedDashboardNumber PProtationI =
+      new LoggedDashboardNumber("Pathplanner_ RotationConstants I");
+  private LoggedDashboardNumber PPtranslationD =
+      new LoggedDashboardNumber("Pathplanner_ TranslationConstants D");
+  private LoggedDashboardNumber PProtationD =
+      new LoggedDashboardNumber("Pathplanner_ RotationConstants D");
 
   /** Creates a new Swerve. */
   public Swerve(GyroIO gyroIO, ModuleIO FLIO, ModuleIO FRIO, ModuleIO RLIO, ModuleIO RRIO) {
     this.mGyroIO = gyroIO;
     this.mGyroIOInputs = new GyroIOInputsAutoLogged();
 
-    mSwerveMods = new Module[] {
-        new Module(FLIO, 0), new Module(FRIO, 1), new Module(RLIO, 2), new Module(RRIO, 3)
-    };
+    mSwerveMods =
+        new Module[] {
+          new Module(FLIO, 0), new Module(FRIO, 1), new Module(RLIO, 2), new Module(RRIO, 3)
+        };
 
-    swerveOdometry = new SwerveDriveOdometry(SwerveConfig.swerveKinematics, getYaw(), getModulePositions());
+    swerveOdometry =
+        new SwerveDriveOdometry(SwerveConfig.swerveKinematics, getYaw(), getModulePositions());
     zeroGyro();
 
     AutoBuilder.configureHolonomic(
@@ -74,7 +84,7 @@ public class Swerve extends SubsystemBase {
           return false;
         },
         this // Reference to this subsystem to set requirements
-    );
+        );
 
     PProtationP.setDefault(2);
     PProtationI.setDefault(0);
@@ -83,11 +93,12 @@ public class Swerve extends SubsystemBase {
     PPtranslationI.set(0);
     PPtranslationD.setDefault(0);
 
-    swerveDrivePoseEstimator = new SwerveDrivePoseEstimator(
-        m_kinematics, gyroIO.getRotation2d(), getModulePositions(), getPose());
+    swerveDrivePoseEstimator =
+        new SwerveDrivePoseEstimator(
+            m_kinematics, gyroIO.getRotation2d(), getModulePositions(), getPose());
   }
 
-  // ! periodic
+  // ~ periodic
   @Override
   public void periodic() {
     for (Module mod : mSwerveMods) {
@@ -99,25 +110,31 @@ public class Swerve extends SubsystemBase {
 
     swerveDrivePoseEstimator.update(mGyroIO.getRotation2d(), getModulePositions());
     swerveOdometry.update(mGyroIO.getRotation2d(), getModulePositions());
+
+    Logger.recordOutput("Swerve/RobotPose", getPose());
   }
 
   // ~ IMPORTANT DRIVE FUNCTIONS
   public void drive(
       Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-    ChassisSpeeds desiredChassisSpeeds = fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(
-            translation.getX(),
-            translation.getY(),
-            rotation,
-            Rotation2d.fromDegrees(-mGyroIOInputs.angle))
-        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    ChassisSpeeds desiredChassisSpeeds =
+        fieldRelative
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                translation.getX(),
+                translation.getY(),
+                rotation,
+                Rotation2d.fromDegrees(-mGyroIOInputs.angle))
+            : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
     desiredChassisSpeeds = correctForDynamics(desiredChassisSpeeds);
 
-    SwerveModuleState[] swerveModuleStates = SwerveConfig.swerveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
+    SwerveModuleState[] swerveModuleStates =
+        SwerveConfig.swerveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
     setModuleStates(swerveModuleStates);
+    Logger.recordOutput("tewts states", swerveModuleStates);
+    Logger.recordOutput("speeds", desiredChassisSpeeds);
   }
 
-  // ! METHODS FOR PATHPLANNER
+  // ! START OF METHODS FOR PATHPLANNER
 
   public Pose2d getPose() {
     return swerveOdometry.getPoseMeters();
@@ -146,11 +163,12 @@ public class Swerve extends SubsystemBase {
     Logger.recordOutput("Pathplanner/Pathplanner setPointState", setPointState);
   }
 
+  // ! END OF METHODS FOR PATHPLANNER
+
   /**
    * Returns the position of the robot on the field.
    *
-   * @return the robots estimated Pose2d on the field based off
-   *         SwerveDrivePoseEstimator, in meters
+   * @return the robots estimated Pose2d on the field based off SwerveDrivePoseEstimator, in meters
    */
   public Pose2d getRobotPose() {
     return swerveOdometry.getPoseMeters();
@@ -199,8 +217,9 @@ public class Swerve extends SubsystemBase {
             // 2.25
             new PIDConstants(
                 PProtationP.get(), PProtationI.get(), PProtationD.get()), // Rotation PID constants
-            AutoConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-            AutoConstants.kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to
+            SwerveConfig.maxSpeed, // Max module speed, in m/s
+            AutoConstants
+                .kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to
             // furthest module.
             new ReplanningConfig(false, false)),
         () -> {
@@ -218,7 +237,7 @@ public class Swerve extends SubsystemBase {
           return false;
         },
         this // Reference to this subsystem to set requirements
-    );
+        );
   }
 
   /*
@@ -268,18 +287,21 @@ public class Swerve extends SubsystemBase {
 
   private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
     final double LOOP_TIME_S = 0.02;
-    Pose2d futureRobotPose = new Pose2d(
-        originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
-        originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
-        Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
+    Pose2d futureRobotPose =
+        new Pose2d(
+            originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
+            originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
+            Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
     Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
-    ChassisSpeeds updatedSpeeds = new ChassisSpeeds(
-        twistForPose.dx / LOOP_TIME_S,
-        twistForPose.dy / LOOP_TIME_S,
-        twistForPose.dtheta / LOOP_TIME_S);
+    ChassisSpeeds updatedSpeeds =
+        new ChassisSpeeds(
+            twistForPose.dx / LOOP_TIME_S,
+            twistForPose.dy / LOOP_TIME_S,
+            twistForPose.dtheta / LOOP_TIME_S);
     return updatedSpeeds;
   }
 
+  @AutoLogOutput
   public SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (Module mod : mSwerveMods) {

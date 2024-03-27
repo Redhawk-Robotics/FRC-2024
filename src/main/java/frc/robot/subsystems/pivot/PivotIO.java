@@ -8,4 +8,8 @@ public interface PivotIO {
   public static class PivotIOInputs {}
 
   public default void updateInputs(PivotIOInputs inputs) {}
+
+  public default void setReference() {}
+
+  public default void setPower(double power) {}
 }

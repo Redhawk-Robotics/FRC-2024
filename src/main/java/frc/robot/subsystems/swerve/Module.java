@@ -19,11 +19,12 @@ public class Module {
     modIo.updateInputs(inputs);
     Logger.processInputs("Swerve/Module " + getModuleNumber(), inputs);
 
-    Logger.recordOutput("REV Mod " + getModuleNumber() + " Cancoder", getCanCoder().getDegrees());
     Logger.recordOutput(
-        "REV Mod " + getModuleNumber() + " Integrated", getPosition().angle.getDegrees());
+        "Swerve/REV Mod " + getModuleNumber() + " Cancoder", getCanCoder().getDegrees());
     Logger.recordOutput(
-        "REV Mod " + getModuleNumber() + " Velocity", getState().speedMetersPerSecond);
+        "Swerve/REV Mod " + getModuleNumber() + " Integrated", getPosition().angle.getDegrees());
+    Logger.recordOutput(
+        "Swerve/REV Mod " + getModuleNumber() + " Velocity", getState().speedMetersPerSecond);
   }
 
   // Sets the desired state of a swerve module

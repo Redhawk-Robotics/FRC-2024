@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.lib.util.swerveUtil.CTREModuleState;
 import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
 import frc.robot.Constants.SwerveConfig;
+import org.littletonrobotics.junction.Logger;
 
 public class ModuleIOSparkMAX implements ModuleIO {
   public int moduleNumber;
@@ -25,6 +26,9 @@ public class ModuleIOSparkMAX implements ModuleIO {
   private CANcoder angleEncoder;
   private RelativeEncoder relAngleEncoder;
   private RelativeEncoder relDriveEncoder;
+
+  private SparkPIDController driveController;
+  private SparkPIDController angleController;
 
   public ModuleIOSparkMAX(int moduleNumber, RevSwerveModuleConstants moduleConstants) {
     System.out.println("[Init] Creating ModuleIOSparkMax: " + moduleNumber);
@@ -135,12 +139,12 @@ public class ModuleIOSparkMAX implements ModuleIO {
 
   private void configAngleMotor() {
     mAngleMotor.restoreFactoryDefaults();
-    SparkPIDController controller = mAngleMotor.getPIDController();
-    controller.setP(SwerveConfig.angleKP, 0);
-    controller.setI(SwerveConfig.angleKI, 0);
-    controller.setD(SwerveConfig.angleKD, 0);
-    controller.setFF(SwerveConfig.angleKF, 0);
-    controller.setOutputRange(-SwerveConfig.anglePower, SwerveConfig.anglePower);
+    angleController = mAngleMotor.getPIDController();
+    angleController.setP(SwerveConfig.angleKP, 0);
+    angleController.setI(SwerveConfig.angleKI, 0);
+    angleController.setD(SwerveConfig.angleKD, 0);
+    angleController.setFF(SwerveConfig.angleKF, 0);
+    angleController.setOutputRange(-SwerveConfig.anglePower, SwerveConfig.anglePower);
     mAngleMotor.setSmartCurrentLimit(SwerveConfig.angleContinuousCurrentLimit);
 
     mAngleMotor.setInverted(SwerveConfig.angleMotorInvert);
@@ -149,20 +153,19 @@ public class ModuleIOSparkMAX implements ModuleIO {
 
   private void configDriveMotor() {
     mDriveMotor.restoreFactoryDefaults();
-    SparkPIDController controller = mDriveMotor.getPIDController();
-    controller.setP(SwerveConfig.driveKP, 0);
-    controller.setI(SwerveConfig.driveKI, 0);
-    controller.setD(SwerveConfig.driveKD, 0);
-    controller.setFF(SwerveConfig.driveKF, 0);
-    controller.setOutputRange(-SwerveConfig.drivePower, SwerveConfig.drivePower);
+    driveController = mDriveMotor.getPIDController();
+    driveController.setP(SwerveConfig.driveKP, 0);
+    driveController.setI(SwerveConfig.driveKI, 0);
+    driveController.setD(SwerveConfig.driveKD, 0);
+    driveController.setFF(SwerveConfig.driveKF, 0);
+    driveController.setOutputRange(-SwerveConfig.drivePower, SwerveConfig.drivePower);
     mDriveMotor.setSmartCurrentLimit(SwerveConfig.driveContinuousCurrentLimit);
     mDriveMotor.setInverted(SwerveConfig.driveMotorInvert);
     mDriveMotor.setIdleMode(SwerveConfig.driveIdleMode);
   }
 
   private void resetToAbsolute() {
-    relAngleEncoder.setPosition(
-        (360 * getCanCoder().getDegrees()) - (angleOffset.getDegrees() + 180));
+    relAngleEncoder.setPosition((360 * getCanCoder().getDegrees()) - angleOffset.getDegrees());
   }
 
   private Rotation2d getAngle() {
@@ -177,9 +180,10 @@ public class ModuleIOSparkMAX implements ModuleIO {
     Rotation2d angle = desiredState.angle;
     // Prevent rotating module if speed is less then 1%. Prevents Jittering.
 
-    SparkPIDController controller = mAngleMotor.getPIDController();
+    SparkPIDController controller = angleController;
 
     double degReference = angle.getDegrees();
+    Logger.recordOutput("anglethingy", degReference);
 
     controller.setReference(degReference, ControlType.kPosition, 0);
   }
@@ -192,9 +196,9 @@ public class ModuleIOSparkMAX implements ModuleIO {
       return;
     }
 
-    double velocity = desiredState.speedMetersPerSecond;
-
-    SparkPIDController controller = mDriveMotor.getPIDController();
+    double velocity = desiredState.speedMetersPerSecond * SwerveConfig.maxSpeed;
+    Logger.recordOutput("velo", velocity);
+    SparkPIDController controller = driveController;
     controller.setReference(velocity, ControlType.kVelocity, 0);
   }
 }

@@ -10,6 +10,7 @@ import frc.robot.States;
 import frc.robot.subsystems.swerve.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import org.littletonrobotics.junction.Logger;
 
 public class Drive extends Command {
   private Swerve s_Swerve;
@@ -97,6 +98,12 @@ public class Drive extends Command {
         rotationVal = rotationVal * SwerveConfig.maxAngularVelocity;
         break;
     }
+
+    Logger.recordOutput("State", States.driveState);
+    Logger.recordOutput("translationVal", translationVal);
+    Logger.recordOutput("strafeVal", strafeVal);
+    Logger.recordOutput("rotationVal", rotationVal);
+
     /* Drive */
     s_Swerve.drive(
         new Translation2d(translationVal, strafeVal).times(SwerveConfig.maxSpeed),

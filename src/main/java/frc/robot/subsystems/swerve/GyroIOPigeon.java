@@ -9,7 +9,7 @@ public class GyroIOPigeon implements GyroIO {
   public GyroIOPigeon() {
     System.out.println("[Init] Creating GyroIOPigeon");
 
-    this.m_pigeon = new Pigeon2(39);
+    this.m_pigeon = new Pigeon2(29);
   }
 
   public void updateInputs(GyroIOInputs inputs) {
@@ -17,6 +17,7 @@ public class GyroIOPigeon implements GyroIO {
     inputs.roll = m_pigeon.getRoll().getValueAsDouble();
     inputs.pitch = m_pigeon.getPitch().getValueAsDouble();
     inputs.yaw = m_pigeon.getYaw().getValueAsDouble();
+    inputs.angle = m_pigeon.getAngle();
   }
 
   @Override
