@@ -17,7 +17,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
     this.rightIntakeMotor = new CANSparkMax(0, MotorType.kBrushless);
 
     this.leftIntakeMotor.setInverted(IntakeConstants.leftIntakeMotorInvert);
-    this.leftIntakeMotor.setInverted(IntakeConstants.rightIntakeMotorInvert);
+    this.rightIntakeMotor.setInverted(IntakeConstants.rightIntakeMotorInvert);
 
     /*
      * IR Sensors

@@ -31,11 +31,15 @@ import frc.lib.util.swerveUtil.COTSFalconSwerveConstants;
 import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -64,37 +68,32 @@ public final class Constants {
 
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-    public static final COTSFalconSwerveConstants chosenModule =
-        COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
+    public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants
+        .SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
 
     /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(28.5);
     public static final double wheelBase = Units.inchesToMeters(28.5);
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
-    public static final Translation2d m_frontLeftTranslation =
-        new Translation2d(wheelBase / 2, trackWidth / 2);
-    public static final Translation2d m_frontRightTranslation =
-        new Translation2d(wheelBase / 2, -trackWidth / 2);
-    public static final Translation2d m_backLeftTranslation =
-        new Translation2d(-wheelBase / 2, trackWidth / 2);
-    public static final Translation2d m_backRightTranslation =
-        new Translation2d(-wheelBase / 2, -trackWidth / 2);
+    public static final Translation2d m_frontLeftTranslation = new Translation2d(wheelBase / 2, trackWidth / 2);
+    public static final Translation2d m_frontRightTranslation = new Translation2d(wheelBase / 2, -trackWidth / 2);
+    public static final Translation2d m_backLeftTranslation = new Translation2d(-wheelBase / 2, trackWidth / 2);
+    public static final Translation2d m_backRightTranslation = new Translation2d(-wheelBase / 2, -trackWidth / 2);
 
     public static final Translation2d[] m_swerveTranslation2d = {
-      m_frontLeftTranslation, m_frontRightTranslation, m_backLeftTranslation, m_backRightTranslation
+        m_frontLeftTranslation, m_frontRightTranslation, m_backLeftTranslation, m_backRightTranslation
     };
 
     /*
      * Swerve Kinematics No need to ever change this unless you are not doing a
      * traditional rectangular/square 4 module swerve
      */
-    public static final SwerveDriveKinematics swerveKinematics =
-        new SwerveDriveKinematics(
-            m_frontLeftTranslation,
-            m_frontRightTranslation,
-            m_backLeftTranslation,
-            m_backRightTranslation);
+    public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+        m_frontLeftTranslation,
+        m_frontRightTranslation,
+        m_backLeftTranslation,
+        m_backRightTranslation);
 
     /* Module Gear Ratios */
     public static final double driveGearRatio = chosenModule.driveGearRatio;
@@ -184,11 +183,10 @@ public final class Constants {
         public static final int driveMotorID = 7;
         public static final int angleMotorID = 8;
         public static final int canCoderID = 44;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees(.263 * 360); // Rotation2d.fromDegrees(37.7);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(.263 * 360); // Rotation2d.fromDegrees(37.7);
         // 0.540283*360 .334 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+        public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID,
+            angleMotorID, canCoderID, angleOffset);
       }
 
       /* Front Right Module */
@@ -196,10 +194,9 @@ public final class Constants {
         public static final int driveMotorID = 5;
         public static final int angleMotorID = 6;
         public static final int canCoderID = 33;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees((.196 * 360) + 180); // .394 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees((.196 * 360) + 180); // .394 * 360
+        public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID,
+            angleMotorID, canCoderID, angleOffset);
       }
 
       /* Back Left Module */
@@ -207,10 +204,9 @@ public final class Constants {
         public static final int driveMotorID = 1;
         public static final int angleMotorID = 2;
         public static final int canCoderID = 11;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees(.228 * 360); // .449 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(.228 * 360); // .449 * 360
+        public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID,
+            angleMotorID, canCoderID, angleOffset);
       }
 
       /* Back Right Module */
@@ -218,17 +214,16 @@ public final class Constants {
         public static final int driveMotorID = 3;
         public static final int angleMotorID = 4;
         public static final int canCoderID = 22;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees((.014 * 360) + 180); // .586 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees((.014 * 360) + 180); // .586 * 360
+        public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID,
+            angleMotorID, canCoderID, angleOffset);
       }
 
       public static final RevSwerveModuleConstants[] revSwerveModuleConstants = {
-        frontLeftModule.constants,
-        frontRightModule.constants,
-        backLeftModule.constants,
-        backRightModule.constants
+          frontLeftModule.constants,
+          frontRightModule.constants,
+          backLeftModule.constants,
+          backRightModule.constants
       };
     }
   }
@@ -250,18 +245,16 @@ public final class Constants {
     public static final double kPThetaController = 0;
 
     // Constraint for the motion profiled robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
-    public static final HolonomicPathFollowerConfig kPathFollowerConfig =
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(1.9, 0, 0), // Translation PID constants, around 2.25
-            new PIDConstants(2, 0, 0), // Rotation PID constants
-            SwerveConfig.maxSpeed, // Max module speed, in m/s
-            kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
-            // module.
-            new ReplanningConfig(false, false));
+    public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(1.9, 0, 0), // Translation PID constants, around 2.25
+        new PIDConstants(2, 0, 0), // Rotation PID constants
+        SwerveConfig.maxSpeed, // Max module speed, in m/s
+        kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
+        // module.
+        new ReplanningConfig(false, false));
   }
 
   public static final class FieldConstants {
@@ -279,9 +272,105 @@ public final class Constants {
     public static final boolean rightIntakeMotorInvert = true;
   }
 
-  public static final class PivotConstants {}
+  public static final class PivotConstants {
+  }
 
-  public static final class ShooterConstants {}
+  public static final class ShooterConstants {
+  }
 
-  public static final class VisionConstants {}
+  public static final class VisionConstants {
+  }
+
+  // * Ports and IDS for mechanisms
+  public static final class shooterID {
+    public static final int topShooter = 5;
+    public static final int bottomShooter = 4;
+  }
+
+  public static final class intakeID {
+    public static final int topIntake = 8;// 5
+    public static final int bottomIntake = 6;// 5
+  }
+
+  public static final class pivotID {
+    public static final int leftPivot = 10;
+    public static final int rightPivot = 9;
+
+  }
+
+  public static final class indexerID {
+    public static final int topIndexer = 1;
+    public static final int bottomIndexer = 7;
+  }
+  
+  //!Settings for the mechanisms
+
+  public interface Settings {
+    public static final class Shooter {
+
+        public static boolean topShooterInvert = false;
+        public static boolean bottomShooterInvert = false;
+
+        public static int shooterVelocityCurrentLimit = 40;
+
+        public static final IdleMode topShooterNeutralMode = IdleMode.kCoast;
+        public static final IdleMode bottomShooterNeutralMode = IdleMode.kCoast;
+
+        public static final double shooterKP = 0.0;// FIXME //try 1.0
+        public static final double shooterKI = 0.0;// FIXME
+        public static final double shooterKD = 0.0;// FIXME //try 0.1
+        public static final double shooterKFF = 0.0;// FIXME
+    }
+
+    public static final class Intake {
+        public static boolean topIntakeInvert = true;
+        public static boolean bottomIntakeInvert = false;
+
+        public static int intakeVelocityCurrentLimit = 40;
+
+        public static final IdleMode intakeNeutralMode = IdleMode.kBrake;
+
+        public static final double intakeKP = 0.0;// FIXME //try 1.0
+        public static final double intakeKI = 0.0;// FIXME
+        public static final double intakeKD = 0.0;// FIXME //try 0.1
+        public static final double intakeKFF = 0.0;// FIXME
+    }
+
+    public static final class Pivot {
+        public static boolean leftPivotInvert = true;
+        public static boolean rightPivotInvert = false;
+
+        public static int pivotCurrent = 40;
+
+        public static final IdleMode pivotNeutralMode = IdleMode.kBrake;
+
+        public static final double pivotKP = 0.0;// FIXME //try 1.0
+        public static final double pivotKI = 0.0;// FIXME
+        public static final double pivotKD = 0.0;// FIXME //try 0.1
+        public static final double pivotKFF = 0.0;// FIXME
+        public static final double kTolerance = 0.02;
+
+        public static final double ZERO_OFFSET = 0;
+
+        public static final double MIN_INPUT = -1.0;
+        public static final double MAX_INPUT = 1.0;
+        public static final double ARM_DOWN_THRESHOLD = 0;
+        public static final double ARM_MIN_DOWN = 0;
+        public static final double ARM_MAX_UP = 0;
+    }
+
+    public static final class Indexer {
+        public static boolean topIndexerInert = true;
+        public static boolean bottomIndexerInvert = false;
+
+        public static int IndexerCurrent = 20;// TODO idk
+
+        public static final IdleMode IndexerNeutralMode = IdleMode.kBrake;
+
+        public static final double IndexerKP = 0.0;// FIXME //try 1.0
+        public static final double IndexerKI = 0.0;// FIXME
+        public static final double IndexerKD = 0.0;// FIXME //try 0.1
+        public static final double IndexerKFF = 0.0;// FIXME
+    }
+}
 }
