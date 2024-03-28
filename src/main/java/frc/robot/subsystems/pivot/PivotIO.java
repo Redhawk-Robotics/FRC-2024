@@ -11,7 +11,7 @@ public interface PivotIO {
 
   public default void setReference() {}
 
-  public default void setPower(double power) {}
+  public default void pivotApplySpeed(double power) {}
 
   public default void pivotUp(){}
 
