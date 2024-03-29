@@ -8,7 +8,7 @@ import frc.constants.Settings;
 
 public class IntakeIOSparkMAX implements IntakeIO {
   private final CANSparkMax leftIntakeMotor, rightIntakeMotor;
-  private final DigitalInput entranceSensor, exitSensor;
+  private final DigitalInput entranceSensor;
 
   public IntakeIOSparkMAX() {
     /*
@@ -39,7 +39,6 @@ public class IntakeIOSparkMAX implements IntakeIO {
      * IR Sensors
      */
     this.entranceSensor = new DigitalInput(0);
-    this.exitSensor = new DigitalInput(0);
   }
 
   /*
@@ -68,11 +67,6 @@ public class IntakeIOSparkMAX implements IntakeIO {
 
   @Override
   public boolean intakeEntranceSensorsEnabled() {
-    return false;
-  }
-
-  @Override
-  public boolean intakeExitSensorsEnabled() {
     return false;
   }
 

@@ -9,7 +9,7 @@ public interface PivotIO {
 
   public default void updateInputs(PivotIOInputs inputs) {}
 
-  public default void setReference() {}
+  public default void setReference(double targetPosition) {}
 
   public default void pivotApplySpeed(double power) {}
 

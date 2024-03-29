@@ -9,23 +9,15 @@ public interface ShooterIO {
 
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  public default void shooterApplySpeed(double power) {}
+  public default void applyShooterSpeed(double power) {}
+
+  public default void applySupportWheelSpeeds(double guardPower, double uptakePower) {}
 
   public default void indexerApplySpeed(double power) {}
 
+  public boolean shooterSensorsEnabled();
+
   public default void shooterStop() {}
-
-  public default void fullShot() {}
-
-  public default void halfShot() {}
-
-  public default void quarterShot() {}
-
-  public default void threeQuarterShot() {}
-
-  public default void sourceIntake() {}
-
-  public default void chamferShot() {}
 
   public default void indexerStop() {}
 

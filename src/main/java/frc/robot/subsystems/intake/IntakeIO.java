@@ -16,6 +16,4 @@ public interface IntakeIO {
   public default void intakeApplySpeed(double speed) {}
 
   public boolean intakeEntranceSensorsEnabled();
-
-  public boolean intakeExitSensorsEnabled();
 }

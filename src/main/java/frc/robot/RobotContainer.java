@@ -12,6 +12,13 @@ import frc.constants.Ports;
 import frc.constants.Ports.REV;
 import frc.constants.Settings;
 import frc.robot.commands.Drive;
+import frc.robot.commands.shooter.ShooterWheels;
+import frc.robot.subsystems.pivot.Pivot;
+import frc.robot.subsystems.pivot.PivotIO;
+import frc.robot.subsystems.pivot.PivotIOSparkMAX;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
 import frc.robot.subsystems.swerve.GyroIO;
 import frc.robot.subsystems.swerve.GyroIONavX;
 import frc.robot.subsystems.swerve.GyroIOPigeon;
@@ -106,6 +113,10 @@ public class RobotContainer {
   /* Subsystems */
   private Swerve swerve;
   private GyroIO gyroIO;
+  private Shooter shooter;
+  private ShooterIO shooterIO;
+  private Pivot pivot;
+  private PivotIO pivotIO;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -130,6 +141,10 @@ public class RobotContainer {
                 new ModuleIOSparkMAX(1, REV.revSwerveModuleConstants[1]),
                 new ModuleIOSparkMAX(2, REV.revSwerveModuleConstants[2]),
                 new ModuleIOSparkMAX(3, REV.revSwerveModuleConstants[3]));
+        this.shooterIO = new ShooterIOSparkMAX();
+        this.shooter = new Shooter(shooterIO);
+        this.pivotIO = new PivotIOSparkMAX();
+        this.pivot = new Pivot(pivotIO);
     }
 
     swerve.setDefaultCommand(
@@ -143,6 +158,8 @@ public class RobotContainer {
             () -> 1 // speed
             // multiplier
             ));
+
+    shooter.setDefaultCommand(new ShooterWheels(shooter, swerve::getRobotPose));
 
     // Configure the button bindings
     configureButtonBindings();
