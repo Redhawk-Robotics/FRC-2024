@@ -5,6 +5,7 @@
 package frc.robot.subsystems.pivot;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Pivot extends SubsystemBase {
 
@@ -21,5 +22,6 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     pivotIO.updateInputs(pivotInputs);
+    Logger.processInputs("Pivot", pivotInputs);
   }
 }

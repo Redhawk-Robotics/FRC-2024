@@ -24,4 +24,6 @@ public class Intake extends SubsystemBase {
     intakeIO.updateInputs(intakeInputs);
     Logger.processInputs("Intake", intakeInputs);
   }
+
+  public void runIntake() {}
 }

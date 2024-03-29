@@ -5,7 +5,11 @@ public enum PivotStates {
   kSpeakerMid(0),
   kSpeakerLeft(0),
   kSpeakerRight(0),
-  kNoteMid(0), kNoteSides(0),
+  kNoteMid(0),
+  kAmp(0),
+  kPodium(0),
+  kSource(0),
+  kNoteSides(0),
   kStageMidForwardToSpeaker(0),
   kStageMidSideToSpeaker(0);
 
