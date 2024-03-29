@@ -3,37 +3,45 @@ package frc.robot.subsystems.shooter;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.constants.Ports;
 import frc.constants.Settings;
 
 public class ShooterIOSparkMAX implements ShooterIO {
-  private final CANSparkMax topShooter, bottomShooter, indexer;
+  private final CANSparkMax topShooter, bottomShooter, uptake, guard;
   private SparkPIDController velocityController;
+  private final DigitalInput shooterSensor;
 
   public ShooterIOSparkMAX() {
     this.topShooter = new CANSparkMax(Ports.shooterID.topShooter, MotorType.kBrushless);
     this.bottomShooter = new CANSparkMax(Ports.shooterID.bottomShooter, MotorType.kBrushless);
-    this.indexer = new CANSparkMax(Ports.shooterID.indexerMotor, MotorType.kBrushless);
+    this.uptake = new CANSparkMax(Ports.shooterID.uptakeMotor, MotorType.kBrushless);
+    this.guard = new CANSparkMax(0, MotorType.kBrushless);
 
     this.topShooter.restoreFactoryDefaults();
     this.bottomShooter.restoreFactoryDefaults();
-    this.indexer.restoreFactoryDefaults();
+    this.uptake.restoreFactoryDefaults();
+    this.guard.restoreFactoryDefaults();
 
     this.topShooter.setInverted(Settings.Shooter.topShooterInvert);
     this.bottomShooter.setInverted(Settings.Shooter.bottomShooterInvert);
-    this.indexer.setInverted(Settings.Shooter.indexerInvert);
+    this.uptake.setInverted(Settings.Shooter.indexerInvert);
+    this.guard.setInverted(Settings.Shooter.guardInvert);
 
     this.topShooter.setIdleMode(Settings.Shooter.topShooterNeutralMode);
     this.bottomShooter.setIdleMode(Settings.Shooter.bottomShooterNeutralMode);
-    this.indexer.setIdleMode(Settings.Shooter.topShooterNeutralMode);
+    this.uptake.setIdleMode(Settings.Shooter.topShooterNeutralMode);
+    this.guard.setIdleMode(Settings.Shooter.guardNeutralMode);
 
     this.topShooter.setSmartCurrentLimit(Settings.Shooter.shooterCurrentLimit);
     this.bottomShooter.setSmartCurrentLimit(Settings.Shooter.shooterCurrentLimit);
-    this.indexer.setSmartCurrentLimit(Settings.Shooter.indexerCurrentLimit);
+    this.uptake.setSmartCurrentLimit(Settings.Shooter.indexerCurrentLimit);
+    this.guard.setSmartCurrentLimit(Settings.Shooter.guardCurrentLimit);
 
     this.topShooter.enableVoltageCompensation(Settings.Shooter.maxVoltage);
     this.bottomShooter.enableVoltageCompensation(Settings.Shooter.maxVoltage);
-    this.indexer.enableVoltageCompensation(Settings.Shooter.maxVoltage);
+    this.uptake.enableVoltageCompensation(Settings.Shooter.maxVoltage);
+    this.guard.enableVoltageCompensation(Settings.Shooter.maxVoltage);
 
     this.velocityController = topShooter.getPIDController();
     this.velocityController = bottomShooter.getPIDController(); // * IDK IF WE NEED THIS
@@ -45,13 +53,18 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     this.topShooter.burnFlash();
     this.bottomShooter.burnFlash();
-    this.indexer.burnFlash();
+    this.uptake.burnFlash();
+    this.guard.burnFlash();
+
+    this.shooterSensor = new DigitalInput(0);
   }
+
   /*
    *
    *
    * Overriden Interface methods
    */
+
   @Override
   public void updateInputs(ShooterIOInputs inputs) {}
 
@@ -61,67 +74,16 @@ public class ShooterIOSparkMAX implements ShooterIO {
   }
 
   @Override
-  public void fullShot() {
-    setMotorSpeeds(1);
-    System.out.println("fullShot enabled");
+  public boolean shooterSensorsEnabled() {
+    return shooterSensor.get();
   }
 
   @Override
-  public void halfShot() {
-    setMotorSpeeds(.5);
-    System.out.println("halfShot enabled");
+  public void applySupportWheelSpeeds(double guardPower, double uptakePower) {
+    guard.set(guardPower);
+    uptake.set(uptakePower);
   }
 
-  @Override
-  public void quarterShot() {
-    setMotorSpeeds(1);
-    System.out.println("quarterShot enabled");
-  }
-
-  @Override
-  public void threeQuarterShot() {
-    setMotorSpeeds(.75);
-    System.out.println("threeQuarterShot enabled");
-  }
-
-  @Override
-  public void sourceIntake() {
-    setMotorSpeeds(-.5);
-    System.out.println("sourceIntake enabled");
-  }
-
-  @Override
-  public void chamferShot() {
-    topShooter.set(1);
-    bottomShooter.set(-1);
-    System.out.println("chamfer enabled");
-  }
-
-  // Indexer
-  @Override
-  public void indexerStop() {
-    indexer.set(0);
-  }
-
-  @Override
-  public void indexerForward() {
-    indexer.set(1);
-  }
-
-  @Override
-  public void indexerInverse() {
-    indexer.set(-1);
-  }
-
-  @Override
-  public void shooterApplySpeed(double speed) {
-    setMotorSpeeds(speed);
-  }
-
-  @Override
-  public void indexerApplySpeed(double speed) {
-    indexer.set(speed);
-  }
   /*
    *
    * Class methods

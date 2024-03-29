@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.shooter.ShooterIO;
@@ -14,7 +13,7 @@ import frc.robot.subsystems.shooter.ShooterIO;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class intakeIndexer extends SequentialCommandGroup {
   /** Creates a new intakeIndexer. */
-  public intakeIndexer(IntakeIO intake,ShooterIO shooter) {
+  public intakeIndexer(IntakeIO intake, ShooterIO shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
   }

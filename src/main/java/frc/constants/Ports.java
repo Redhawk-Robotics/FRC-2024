@@ -12,19 +12,20 @@ public interface Ports {
   }
 
   public static final class shooterID {
-    public static final int topShooter = 14;
-    public static final int bottomShooter = 13;
-    public static final int indexerMotor = 16;
+    public static final int topShooter = 11;
+    public static final int bottomShooter = 10;
+    public static final int uptakeMotor = 14;
+    public static final int guardMotor = 9;
   }
 
   public static final class intakeID {
-    public static final int leftIntake = 12; // 5
-    public static final int rightIntake = 11; // 5
+    public static final int leftIntake = 15; // 5
+    public static final int rightIntake = 16; // 5
   }
 
   public static final class pivotID {
-    public static final int leftPivot = 10;
-    public static final int rightPivot = 9;
+    public static final int rightPivot = 12;
+    public static final int leftPivot = 13;
   }
 
   public static final class REV {

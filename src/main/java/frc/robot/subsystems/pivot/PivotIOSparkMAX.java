@@ -1,13 +1,14 @@
 package frc.robot.subsystems.pivot;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.constants.Ports;
 import frc.constants.Settings;
+import org.littletonrobotics.junction.Logger;
 
 public class PivotIOSparkMAX implements PivotIO {
   private final CANSparkMax leftPivot, rightPivot;
@@ -38,6 +39,10 @@ public class PivotIOSparkMAX implements PivotIO {
     this.leftPivot.enableVoltageCompensation(Settings.Pivot.maxVoltage);
     this.rightPivot.enableVoltageCompensation(Settings.Pivot.maxVoltage);
 
+    this.pivotEncoder = rightPivot.getAbsoluteEncoder(Type.kDutyCycle);
+    this.pivotEncoder.setInverted(Settings.Pivot.pivotInvert);
+    this.pivotEncoder.setZeroOffset(Settings.Pivot.ZERO_OFFSET); // FIXME need to find the value
+
     this.pivotController = rightPivot.getPIDController();
     this.pivotController.setFeedbackDevice(pivotEncoder);
 
@@ -48,29 +53,25 @@ public class PivotIOSparkMAX implements PivotIO {
 
     this.pivotController.setOutputRange(Settings.Pivot.MIN_INPUT, Settings.Pivot.MAX_INPUT);
 
-    this.pivotEncoder = rightPivot.getAbsoluteEncoder(Type.kDutyCycle);
-    this.pivotEncoder.setInverted(Settings.Pivot.pivotInvert);
-    this.pivotEncoder.setZeroOffset(Settings.Pivot.ZERO_OFFSET); // FIXME need to find the value
-
     this.rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     this.rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
     this.rightPivot.setSoftLimit(
         CANSparkMax.SoftLimitDirection.kForward,
         Settings.Pivot.forwardSoftLimit); // TODO check the value for both forward and
-    //                                // TODO reverse
+    // // TODO reverse
     this.rightPivot.setSoftLimit(
         CANSparkMax.SoftLimitDirection.kReverse, Settings.Pivot.reverseSoftLimit);
 
     this.rightPivot.burnFlash();
     this.leftPivot.burnFlash();
 
-    SmartDashboard.putBoolean(
-        "Forward Soft Limit",
+    Logger.recordOutput(
+        "Pivot/Forward Soft Limit",
         rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kForward));
 
-    SmartDashboard.putBoolean(
-        "Reverse Soft Limit",
+    Logger.recordOutput(
+        "Pivot/Reverse Soft Limit",
         rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kReverse));
   }
 
@@ -80,7 +81,8 @@ public class PivotIOSparkMAX implements PivotIO {
    * Overriden Interface methods
    */
   @Override
-  public void updateInputs(PivotIOInputs inputs) {}
+  public void updateInputs(PivotIOInputs inputs) {
+  }
 
   @Override
   public void pivotStop() {
@@ -100,6 +102,11 @@ public class PivotIOSparkMAX implements PivotIO {
   @Override
   public void pivotApplySpeed(double speed) {
     setMotorSpeeds(speed);
+  }
+
+  @Override
+  public void setReference(double targetPosition) {
+    pivotController.setReference(targetPosition, ControlType.kSmartMotion);
   }
 
   /*

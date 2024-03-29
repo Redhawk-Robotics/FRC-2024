@@ -6,11 +6,16 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardBoolean;
+import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 public class Intake extends SubsystemBase {
 
   private final IntakeIOInputsAutoLogged intakeInputs;
   private final IntakeIO intakeIO;
+
+  private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of intake");
+  private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to intake?");
 
   public Intake(IntakeIO intakeIO) {
     this.intakeIO = intakeIO;
@@ -23,7 +28,13 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     intakeIO.updateInputs(intakeInputs);
     Logger.processInputs("Intake", intakeInputs);
+
+    if (runPower.get()) {
+      intakeIO.intakeApplySpeed(power.get());
+    }
   }
 
-  public void runIntake() {}
+  public boolean getEntraceSensorStatus() {
+    return intakeIO.intakeEntranceSensorsEnabled();
+  }
 }

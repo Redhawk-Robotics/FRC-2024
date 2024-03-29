@@ -27,6 +27,9 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.swerveUtil.COTSFalconSwerveConstants;
+import frc.robot.subsystems.pivot.PivotStates;
+import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
+import frc.robot.subsystems.shooter.ShooterWheelStates;
 
 /**
  * The Settings class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -216,28 +219,32 @@ public interface Settings {
     public static final double kRedSpeakerY = 5.55;
     public static final double kRedSpeakerZ = 2.1;
   }
-  
-//!Mechanisms
+
+  // !Mechanisms
   public static final class Shooter {
+    public static int maxVoltage = 12;
 
     public static boolean topShooterInvert = false;
     public static boolean bottomShooterInvert = false;
+    public static boolean indexerInvert = false;
+    public static boolean guardInvert = false;
 
     public static int shooterCurrentLimit = 40;
-
-    public static int maxVoltage = 12;
+    public static int indexerCurrentLimit = 40;
+    public static int guardCurrentLimit = 40;
 
     public static final IdleMode topShooterNeutralMode = IdleMode.kCoast;
     public static final IdleMode bottomShooterNeutralMode = IdleMode.kCoast;
+    public static final IdleMode indexerNeutralMode = IdleMode.kCoast;
+    public static final IdleMode guardNeutralMode = IdleMode.kBrake;
 
     public static final double shooterKP = 0.0; // FIXME //try 1.0
     public static final double shooterKI = 0.0; // FIXME
     public static final double shooterKD = 0.0; // FIXME //try 0.1
     public static final double shooterKFF = 0.0; // FIXME
 
-    public static boolean indexerInvert = false;
-    public static int indexerCurrentLimit = 40;
-    public static final IdleMode indexerNeutralMode = IdleMode.kCoast;
+    public static ShooterWheelStates shooterState = ShooterWheelStates.kStop;
+    public static ShooterSupportWheelStates supportWheelStates = ShooterSupportWheelStates.kStop;
   }
 
   public static final class Intake {
@@ -285,5 +292,7 @@ public interface Settings {
     public static final double ARM_DOWN_THRESHOLD = 0;
     public static final double ARM_MIN_DOWN = 0;
     public static final double ARM_MAX_UP = 0;
+
+    public static PivotStates pivotState = PivotStates.kHome;
   }
 }
