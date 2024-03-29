@@ -21,8 +21,8 @@ public interface Settings {
     }
 
     public static final class Intake {
-        public static boolean topIntakeInvert = true;
-        public static boolean bottomIntakeInvert = false;
+        public static boolean leftIntakeInvert = true;
+        public static boolean rightIntakeInvert = false;
 
         public static int intakeVelocityCurrentLimit = 40;
 
@@ -61,7 +61,7 @@ public interface Settings {
     }
 
     public static final class Indexer {
-        public static boolean leftIndexerInvert = true;
+        public static boolean topIndexerInvert = true;
         public static boolean bottomIndexerInvert = false;
 
         public static int IndexerCurrent = 20;// TODO idk

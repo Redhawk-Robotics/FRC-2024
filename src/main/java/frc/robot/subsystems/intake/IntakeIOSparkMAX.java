@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.constants.Ports;
 import frc.constants.Settings;
-import frc.constants.Constants.IntakeConstants;
 
 public class IntakeIOSparkMAX implements IntakeIO {
   private final CANSparkMax leftIntakeMotor, rightIntakeMotor;
@@ -18,8 +17,8 @@ public class IntakeIOSparkMAX implements IntakeIO {
     this.leftIntakeMotor = new CANSparkMax(Ports.intakeID.leftIntake, MotorType.kBrushless);
     this.rightIntakeMotor = new CANSparkMax(Ports.intakeID.rightIntake, MotorType.kBrushless);
 
-    this.leftIntakeMotor.setInverted(Settings.Indexer.topIndexerInert);
-    this.rightIntakeMotor.setInverted(IntakeConstants.rightIntakeMotorInvert);
+    this.leftIntakeMotor.setInverted(Settings.Intake.leftIntakeInvert);
+    this.rightIntakeMotor.setInverted(Settings.Intake.rightIntakeInvert);
 
     /*
      * IR Sensors
