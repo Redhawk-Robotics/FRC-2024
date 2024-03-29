@@ -12,14 +12,14 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
 
-public class VisionIOPhotonVision implements VisionIO {
+public class VisionIOPhotonvision implements VisionIO {
   // private final CANSparkMax spark;
   private final PhotonCamera vision;
   private boolean hasTargets;
   private PhotonPipelineResult result;
   private PhotonTrackedTarget target;
 
-  public VisionIOPhotonVision() {
+  public VisionIOPhotonvision() {
     // this.vision = new PhotonCamera("Integrated_Camera");
     this.vision = new PhotonCamera("Camera_Module_v1");
     // this.vision = new PhotonCamera("USB2.0_Camera");

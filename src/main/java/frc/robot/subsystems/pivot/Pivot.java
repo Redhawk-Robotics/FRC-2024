@@ -13,7 +13,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 public class Pivot extends SubsystemBase {
 
-  private final PivotIOInputsAutoLogged pivotInputs;
+  private final PivotInputsAutoLogged pivotInputs;
   private final PivotIO pivotIO;
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
@@ -21,7 +21,7 @@ public class Pivot extends SubsystemBase {
 
   public Pivot(PivotIO pivotIO) {
     this.pivotIO = pivotIO;
-    this.pivotInputs = new PivotIOInputsAutoLogged();
+    this.pivotInputs = new PivotInputsAutoLogged();
 
     this.pivotIO.updateInputs(pivotInputs);
   }

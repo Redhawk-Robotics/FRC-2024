@@ -13,16 +13,15 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 public class Shooter extends SubsystemBase {
   private final ShooterIO shooterIO;
-  private final ShooterIOInputsAutoLogged shooterInputs;
+  private final ShooterInputsAutoLogged shooterInputs;
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
   private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
-  private LoggedDashboardBoolean overrideAutoWheels =
-      new LoggedDashboardBoolean("Override auto wheels?");
+  private LoggedDashboardBoolean overrideAutoWheels = new LoggedDashboardBoolean("Override auto wheels?");
 
   public Shooter(ShooterIO shooterIO) {
     this.shooterIO = shooterIO;
-    this.shooterInputs = new ShooterIOInputsAutoLogged();
+    this.shooterInputs = new ShooterInputsAutoLogged();
 
     this.shooterIO.updateInputs(shooterInputs);
   }

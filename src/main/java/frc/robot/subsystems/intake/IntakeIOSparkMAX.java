@@ -48,7 +48,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
    */
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {}
+  public void updateInputs(IntakeInputs inputs) {}
 
   @Override
   public void intakeFloorNote() {

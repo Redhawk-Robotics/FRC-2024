@@ -35,6 +35,7 @@ public class Vision extends SubsystemBase {
   private final VisionIO visionIO;
   private final GyroIO gyroIO;
   private final VisionInputsAutoLogged visionInputs = new VisionInputsAutoLogged();
+
   private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private PhotonTrackedTarget target;
   private Transform2d cameraToRobot2D;
@@ -90,8 +91,8 @@ public class Vision extends SubsystemBase {
     visionIO.updateVision();
     gyroIO.updateInputs(gyroInputs);
     // This method will be called once per scheduler run
-    visionIO.updateInputs(visionInputs);
-    Logger.processInputs("Photonvision", visionInputs);
+    // visionIO.updateInputs(visionInputs);
+    // Logger.processInputs("Photonvision", visionInputs);
     Logger.processInputs("Gyro", gyroInputs);
 
     Logger.recordOutput("Vision_ Nav-X Yaw", gyroInputs.yaw);

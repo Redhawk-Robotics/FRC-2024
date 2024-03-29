@@ -81,8 +81,7 @@ public class PivotIOSparkMAX implements PivotIO {
    * Overriden Interface methods
    */
   @Override
-  public void updateInputs(PivotIOInputs inputs) {
-  }
+  public void updateInputs(PivotInputs inputs) {}
 
   @Override
   public void pivotStop() {
