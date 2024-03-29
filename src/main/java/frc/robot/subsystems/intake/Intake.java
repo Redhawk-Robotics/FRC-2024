@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 public class Intake extends SubsystemBase {
 
-  private final IntakeIOInputsAutoLogged intakeInputs;
+  private final IntakeInputsAutoLogged intakeInputs;
   private final IntakeIO intakeIO;
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of intake");
@@ -19,7 +19,7 @@ public class Intake extends SubsystemBase {
 
   public Intake(IntakeIO intakeIO) {
     this.intakeIO = intakeIO;
-    this.intakeInputs = new IntakeIOInputsAutoLogged();
+    this.intakeInputs = new IntakeInputsAutoLogged();
 
     this.intakeIO.updateInputs(intakeInputs);
   }

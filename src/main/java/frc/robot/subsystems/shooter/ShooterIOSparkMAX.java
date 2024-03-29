@@ -66,7 +66,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
    */
 
   @Override
-  public void updateInputs(ShooterIOInputs inputs) {}
+  public void updateInputs(ShooterInputs inputs) {}
 
   @Override
   public void shooterStop() {
