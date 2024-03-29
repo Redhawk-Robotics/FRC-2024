@@ -22,10 +22,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.constants.Constants.AutoConstants;
-import frc.constants.Constants.SwerveConfig;
+import frc.constants.Settings.AutoConstants;
+import frc.constants.Settings.SwerveConfig;
 import frc.lib.math.GeometryUtils;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;

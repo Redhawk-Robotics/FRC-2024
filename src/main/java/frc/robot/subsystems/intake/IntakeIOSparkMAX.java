@@ -17,8 +17,23 @@ public class IntakeIOSparkMAX implements IntakeIO {
     this.leftIntakeMotor = new CANSparkMax(Ports.intakeID.leftIntake, MotorType.kBrushless);
     this.rightIntakeMotor = new CANSparkMax(Ports.intakeID.rightIntake, MotorType.kBrushless);
 
+    this.leftIntakeMotor.restoreFactoryDefaults();
+    this.rightIntakeMotor.restoreFactoryDefaults();
+
     this.leftIntakeMotor.setInverted(Settings.Intake.leftIntakeInvert);
     this.rightIntakeMotor.setInverted(Settings.Intake.rightIntakeInvert);
+
+    this.leftIntakeMotor.setIdleMode(Settings.Intake.intakeNeutralMode);
+    this.rightIntakeMotor.setIdleMode(Settings.Intake.intakeNeutralMode);
+
+    this.leftIntakeMotor.setSmartCurrentLimit(Settings.Intake.intakeCurrentLimit);
+    this.rightIntakeMotor.setSmartCurrentLimit(Settings.Intake.intakeCurrentLimit);
+
+    this.leftIntakeMotor.enableVoltageCompensation(Settings.Intake.maxVoltage);
+    this.rightIntakeMotor.enableVoltageCompensation(Settings.Intake.maxVoltage);
+
+    this.leftIntakeMotor.burnFlash();
+    this.rightIntakeMotor.burnFlash();
 
     /*
      * IR Sensors
@@ -34,8 +49,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
    */
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {
-  }
+  public void updateInputs(IntakeIOInputs inputs) {}
 
   @Override
   public void intakeFloorNote() {

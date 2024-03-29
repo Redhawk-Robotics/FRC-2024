@@ -13,10 +13,9 @@ public interface PivotIO {
 
   public default void pivotApplySpeed(double power) {}
 
-  public default void pivotUp(){}
+  public default void pivotUp() {}
 
-  public default void pivotDown(){}
+  public default void pivotDown() {}
 
-  public default void pivotStop(){}
-  
+  public default void pivotStop() {}
 }

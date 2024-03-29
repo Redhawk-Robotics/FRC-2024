@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.constants.Constants;
-import frc.constants.Constants.SwerveConfig.REV;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.constants.Ports;
+import frc.constants.Ports.REV;
+import frc.constants.Settings;
 import frc.robot.commands.Drive;
 import frc.robot.subsystems.swerve.GyroIO;
 import frc.robot.subsystems.swerve.GyroIONavX;
@@ -27,27 +29,79 @@ import java.util.function.Consumer;
 public class RobotContainer {
 
   /* Controllers */
-  private final XboxController DRIVER = new XboxController(0);
-  // private final XboxController OPERATOR = new XboxController(1);
+  private final XboxController DRIVER = new XboxController(Ports.Gamepad.DRIVER);
+  private final XboxController OPERATOR = new XboxController(Ports.Gamepad.OPERATOR);
 
   /* Driver Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-  /* Driver Buttons */
-  private final JoystickButton zeroGyro =
-      new JoystickButton(DRIVER, XboxController.Button.kA.value);
+  /* DRIVER BUTTONS */
+  private final Trigger zeroGyro = new JoystickButton(DRIVER, XboxController.Button.kA.value);
   // private final JoystickButton robotCentric = new JoystickButton(DRIVER,
   // XboxController.Button.kLeftBumper.value);
 
-  private final JoystickButton dampen =
+  // Xbox triggers
+  private final int leftTrigger = XboxController.Axis.kLeftTrigger.value;
+  private final int rightTrigger = XboxController.Axis.kRightTrigger.value;
+
+  // Xbox buttons
+  private final Trigger XButton = new JoystickButton(DRIVER, XboxController.Button.kX.value);
+  private final Trigger YButton = new JoystickButton(DRIVER, XboxController.Button.kY.value);
+  private final Trigger BButton = new JoystickButton(DRIVER, XboxController.Button.kB.value);
+
+  // Xbox bumpers
+  private final Trigger leftBumper =
+      new JoystickButton(DRIVER, XboxController.Button.kLeftBumper.value);
+  private final Trigger dampen =
       new JoystickButton(DRIVER, XboxController.Button.kRightBumper.value);
 
-  private final POVButton up = new POVButton(DRIVER, 90);
-  private final POVButton down = new POVButton(DRIVER, 270);
-  private final POVButton right = new POVButton(DRIVER, 180);
-  private final POVButton left = new POVButton(DRIVER, 0);
+  // Extra Buttons
+  private final Trigger startButton =
+      new JoystickButton(DRIVER, XboxController.Button.kStart.value);
+  private final Trigger backButton = new JoystickButton(DRIVER, XboxController.Button.kBack.value);
+
+  // Dpad buttons
+  private final Trigger up = new POVButton(DRIVER, 90);
+  private final Trigger down = new POVButton(DRIVER, 270);
+  private final Trigger right = new POVButton(DRIVER, 180);
+  private final Trigger left = new POVButton(DRIVER, 0);
+
+  /* OPERATOR BUTTONS */
+  // Xbox values
+  private final int OPleftYAxis = XboxController.Axis.kLeftY.value;
+  private final int OPleftXAxis = XboxController.Axis.kLeftX.value;
+  private final int OPrightXAxis = XboxController.Axis.kRightX.value;
+  private final int OPrightYAxis = XboxController.Axis.kRightY.value;
+
+  // Xbox triggers
+  private final int OPleftTrigger = XboxController.Axis.kLeftTrigger.value;
+  private final int OPrightTrigger = XboxController.Axis.kRightTrigger.value;
+  // Xbox buttons
+  private final Trigger OPAButton = new JoystickButton(OPERATOR, XboxController.Button.kA.value);
+  private final Trigger OPXButton = new JoystickButton(OPERATOR, XboxController.Button.kX.value);
+  private final Trigger OPYButton = new JoystickButton(OPERATOR, XboxController.Button.kY.value);
+  private final Trigger OPBButton = new JoystickButton(OPERATOR, XboxController.Button.kB.value);
+
+  // Xbox bumpers
+  private final Trigger OPrightBumper =
+      new JoystickButton(OPERATOR, XboxController.Button.kRightBumper.value);
+  private final Trigger OPleftBumper =
+      new JoystickButton(OPERATOR, XboxController.Button.kLeftBumper.value);
+
+  // Extra Buttons
+  private final Trigger OPstartButton =
+      new JoystickButton(OPERATOR, XboxController.Button.kStart.value);
+  private final Trigger OPbackButton =
+      new JoystickButton(OPERATOR, XboxController.Button.kBack.value);
+
+  // Dpad buttons
+  private final Trigger OPup = new Trigger(() -> OPERATOR.getPOV() == 0);
+  private final Trigger OPright = new Trigger(() -> OPERATOR.getPOV() == 90);
+  private final Trigger OPDown = new Trigger(() -> OPERATOR.getPOV() == 180);
+  private final Trigger OPLeft = new Trigger(() -> OPERATOR.getPOV() == 270);
+  // END OF BUTTONS
 
   /* Subsystems */
   private Swerve swerve;
@@ -56,7 +110,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // ! Currently ONLY run Robot on REAL
-    switch (Constants.currentMode) {
+    switch (Settings.currentMode) {
       case SIM:
         // ! CAUTION CAUTION
         this.gyroIO = new GyroIONavX();

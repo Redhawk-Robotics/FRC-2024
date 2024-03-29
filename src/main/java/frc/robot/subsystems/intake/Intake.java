@@ -25,7 +25,5 @@ public class Intake extends SubsystemBase {
     Logger.processInputs("Intake", intakeInputs);
   }
 
-  public void runIntake() {
-    
-  }
+  public void runIntake() {}
 }
