@@ -32,7 +32,7 @@ public class ShooterWheels extends Command {
   @Override
   public void initialize() {
     var alliance = DriverStation.getAlliance();
-    if (Settings.currentMode == Settings.Mode.REAL) { // TODO PLEASE CHANGE THIS AFTER
+    if (Settings.currentMode == Settings.Mode.REAL) { // TODO PLEASE CHANGE THIS AFTER DEWEY
       return;
     }
     if (alliance.isPresent()) {
@@ -46,23 +46,29 @@ public class ShooterWheels extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Logger.recordOutput("alliance", currentAlliance);
-    if (currentAlliance == null) {
-      Settings.Shooter.shooterState = ShooterWheelStates.kIdle;
+    if (DriverStation.isTeleopEnabled()) {
       return;
     }
 
+    Logger.recordOutput("alliance", currentAlliance);
+    if (currentAlliance == null) {
+      Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
+      System.out.println("shooter idle called!");
+      return;
+    }
+
+    System.out.println("in??");
     if (currentAlliance == DriverStation.Alliance.Blue) {
       if (robotPose.getX() < switchpoint) {
-        Settings.Shooter.shooterState = ShooterWheelStates.kIdle;
+        Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
       } else {
-        Settings.Shooter.shooterState = ShooterWheelStates.kStop;
+        Shooter.setShooterWheelState(ShooterWheelStates.kShooterStop);
       }
     } else if (currentAlliance == DriverStation.Alliance.Red) {
       if (robotPose.getX() > switchpoint) {
-        Settings.Shooter.shooterState = ShooterWheelStates.kIdle;
+        Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
       } else {
-        Settings.Shooter.shooterState = ShooterWheelStates.kStop;
+        Shooter.setShooterWheelState(ShooterWheelStates.kShooterStop);
       }
     }
   }

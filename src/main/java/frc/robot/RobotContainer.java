@@ -1,18 +1,26 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.constants.Ports;
 import frc.constants.Ports.REV;
 import frc.constants.Settings;
-import frc.robot.commands.Drive;
+import frc.lib.util.commandPreparer.CommandPreparer;
+import frc.robot.commands.automation.IntakeToShooter;
+import frc.robot.commands.automation.ShootNote;
 import frc.robot.commands.shooter.ShooterWheels;
+import frc.robot.commands.swerve.Drive;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOSparkMAX;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIO;
 import frc.robot.subsystems.pivot.PivotIOSparkMAX;
@@ -24,8 +32,7 @@ import frc.robot.subsystems.swerve.GyroIONavX;
 import frc.robot.subsystems.swerve.GyroIOPigeon;
 import frc.robot.subsystems.swerve.ModuleIOSparkMAX;
 import frc.robot.subsystems.swerve.Swerve;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
+import frc.robot.utils.NoteVisualizer;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -117,6 +124,8 @@ public class RobotContainer {
   private ShooterIO shooterIO;
   private Pivot pivot;
   private PivotIO pivotIO;
+  private Intake intake;
+  private IntakeIO intakeIO;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -145,7 +154,19 @@ public class RobotContainer {
         this.shooter = new Shooter(shooterIO);
         this.pivotIO = new PivotIOSparkMAX();
         this.pivot = new Pivot(pivotIO);
+        this.intakeIO = new IntakeIOSparkMAX();
+        this.intake = new Intake(intakeIO);
     }
+
+    NoteVisualizer.setRobotPoseSupplier(swerve::getPathPlannerPose);
+
+    NamedCommands.registerCommand(
+        "Intake",
+        new SequentialCommandGroup(
+            Commands.print("We intaking"), new IntakeToShooter(intake, pivot, shooter)));
+    NamedCommands.registerCommand(
+        "Shoot",
+        new SequentialCommandGroup(Commands.print("We shooting!"), new ShootNote(shooter, pivot)));
 
     swerve.setDefaultCommand(
         new Drive(
@@ -168,7 +189,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> swerve.zeroGyro()));
-
+    XButton.toggleOnTrue(
+        new IntakeToShooter(intake, pivot, shooter)
+            .handleInterrupt(() -> CommandPreparer.prepareForStoppingIntakeToPivot()));
+    BButton.toggleOnTrue(
+        new ShootNote(shooter, pivot)
+            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
     // heading lock bindings
     up.onTrue(new InstantCommand(() -> States.driveState = States.DriveStates.d90))
         .onFalse(new InstantCommand(() -> States.driveState = States.DriveStates.standard));
@@ -182,20 +208,21 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    var path = swerve.followPathCommand("T1");
-    return new FunctionalCommand(
-        path::initialize,
-        path::execute,
-        new Consumer<Boolean>() {
-          public void accept(Boolean e) {
-            System.out.println("Auto has ended");
-          }
-        },
-        new BooleanSupplier() {
-          public boolean getAsBoolean() {
-            return !DriverStation.isAutonomousEnabled();
-          }
-        },
-        swerve);
+    return new PathPlannerAuto("3P");
+    // var path = swerve.followPathCommand("T1");
+    // return new FunctionalCommand(
+    // path::initialize,
+    // path::execute,
+    // new Consumer<Boolean>() {
+    // public void accept(Boolean e) {
+    // System.out.println("Auto has ended");
+    // }
+    // },
+    // new BooleanSupplier() {
+    // public boolean getAsBoolean() {
+    // return !DriverStation.isAutonomousEnabled();
+    // }
+    // },
+    // swerve);
   }
 }

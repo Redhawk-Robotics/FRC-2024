@@ -14,6 +14,7 @@ public class PivotIOSparkMAX implements PivotIO {
   private final CANSparkMax leftPivot, rightPivot;
   private SparkPIDController pivotController;
   private AbsoluteEncoder pivotEncoder;
+  private double targetPosition;
 
   public PivotIOSparkMAX() {
     /*
@@ -25,43 +26,45 @@ public class PivotIOSparkMAX implements PivotIO {
     leftPivot.restoreFactoryDefaults();
     rightPivot.restoreFactoryDefaults();
 
-    this.leftPivot.setInverted(Settings.Pivot.leftPivotInvert);
-    this.rightPivot.setInverted(Settings.Pivot.rightPivotInvert);
+    this.leftPivot.setInverted(Settings.PivotConstants.leftPivotInvert);
+    this.rightPivot.setInverted(Settings.PivotConstants.rightPivotInvert);
 
     this.leftPivot.follow(rightPivot);
 
-    this.leftPivot.setIdleMode(Settings.Pivot.pivotNeutralMode);
-    this.rightPivot.setIdleMode(Settings.Pivot.pivotNeutralMode);
+    this.leftPivot.setIdleMode(Settings.PivotConstants.pivotNeutralMode);
+    this.rightPivot.setIdleMode(Settings.PivotConstants.pivotNeutralMode);
 
-    this.leftPivot.setSmartCurrentLimit(Settings.Pivot.armContinousCurrentLimit);
-    this.rightPivot.setSmartCurrentLimit(Settings.Pivot.armContinousCurrentLimit);
+    this.leftPivot.setSmartCurrentLimit(Settings.PivotConstants.armContinousCurrentLimit);
+    this.rightPivot.setSmartCurrentLimit(Settings.PivotConstants.armContinousCurrentLimit);
 
-    this.leftPivot.enableVoltageCompensation(Settings.Pivot.maxVoltage);
-    this.rightPivot.enableVoltageCompensation(Settings.Pivot.maxVoltage);
+    this.leftPivot.enableVoltageCompensation(Settings.PivotConstants.maxVoltage);
+    this.rightPivot.enableVoltageCompensation(Settings.PivotConstants.maxVoltage);
 
     this.pivotEncoder = rightPivot.getAbsoluteEncoder(Type.kDutyCycle);
-    this.pivotEncoder.setInverted(Settings.Pivot.pivotInvert);
-    this.pivotEncoder.setZeroOffset(Settings.Pivot.ZERO_OFFSET); // FIXME need to find the value
+    this.pivotEncoder.setInverted(Settings.PivotConstants.pivotInvert);
+    this.pivotEncoder.setZeroOffset(
+        Settings.PivotConstants.ZERO_OFFSET); // FIXME need to find the value
 
     this.pivotController = rightPivot.getPIDController();
     this.pivotController.setFeedbackDevice(pivotEncoder);
 
-    this.pivotController.setP(Settings.Pivot.pivotKP);
-    this.pivotController.setI(Settings.Pivot.pivotKI);
-    this.pivotController.setD(Settings.Pivot.pivotKD);
-    this.pivotController.setFF(Settings.Pivot.pivotKFF);
+    this.pivotController.setP(Settings.PivotConstants.pivotKP);
+    this.pivotController.setI(Settings.PivotConstants.pivotKI);
+    this.pivotController.setD(Settings.PivotConstants.pivotKD);
+    this.pivotController.setFF(Settings.PivotConstants.pivotKFF);
 
-    this.pivotController.setOutputRange(Settings.Pivot.MIN_INPUT, Settings.Pivot.MAX_INPUT);
+    this.pivotController.setOutputRange(
+        Settings.PivotConstants.MIN_INPUT, Settings.PivotConstants.MAX_INPUT);
 
     this.rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     this.rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
     this.rightPivot.setSoftLimit(
         CANSparkMax.SoftLimitDirection.kForward,
-        Settings.Pivot.forwardSoftLimit); // TODO check the value for both forward and
+        Settings.PivotConstants.forwardSoftLimit); // TODO check the value for both forward and
     // // TODO reverse
     this.rightPivot.setSoftLimit(
-        CANSparkMax.SoftLimitDirection.kReverse, Settings.Pivot.reverseSoftLimit);
+        CANSparkMax.SoftLimitDirection.kReverse, Settings.PivotConstants.reverseSoftLimit);
 
     this.rightPivot.burnFlash();
     this.leftPivot.burnFlash();
@@ -105,7 +108,16 @@ public class PivotIOSparkMAX implements PivotIO {
 
   @Override
   public void setReference(double targetPosition) {
+    this.targetPosition = targetPosition;
     pivotController.setReference(targetPosition, ControlType.kSmartMotion);
+  }
+
+  @Override
+  public boolean atReference() {
+    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < 5) {
+      return true;
+    }
+    return false;
   }
 
   /*

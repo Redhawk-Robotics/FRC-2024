@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.pivot;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.constants.Settings;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -18,12 +19,14 @@ public class Pivot extends SubsystemBase {
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
   private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
+  private LoggedDashboardBoolean goodRef = new LoggedDashboardBoolean("Good pivot ref?");
 
   public Pivot(PivotIO pivotIO) {
     this.pivotIO = pivotIO;
     this.pivotInputs = new PivotInputsAutoLogged();
 
     this.pivotIO.updateInputs(pivotInputs);
+    goodRef.setDefault(false);
   }
 
   @Override
@@ -42,8 +45,29 @@ public class Pivot extends SubsystemBase {
     pivotIO.setReference(targetPosition);
   }
 
-  @AutoLogOutput(key = "Pivot/pivotState")
+  public boolean pivotAtReference() {
+    return goodRef.get();
+    // return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
+  }
+
+  @AutoLogOutput(key = "States/pivotState")
   public PivotStates getPivotStates() {
-    return Settings.Pivot.pivotState;
+    return Settings.PivotConstants.pivotState;
+  }
+
+  public static void setPivotState(PivotStates desiredState) {
+    Settings.PivotConstants.pivotState = desiredState;
+  }
+
+  /*
+   * Commands!
+   */
+
+  public Command pivotToHome() {
+    return this.runOnce(() -> setPivotState(PivotStates.kPivotHome));
+  }
+
+  public Command pivotFromSubwoofer() {
+    return this.runOnce(() -> setPivotState(PivotStates.kPivotHome));
   }
 }

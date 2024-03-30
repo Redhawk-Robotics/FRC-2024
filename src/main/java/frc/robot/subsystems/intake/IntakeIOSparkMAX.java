@@ -20,17 +20,17 @@ public class IntakeIOSparkMAX implements IntakeIO {
     this.leftIntakeMotor.restoreFactoryDefaults();
     this.rightIntakeMotor.restoreFactoryDefaults();
 
-    this.leftIntakeMotor.setInverted(Settings.Intake.leftIntakeInvert);
-    this.rightIntakeMotor.setInverted(Settings.Intake.rightIntakeInvert);
+    this.leftIntakeMotor.setInverted(Settings.IntakeConstants.leftIntakeInvert);
+    this.rightIntakeMotor.setInverted(Settings.IntakeConstants.rightIntakeInvert);
 
-    this.leftIntakeMotor.setIdleMode(Settings.Intake.intakeNeutralMode);
-    this.rightIntakeMotor.setIdleMode(Settings.Intake.intakeNeutralMode);
+    this.leftIntakeMotor.setIdleMode(Settings.IntakeConstants.intakeNeutralMode);
+    this.rightIntakeMotor.setIdleMode(Settings.IntakeConstants.intakeNeutralMode);
 
-    this.leftIntakeMotor.setSmartCurrentLimit(Settings.Intake.intakeCurrentLimit);
-    this.rightIntakeMotor.setSmartCurrentLimit(Settings.Intake.intakeCurrentLimit);
+    this.leftIntakeMotor.setSmartCurrentLimit(Settings.IntakeConstants.intakeCurrentLimit);
+    this.rightIntakeMotor.setSmartCurrentLimit(Settings.IntakeConstants.intakeCurrentLimit);
 
-    this.leftIntakeMotor.enableVoltageCompensation(Settings.Intake.maxVoltage);
-    this.rightIntakeMotor.enableVoltageCompensation(Settings.Intake.maxVoltage);
+    this.leftIntakeMotor.enableVoltageCompensation(Settings.IntakeConstants.maxVoltage);
+    this.rightIntakeMotor.enableVoltageCompensation(Settings.IntakeConstants.maxVoltage);
 
     this.leftIntakeMotor.burnFlash();
     this.rightIntakeMotor.burnFlash();
