@@ -86,7 +86,7 @@ public class Swerve extends SubsystemBase {
           // }
           // return false;
 
-          return false;
+          return true;
         },
         this // Reference to this subsystem to set requirements
         );
@@ -253,7 +253,7 @@ public class Swerve extends SubsystemBase {
           // }
           // return false;
 
-          return false;
+          return true;
         },
         this // Reference to this subsystem to set requirements
         );

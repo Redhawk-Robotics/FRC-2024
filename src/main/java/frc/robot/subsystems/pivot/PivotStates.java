@@ -1,13 +1,13 @@
 package frc.robot.subsystems.pivot;
 
 public enum PivotStates {
-  kPivotHome(0),
-  kPivotSubwoofer(0),
-  kPivotNoteMid(0),
+  kPivotHome(0.015),
+  kPivotSubwoofer(.123),
+  kPivotNoteMid(.084),
   kPivotAmp(0),
   kPivotPodium(0),
   kPivotSource(0),
-  kPivotNoteSides(0),
+  kPivotNoteSides(.084),
   kPivotStageMidForwardToSpeaker(0),
   kPivotStageMidSideToSpeaker(0);
 

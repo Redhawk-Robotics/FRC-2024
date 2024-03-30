@@ -121,13 +121,13 @@ public interface Settings {
     public static final boolean canCoderInvert = chosenModule.canCoderInvert;
 
     /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 40;
-    public static final int anglePeakCurrentLimit = 60;
+    public static final int angleContinuousCurrentLimit = 20;
+    public static final int anglePeakCurrentLimit = 20;
     public static final double anglePeakCurrentDuration = 0.1;
     public static final boolean angleEnableCurrentLimit = true;
 
     public static final int driveContinuousCurrentLimit = 40;
-    public static final int drivePeakCurrentLimit = 60;
+    public static final int drivePeakCurrentLimit = 40;
     public static final double drivePeakCurrentDuration = 0.1;
     public static final boolean driveEnableCurrentLimit = true;
 
@@ -227,7 +227,7 @@ public interface Settings {
 
     public static boolean topShooterInvert = false;
     public static boolean bottomShooterInvert = false;
-    public static boolean indexerInvert = false;
+    public static boolean uptakeInvert = true;
     public static boolean guardInvert = false;
 
     public static int shooterCurrentLimit = 40;
@@ -250,8 +250,8 @@ public interface Settings {
   }
 
   public static final class IntakeConstants {
-    public static boolean leftIntakeInvert = true;
-    public static boolean rightIntakeInvert = false;
+    public static boolean leftIntakeInvert = false;
+    public static boolean rightIntakeInvert = true;
 
     public static int intakeCurrentLimit = 40;
 
@@ -283,7 +283,7 @@ public interface Settings {
 
     public static final IdleMode pivotNeutralMode = IdleMode.kBrake;
 
-    public static final double pivotKP = 0.0; // FIXME //try 1.0
+    public static final double pivotKP = 3.0; // FIXME //try 1.0
     public static final double pivotKI = 0.0; // FIXME
     public static final double pivotKD = 0.0; // FIXME //try 0.1
     public static final double pivotKFF = 0.0; // FIXME

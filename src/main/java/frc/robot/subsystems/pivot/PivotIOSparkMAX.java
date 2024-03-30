@@ -23,51 +23,41 @@ public class PivotIOSparkMAX implements PivotIO {
     this.leftPivot = new CANSparkMax(Ports.pivotID.leftPivot, MotorType.kBrushless);
     this.rightPivot = new CANSparkMax(Ports.pivotID.rightPivot, MotorType.kBrushless);
 
-    leftPivot.restoreFactoryDefaults();
-    rightPivot.restoreFactoryDefaults();
+    pivotEncoder = rightPivot.getAbsoluteEncoder(Type.kDutyCycle);
+    pivotController = rightPivot.getPIDController();
+    pivotController.setFeedbackDevice(pivotEncoder);
 
-    this.leftPivot.setInverted(Settings.PivotConstants.leftPivotInvert);
-    this.rightPivot.setInverted(Settings.PivotConstants.rightPivotInvert);
+    pivotController.setP(Settings.PivotConstants.pivotKP);
+    pivotController.setI(Settings.PivotConstants.pivotKI);
+    pivotController.setD(Settings.PivotConstants.pivotKD);
+    pivotController.setFF(Settings.PivotConstants.pivotKFF);
 
-    this.leftPivot.follow(rightPivot);
-
-    this.leftPivot.setIdleMode(Settings.PivotConstants.pivotNeutralMode);
-    this.rightPivot.setIdleMode(Settings.PivotConstants.pivotNeutralMode);
-
-    this.leftPivot.setSmartCurrentLimit(Settings.PivotConstants.armContinousCurrentLimit);
-    this.rightPivot.setSmartCurrentLimit(Settings.PivotConstants.armContinousCurrentLimit);
-
-    this.leftPivot.enableVoltageCompensation(Settings.PivotConstants.maxVoltage);
-    this.rightPivot.enableVoltageCompensation(Settings.PivotConstants.maxVoltage);
-
-    this.pivotEncoder = rightPivot.getAbsoluteEncoder(Type.kDutyCycle);
-    this.pivotEncoder.setInverted(Settings.PivotConstants.pivotInvert);
-    this.pivotEncoder.setZeroOffset(
-        Settings.PivotConstants.ZERO_OFFSET); // FIXME need to find the value
-
-    this.pivotController = rightPivot.getPIDController();
-    this.pivotController.setFeedbackDevice(pivotEncoder);
-
-    this.pivotController.setP(Settings.PivotConstants.pivotKP);
-    this.pivotController.setI(Settings.PivotConstants.pivotKI);
-    this.pivotController.setD(Settings.PivotConstants.pivotKD);
-    this.pivotController.setFF(Settings.PivotConstants.pivotKFF);
-
-    this.pivotController.setOutputRange(
+    pivotController.setOutputRange(
         Settings.PivotConstants.MIN_INPUT, Settings.PivotConstants.MAX_INPUT);
 
-    this.rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-    this.rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    leftPivot.setInverted(Settings.PivotConstants.leftPivotInvert);
+    leftPivot.setIdleMode(Settings.PivotConstants.pivotNeutralMode);
 
-    this.rightPivot.setSoftLimit(
-        CANSparkMax.SoftLimitDirection.kForward,
-        Settings.PivotConstants.forwardSoftLimit); // TODO check the value for both forward and
-    // // TODO reverse
-    this.rightPivot.setSoftLimit(
-        CANSparkMax.SoftLimitDirection.kReverse, Settings.PivotConstants.reverseSoftLimit);
+    rightPivot.setInverted(Settings.PivotConstants.rightPivotInvert);
+    rightPivot.setIdleMode(Settings.PivotConstants.pivotNeutralMode);
 
-    this.rightPivot.burnFlash();
-    this.leftPivot.burnFlash();
+    leftPivot.follow(rightPivot, true);
+
+    pivotEncoder.setInverted(false);
+    rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+    rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+
+    rightPivot.setSoftLimit(
+        CANSparkMax.SoftLimitDirection.kForward, (float) .21); // TODO check the value for both
+
+    // // TODO
+    rightPivot.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) -0.02); // .006
+
+    // leftPivot.setSmartCurrentLimit(Settings.pi.armContinousCurrentLimit)
+    // rightPivot.setSmartCurrentLimit(Settings.armSetting.armContinousCurrentLimit);
+
+    rightPivot.burnFlash();
+    leftPivot.burnFlash();
 
     Logger.recordOutput(
         "Pivot/Forward Soft Limit",
@@ -109,12 +99,14 @@ public class PivotIOSparkMAX implements PivotIO {
   @Override
   public void setReference(double targetPosition) {
     this.targetPosition = targetPosition;
-    pivotController.setReference(targetPosition, ControlType.kSmartMotion);
+    pivotController.setReference(targetPosition, ControlType.kPosition);
   }
 
   @Override
   public boolean atReference() {
-    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < 5) {
+    Logger.recordOutput("enocder pose", pivotEncoder.getPosition());
+    Logger.recordOutput("we there", Math.abs(pivotEncoder.getPosition() - targetPosition));
+    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .1) {
       return true;
     }
     return false;

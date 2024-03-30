@@ -1,32 +1,22 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.constants.Ports;
 import frc.constants.Ports.REV;
 import frc.constants.Settings;
-import frc.lib.util.commandPreparer.CommandPreparer;
-import frc.robot.commands.automation.IntakeToShooter;
-import frc.robot.commands.automation.ShootNote;
-import frc.robot.commands.shooter.ShooterWheels;
 import frc.robot.commands.swerve.Drive;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
-import frc.robot.subsystems.intake.IntakeIOSparkMAX;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIO;
-import frc.robot.subsystems.pivot.PivotIOSparkMAX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
-import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
 import frc.robot.subsystems.swerve.GyroIO;
 import frc.robot.subsystems.swerve.GyroIONavX;
 import frc.robot.subsystems.swerve.GyroIOPigeon;
@@ -150,23 +140,24 @@ public class RobotContainer {
                 new ModuleIOSparkMAX(1, REV.revSwerveModuleConstants[1]),
                 new ModuleIOSparkMAX(2, REV.revSwerveModuleConstants[2]),
                 new ModuleIOSparkMAX(3, REV.revSwerveModuleConstants[3]));
-        this.shooterIO = new ShooterIOSparkMAX();
-        this.shooter = new Shooter(shooterIO);
-        this.pivotIO = new PivotIOSparkMAX();
-        this.pivot = new Pivot(pivotIO);
-        this.intakeIO = new IntakeIOSparkMAX();
-        this.intake = new Intake(intakeIO);
+        // this.shooterIO = new ShooterIOSparkMAX();
+        // this.shooter = new Shooter(shooterIO);
+        // this.pivotIO = new PivotIOSparkMAX();
+        // this.pivot = new Pivot(pivotIO);
+        // this.intakeIO = new IntakeIOSparkMAX();
+        // this.intake = new Intake(intakeIO);
     }
 
     NoteVisualizer.setRobotPoseSupplier(swerve::getPathPlannerPose);
 
-    NamedCommands.registerCommand(
-        "Intake",
-        new SequentialCommandGroup(
-            Commands.print("We intaking"), new IntakeToShooter(intake, pivot, shooter)));
-    NamedCommands.registerCommand(
-        "Shoot",
-        new SequentialCommandGroup(Commands.print("We shooting!"), new ShootNote(shooter, pivot)));
+    // NamedCommands.registerCommand(
+    // "Intake",
+    // new SequentialCommandGroup(
+    // Commands.print("We intaking"), new IntakeToShooter(intake, pivot, shooter)));
+    // NamedCommands.registerCommand(
+    // "Shoot",
+    // new SequentialCommandGroup(Commands.print("We shooting!"), new
+    // ShootNote(shooter, pivot)));
 
     swerve.setDefaultCommand(
         new Drive(
@@ -180,7 +171,7 @@ public class RobotContainer {
             // multiplier
             ));
 
-    shooter.setDefaultCommand(new ShooterWheels(shooter, swerve::getRobotPose));
+    // shooter.setDefaultCommand(new ShooterWheels(shooter, swerve::getRobotPose));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -189,12 +180,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> swerve.zeroGyro()));
-    XButton.toggleOnTrue(
-        new IntakeToShooter(intake, pivot, shooter)
-            .handleInterrupt(() -> CommandPreparer.prepareForStoppingIntakeToPivot()));
-    BButton.toggleOnTrue(
-        new ShootNote(shooter, pivot)
-            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
+    // XButton.onTrue(
+    // new IntakeToShooter(intake, pivot, shooter)
+    // .handleInterrupt(() -> CommandPreparer.prepareForStoppingIntakeToPivot()));
+    // BButton.toggleOnTrue(
+    // new ShootNote(shooter, pivot)
+    // .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
+    // BButton.onTrue(shooter.fullSpeedShooterWheels());
     // heading lock bindings
     up.onTrue(new InstantCommand(() -> States.driveState = States.DriveStates.d90))
         .onFalse(new InstantCommand(() -> States.driveState = States.DriveStates.standard));
