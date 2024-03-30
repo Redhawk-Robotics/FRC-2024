@@ -50,6 +50,8 @@ public class ShooterWheels extends Command {
       return;
     }
 
+    currentAlliance = DriverStation.Alliance.Blue;
+
     Logger.recordOutput("alliance", currentAlliance);
     if (currentAlliance == null) {
       Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);

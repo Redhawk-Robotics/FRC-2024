@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
       intakeIO.intakeApplySpeed(power.get());
     }
 
-    intakeIO.intakeApplySpeed(getIntakeState().intakePower);
+    // intakeIO.intakeApplySpeed(getIntakeState().intakePower);
   }
 
   public boolean getEntraceSensorStatus() {

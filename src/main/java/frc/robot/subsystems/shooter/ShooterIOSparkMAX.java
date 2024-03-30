@@ -25,7 +25,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     this.topShooter.setInverted(Settings.ShooterConstants.topShooterInvert);
     this.bottomShooter.setInverted(Settings.ShooterConstants.bottomShooterInvert);
-    this.uptake.setInverted(Settings.ShooterConstants.indexerInvert);
+    this.uptake.setInverted(Settings.ShooterConstants.uptakeInvert);
     this.guard.setInverted(Settings.ShooterConstants.guardInvert);
 
     this.topShooter.setIdleMode(Settings.ShooterConstants.topShooterNeutralMode);
@@ -56,7 +56,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.uptake.burnFlash();
     this.guard.burnFlash();
 
-    this.shooterSensor = new DigitalInput(3);
+    this.shooterSensor = new DigitalInput(2);
   }
 
   /*
@@ -66,7 +66,9 @@ public class ShooterIOSparkMAX implements ShooterIO {
    */
 
   @Override
-  public void updateInputs(ShooterInputs inputs) {}
+  public void updateInputs(ShooterInputs inputs) {
+    inputs.on = shooterSensorsEnabled();
+  }
 
   @Override
   public void shooterStop() {
@@ -75,7 +77,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
   @Override
   public boolean shooterSensorsEnabled() {
-    return shooterSensor.get();
+    return !shooterSensor.get();
   }
 
   @Override

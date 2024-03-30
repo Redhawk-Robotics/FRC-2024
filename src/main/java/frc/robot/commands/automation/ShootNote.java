@@ -7,7 +7,6 @@ package frc.robot.commands.automation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.pivot.Pivot;
-import frc.robot.subsystems.pivot.PivotStates;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
@@ -61,15 +60,15 @@ public class ShootNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Pivot.setPivotState(PivotStates.kPivotHome);
-    Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
+    // Pivot.setPivotState(PivotStates.kPivotHome);
+    // Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
     System.out.println("we CANT SHOOT");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (!noteAtStart && pivot.pivotAtReference()) {
+    if (!noteAtStart) {
       if (timer.get() > .35) {
         System.out.println("We left because no note at the start");
         NoteVisualizer.shoot();
@@ -77,9 +76,7 @@ public class ShootNote extends Command {
       }
     } else {
       System.out.println("Had a note at the start");
-      if (!shooter.getSensorsStatus()
-          && timer.get() - timeNoteLastSeen > .1
-          && pivot.pivotAtReference()) {
+      if (!shooter.getSensorsStatus() && timer.get() - timeNoteLastSeen > .1) {
         System.out.println("Had a note at the start BUT we SHOT");
         NoteVisualizer.shoot();
         return true;

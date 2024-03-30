@@ -5,7 +5,9 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ShooterIO {
 
   @AutoLog
-  public static class ShooterInputs {}
+  public static class ShooterInputs {
+    boolean on = false;
+  }
 
   public default void updateInputs(ShooterInputs inputs) {}
 
