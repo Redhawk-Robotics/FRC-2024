@@ -11,6 +11,8 @@ public interface PivotIO {
 
   public default void setReference(double targetPosition) {}
 
+  public boolean atReference();
+
   public default void pivotApplySpeed(double power) {}
 
   public default void pivotUp() {}

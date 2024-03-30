@@ -23,25 +23,25 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.uptake.restoreFactoryDefaults();
     this.guard.restoreFactoryDefaults();
 
-    this.topShooter.setInverted(Settings.Shooter.topShooterInvert);
-    this.bottomShooter.setInverted(Settings.Shooter.bottomShooterInvert);
-    this.uptake.setInverted(Settings.Shooter.indexerInvert);
-    this.guard.setInverted(Settings.Shooter.guardInvert);
+    this.topShooter.setInverted(Settings.ShooterConstants.topShooterInvert);
+    this.bottomShooter.setInverted(Settings.ShooterConstants.bottomShooterInvert);
+    this.uptake.setInverted(Settings.ShooterConstants.indexerInvert);
+    this.guard.setInverted(Settings.ShooterConstants.guardInvert);
 
-    this.topShooter.setIdleMode(Settings.Shooter.topShooterNeutralMode);
-    this.bottomShooter.setIdleMode(Settings.Shooter.bottomShooterNeutralMode);
-    this.uptake.setIdleMode(Settings.Shooter.topShooterNeutralMode);
-    this.guard.setIdleMode(Settings.Shooter.guardNeutralMode);
+    this.topShooter.setIdleMode(Settings.ShooterConstants.topShooterNeutralMode);
+    this.bottomShooter.setIdleMode(Settings.ShooterConstants.bottomShooterNeutralMode);
+    this.uptake.setIdleMode(Settings.ShooterConstants.topShooterNeutralMode);
+    this.guard.setIdleMode(Settings.ShooterConstants.guardNeutralMode);
 
-    this.topShooter.setSmartCurrentLimit(Settings.Shooter.shooterCurrentLimit);
-    this.bottomShooter.setSmartCurrentLimit(Settings.Shooter.shooterCurrentLimit);
-    this.uptake.setSmartCurrentLimit(Settings.Shooter.indexerCurrentLimit);
-    this.guard.setSmartCurrentLimit(Settings.Shooter.guardCurrentLimit);
+    this.topShooter.setSmartCurrentLimit(Settings.ShooterConstants.shooterCurrentLimit);
+    this.bottomShooter.setSmartCurrentLimit(Settings.ShooterConstants.shooterCurrentLimit);
+    this.uptake.setSmartCurrentLimit(Settings.ShooterConstants.indexerCurrentLimit);
+    this.guard.setSmartCurrentLimit(Settings.ShooterConstants.guardCurrentLimit);
 
-    this.topShooter.enableVoltageCompensation(Settings.Shooter.maxVoltage);
-    this.bottomShooter.enableVoltageCompensation(Settings.Shooter.maxVoltage);
-    this.uptake.enableVoltageCompensation(Settings.Shooter.maxVoltage);
-    this.guard.enableVoltageCompensation(Settings.Shooter.maxVoltage);
+    this.topShooter.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
+    this.bottomShooter.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
+    this.uptake.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
+    this.guard.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
 
     this.velocityController = topShooter.getPIDController();
     this.velocityController = bottomShooter.getPIDController(); // * IDK IF WE NEED THIS
@@ -56,7 +56,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.uptake.burnFlash();
     this.guard.burnFlash();
 
-    this.shooterSensor = new DigitalInput(0);
+    this.shooterSensor = new DigitalInput(3);
   }
 
   /*

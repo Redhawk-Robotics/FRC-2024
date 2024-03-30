@@ -27,6 +27,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.swerveUtil.COTSFalconSwerveConstants;
+import frc.robot.subsystems.intake.IntakeState;
 import frc.robot.subsystems.pivot.PivotStates;
 import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
@@ -72,8 +73,8 @@ public interface Settings {
         COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
 
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(28.5);
-    public static final double wheelBase = Units.inchesToMeters(28.5);
+    public static final double trackWidth = Units.inchesToMeters(24);
+    public static final double wheelBase = Units.inchesToMeters(24);
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
     public static final Translation2d m_frontLeftTranslation =
@@ -160,7 +161,7 @@ public interface Settings {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double maxSpeed = 4.469892;
+    public static final double maxSpeed = 5.05968;
     /** Radians per Second */
     public static final double maxAngularVelocity = 5; // max 10 or.....
 
@@ -221,7 +222,7 @@ public interface Settings {
   }
 
   // !Mechanisms
-  public static final class Shooter {
+  public static final class ShooterConstants {
     public static int maxVoltage = 12;
 
     public static boolean topShooterInvert = false;
@@ -243,11 +244,12 @@ public interface Settings {
     public static final double shooterKD = 0.0; // FIXME //try 0.1
     public static final double shooterKFF = 0.0; // FIXME
 
-    public static ShooterWheelStates shooterState = ShooterWheelStates.kStop;
-    public static ShooterSupportWheelStates supportWheelStates = ShooterSupportWheelStates.kStop;
+    public static ShooterWheelStates currentShooterState = ShooterWheelStates.kShooterStop;
+    public static ShooterSupportWheelStates currentSupportWheelStates =
+        ShooterSupportWheelStates.kSWStop;
   }
 
-  public static final class Intake {
+  public static final class IntakeConstants {
     public static boolean leftIntakeInvert = true;
     public static boolean rightIntakeInvert = false;
 
@@ -261,9 +263,11 @@ public interface Settings {
     public static final double intakeKI = 0.0; // FIXME
     public static final double intakeKD = 0.0; // FIXME //try 0.1
     public static final double intakeKFF = 0.0; // FIXME
+
+    public static IntakeState currentIntakeState = IntakeState.kIntakeStop;
   }
 
-  public static final class Pivot {
+  public static final class PivotConstants {
     public static boolean leftPivotInvert = true;
     public static boolean rightPivotInvert = false;
 
@@ -293,6 +297,6 @@ public interface Settings {
     public static final double ARM_MIN_DOWN = 0;
     public static final double ARM_MAX_UP = 0;
 
-    public static PivotStates pivotState = PivotStates.kHome;
+    public static PivotStates pivotState = PivotStates.kPivotHome;
   }
 }

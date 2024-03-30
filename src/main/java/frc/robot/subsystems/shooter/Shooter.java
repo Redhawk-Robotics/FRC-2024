@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.constants.Settings;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -17,13 +18,16 @@ public class Shooter extends SubsystemBase {
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
   private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
-  private LoggedDashboardBoolean overrideAutoWheels = new LoggedDashboardBoolean("Override auto wheels?");
+  private LoggedDashboardBoolean overrideAutoWheels =
+      new LoggedDashboardBoolean("Override auto wheels?");
+  private LoggedDashboardBoolean irSim = new LoggedDashboardBoolean("Enable ir shooter?");
 
   public Shooter(ShooterIO shooterIO) {
     this.shooterIO = shooterIO;
     this.shooterInputs = new ShooterInputsAutoLogged();
 
     this.shooterIO.updateInputs(shooterInputs);
+    irSim.setDefault(false);
   }
 
   @Override
@@ -48,16 +52,45 @@ public class Shooter extends SubsystemBase {
     shooterIO.applySupportWheelSpeeds(guardPower, uptakePower);
   }
 
-  @AutoLogOutput(key = "Shooter/supportWheelStates")
-  public ShooterSupportWheelStates getShooterSupportWheelStates() {
-    return Settings.Shooter.supportWheelStates;
+  public boolean getSensorsStatus() {
+    return irSim.get();
+    // return shooterIO.shooterSensorsEnabled(); // TODO CHANGE
   }
 
-  @AutoLogOutput(key = "Shooter/shooterState")
+  // ~ Get Guard and uptake states
+  @AutoLogOutput(key = "States/supportWheelStates")
+  public ShooterSupportWheelStates getShooterSupportWheelStates() {
+    return Settings.ShooterConstants.currentSupportWheelStates;
+  }
+
+  // ! Static class to set state
+  public static void setSupportWheelStates(ShooterSupportWheelStates desiredState) {
+    Settings.ShooterConstants.currentSupportWheelStates = desiredState;
+  }
+
+  // ~ Get Shooter wheels state
+  @AutoLogOutput(key = "States/shooterWheelState")
   public ShooterWheelStates getShooterWheelStates() {
     if (overrideAutoWheels.get()) {
-      Settings.Shooter.shooterState = ShooterWheelStates.kStop;
+      setShooterWheelState(ShooterWheelStates.kShooterStop);
     }
-    return Settings.Shooter.shooterState;
+    return Settings.ShooterConstants.currentShooterState;
+  }
+
+  // ! Static class to set state
+  public static void setShooterWheelState(ShooterWheelStates desiredState) {
+    Settings.ShooterConstants.currentShooterState = desiredState;
+  }
+
+  /*
+   * Commands!
+   */
+
+  public Command stopShooterWheels() {
+    return this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterStop));
+  }
+
+  public Command fullSpeedShooterWheels() {
+    return this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterFullShot));
   }
 }

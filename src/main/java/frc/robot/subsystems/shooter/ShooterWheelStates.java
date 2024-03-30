@@ -1,14 +1,14 @@
 package frc.robot.subsystems.shooter;
 
 public enum ShooterWheelStates {
-  kStop(0),
-  kFullShot(1),
-  kHalfShot(.5),
-  kIdle(.35),
-  kQuarterShot(.25),
-  kThreeQuarterShot(.75),
-  kSourceIntake(-.5),
-  kChamferShot(-1);
+  kShooterStop(0),
+  kShooterFullShot(1),
+  kShooterHalfShot(.5),
+  kShooterIdle(.35),
+  kShooterQuarterShot(.25),
+  kShooterThreeQuarterShot(.75),
+  kShooterSourceIntake(-.5),
+  kShooterChamferShot(-1);
 
   public double power;
 
