@@ -77,21 +77,6 @@ public class PivotIOSparkMAX implements PivotIO {
   public void updateInputs(PivotInputs inputs) {}
 
   @Override
-  public void pivotStop() {
-    setMotorSpeeds(0);
-  }
-
-  @Override
-  public void pivotUp() {
-    setMotorSpeeds(1);
-  }
-
-  @Override
-  public void pivotDown() {
-    setMotorSpeeds(-1);
-  }
-
-  @Override
   public void pivotApplySpeed(double speed) {
     setMotorSpeeds(speed);
   }
@@ -104,7 +89,7 @@ public class PivotIOSparkMAX implements PivotIO {
 
   @Override
   public boolean atReference() {
-    Logger.recordOutput("enocder pose", pivotEncoder.getPosition());
+    Logger.recordOutput("encoder pose", pivotEncoder.getPosition());
     Logger.recordOutput("we there", Math.abs(pivotEncoder.getPosition() - targetPosition));
     if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .1) {
       return true;

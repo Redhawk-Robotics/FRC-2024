@@ -45,7 +45,7 @@ public class Pivot extends SubsystemBase {
     pivotIO.setReference(targetPosition);
   }
 
-  @AutoLogOutput(key = "plase")
+  @AutoLogOutput(key = "place")
   public boolean pivotAtReference() {
     // return goodRef.get();
     if (goodRef.get()) {
@@ -64,6 +64,9 @@ public class Pivot extends SubsystemBase {
     Settings.PivotConstants.pivotState = desiredState;
   }
 
+  public static void setPivotPower(PivotPower desiredState) {
+    Settings.PivotConstants.pivotPower = desiredState;
+  }
   /*
    * Commands!
    */
@@ -74,5 +77,18 @@ public class Pivot extends SubsystemBase {
 
   public Command pivotFromSubwoofer() {
     return this.runOnce(() -> setPivotState(PivotStates.kPivotHome));
+  }
+
+  public Command pivotUp() {
+    return this.runOnce(() -> setPivotPower(PivotPower.kUp));
+  }
+
+  public Command pivotDown() {
+    return this.runOnce(() -> setPivotPower(PivotPower.kDown));
+  }
+
+  public Command pivotStop() {
+    return this.runOnce(
+        () -> setPivotPower(PivotPower.kStop)); // ~ FIXME IDk if this need to be runOnce or run
   }
 }

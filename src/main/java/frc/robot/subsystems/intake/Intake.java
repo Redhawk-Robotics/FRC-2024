@@ -61,6 +61,10 @@ public class Intake extends SubsystemBase {
     return this.runOnce(() -> setIntakeState(IntakeState.kIntakeNote));
   }
 
+  public Command enableReverseIntake() {
+    return this.runOnce(() -> setIntakeState(IntakeState.kIntakeReverse));
+  }
+
   public Command stopIntake() {
     return this.runOnce(() -> setIntakeState(IntakeState.kIntakeStop));
   }

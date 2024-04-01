@@ -18,12 +18,4 @@ public interface ShooterIO {
   public default void indexerApplySpeed(double power) {}
 
   public boolean shooterSensorsEnabled();
-
-  public default void shooterStop() {}
-
-  public default void indexerStop() {}
-
-  public default void indexerForward() {}
-
-  public default void indexerInverse() {}
 }

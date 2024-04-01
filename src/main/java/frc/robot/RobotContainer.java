@@ -21,6 +21,7 @@ import frc.robot.subsystems.swerve.GyroIO;
 import frc.robot.subsystems.swerve.GyroIONavX;
 import frc.robot.subsystems.swerve.GyroIOPigeon;
 import frc.robot.subsystems.swerve.ModuleIOSparkMAX;
+import frc.robot.subsystems.swerve.States;
 import frc.robot.subsystems.swerve.Swerve;
 import frc.robot.utils.NoteVisualizer;
 
@@ -197,6 +198,16 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> States.driveState = States.DriveStates.standard));
     down.onTrue(new InstantCommand(() -> States.driveState = States.DriveStates.d270))
         .onFalse(new InstantCommand(() -> States.driveState = States.DriveStates.standard));
+
+    /*
+     * OPERATOR CONTROLS
+     */
+    // Pivot Manual Controls
+    OPLeft.whileTrue(new InstantCommand(() -> pivot.pivotUp()));
+    OPLeft.whileFalse(new InstantCommand(() -> pivot.pivotStop()));
+
+    OPright.whileTrue(new InstantCommand(() -> pivot.pivotDown()));
+    OPLeft.whileFalse(new InstantCommand(() -> pivot.pivotStop()));
   }
 
   public Command getAutonomousCommand() {

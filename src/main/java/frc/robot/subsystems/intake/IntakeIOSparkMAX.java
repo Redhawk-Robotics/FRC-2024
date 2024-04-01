@@ -38,7 +38,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
     /*
      * IR Sensors
      */
-    this.entranceSensor = new DigitalInput(0);
+    this.entranceSensor = new DigitalInput(Ports.irSensorsID.intakeSensor);
   }
 
   /*
