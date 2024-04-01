@@ -27,7 +27,10 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.swerveUtil.COTSFalconSwerveConstants;
+import frc.robot.subsystems.climber.ClimberPower;
+import frc.robot.subsystems.climber.ClimberState;
 import frc.robot.subsystems.intake.IntakeState;
+import frc.robot.subsystems.pivot.PivotPower;
 import frc.robot.subsystems.pivot.PivotStates;
 import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
@@ -298,5 +301,40 @@ public interface Settings {
     public static final double ARM_MAX_UP = 0;
 
     public static PivotStates pivotState = PivotStates.kPivotHome;
+    public static PivotPower pivotPower = PivotPower.kStop;
+  }
+
+  public static final class ClimberConstants {
+    public static boolean leftClimberInvert = true;
+    public static boolean rightClimberInvert = false;
+
+    public static boolean climberABSEncoderInvert = false;
+
+    public static int climberCurrent = 40;
+    public static int climberContinousCurrentLimit = 40;
+
+    public static int maxVoltage = 12;
+
+    public static int forwardSoftLimit = 0;
+    public static int reverseSoftLimit = 0;
+
+    public static final IdleMode climberNeutralMode = IdleMode.kBrake;
+
+    public static final double climberKP = 3.0; // FIXME //try 1.0
+    public static final double climberKI = 0.0; // FIXME
+    public static final double climberKD = 0.0; // FIXME //try 0.1
+    public static final double climberKFF = 0.0; // FIXME
+    public static final double kTolerance = 0.0;
+
+    public static final double ZERO_OFFSET = 0;
+
+    public static final double MIN_INPUT = -1.0;
+    public static final double MAX_INPUT = 1.0;
+    public static final double CLIMBER_DOWN_THRESHOLD = 0;
+    public static final double CLIMBER_MIN_DOWN = 0;
+    public static final double CLIMBER_MAX_UP = 0;
+
+    public static ClimberState climberState = ClimberState.kHome;
+    public static ClimberPower climberPower = ClimberPower.kStop;
   }
 }

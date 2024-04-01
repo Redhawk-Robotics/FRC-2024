@@ -103,4 +103,7 @@ public class Shooter extends SubsystemBase {
   public Command guardsOn() {
     return this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWFeedShooter));
   }
+
+  //^ Manual Commands
+
 }

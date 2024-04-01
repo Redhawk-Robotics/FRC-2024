@@ -16,7 +16,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.topShooter = new CANSparkMax(Ports.shooterID.topShooter, MotorType.kBrushless);
     this.bottomShooter = new CANSparkMax(Ports.shooterID.bottomShooter, MotorType.kBrushless);
     this.uptake = new CANSparkMax(Ports.shooterID.uptakeMotor, MotorType.kBrushless);
-    this.guard = new CANSparkMax(0, MotorType.kBrushless);
+    this.guard = new CANSparkMax(Ports.shooterID.guardMotor, MotorType.kBrushless);
 
     this.topShooter.restoreFactoryDefaults();
     this.bottomShooter.restoreFactoryDefaults();
@@ -38,7 +38,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.uptake.setSmartCurrentLimit(Settings.ShooterConstants.indexerCurrentLimit);
     this.guard.setSmartCurrentLimit(Settings.ShooterConstants.guardCurrentLimit);
 
-    this.topShooter.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
+    this.topShooter.enableVoltageCompensation(
+        Settings.ShooterConstants.maxVoltage); // TODO IDK if we need this
     this.bottomShooter.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
     this.uptake.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
     this.guard.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
@@ -56,7 +57,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.uptake.burnFlash();
     this.guard.burnFlash();
 
-    this.shooterSensor = new DigitalInput(2);
+    this.shooterSensor = new DigitalInput(Ports.irSensorsID.shooterSensor);
   }
 
   /*
@@ -68,11 +69,6 @@ public class ShooterIOSparkMAX implements ShooterIO {
   @Override
   public void updateInputs(ShooterInputs inputs) {
     inputs.on = shooterSensorsEnabled();
-  }
-
-  @Override
-  public void shooterStop() {
-    setMotorSpeeds(0);
   }
 
   @Override

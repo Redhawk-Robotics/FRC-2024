@@ -28,6 +28,16 @@ public interface Ports {
     public static final int leftPivot = 13;
   }
 
+  public static final class climberID {
+    public static final int leftClimber = 17;
+    public static final int rightClimber = 18;
+  }
+
+  public static final class irSensorsID {
+    public static final int intakeSensor = 0;
+    public static final int shooterSensor = 2;
+  }
+
   public static final class REV {
     public static final int pigeonID = 39; // IDK
 

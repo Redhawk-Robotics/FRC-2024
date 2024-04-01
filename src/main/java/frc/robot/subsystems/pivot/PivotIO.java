@@ -14,10 +14,4 @@ public interface PivotIO {
   public boolean atReference();
 
   public default void pivotApplySpeed(double power) {}
-
-  public default void pivotUp() {}
-
-  public default void pivotDown() {}
-
-  public default void pivotStop() {}
 }

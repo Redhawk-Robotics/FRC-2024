@@ -140,10 +140,13 @@ public class ModuleIOSparkMAX implements ModuleIO {
   private void configAngleMotor() {
     mAngleMotor.restoreFactoryDefaults();
     angleController = mAngleMotor.getPIDController();
-    angleController.setP(SwerveConfig.angleKP, 0);
-    angleController.setI(SwerveConfig.angleKI, 0);
-    angleController.setD(SwerveConfig.angleKD, 0);
-    angleController.setFF(SwerveConfig.angleKF, 0);
+    angleController.setP(
+        SwerveConfig
+            .angleKP); // FIXME IDK if you would need the second paramater for the slotID, I just
+    // remove it since it was 0
+    angleController.setI(SwerveConfig.angleKI);
+    angleController.setD(SwerveConfig.angleKD);
+    angleController.setFF(SwerveConfig.angleKF);
     angleController.setOutputRange(-SwerveConfig.anglePower, SwerveConfig.anglePower);
     mAngleMotor.setSmartCurrentLimit(SwerveConfig.angleContinuousCurrentLimit);
 
@@ -154,10 +157,10 @@ public class ModuleIOSparkMAX implements ModuleIO {
   private void configDriveMotor() {
     mDriveMotor.restoreFactoryDefaults();
     driveController = mDriveMotor.getPIDController();
-    driveController.setP(SwerveConfig.driveKP, 0);
-    driveController.setI(SwerveConfig.driveKI, 0);
-    driveController.setD(SwerveConfig.driveKD, 0);
-    driveController.setFF(SwerveConfig.driveKF, 0);
+    driveController.setP(SwerveConfig.driveKP);
+    driveController.setI(SwerveConfig.driveKI);
+    driveController.setD(SwerveConfig.driveKD);
+    driveController.setFF(SwerveConfig.driveKF);
     driveController.setOutputRange(-SwerveConfig.drivePower, SwerveConfig.drivePower);
     mDriveMotor.setSmartCurrentLimit(SwerveConfig.driveContinuousCurrentLimit);
     mDriveMotor.setInverted(SwerveConfig.driveMotorInvert);
