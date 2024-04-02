@@ -40,10 +40,9 @@ public class Shooter extends SubsystemBase {
       shooterIO.applyShooterSpeed(power.get());
     }
 
-    // shooterIO.applyShooterSpeed(getShooterWheelStates().power);
-    // shooterIO.applySupportWheelSpeeds(
-    // getShooterSupportWheelStates().guardPower,
-    // getShooterSupportWheelStates().uptakePower);
+    shooterIO.applyShooterSpeed(getShooterWheelStates().power);
+    shooterIO.applySupportWheelSpeeds(
+        getShooterSupportWheelStates().guardPower, getShooterSupportWheelStates().uptakePower);
   }
 
   public void applyShooterSpeed(double setPower) {
@@ -56,11 +55,12 @@ public class Shooter extends SubsystemBase {
 
   public boolean getSensorsStatus() {
     // return irSim.get();
-    if (irSim.get()) {
-      return true;
-    } else {
-      return shooterIO.shooterSensorsEnabled(); // TODO CHANGE
-    }
+    return irSim.get(); // TODO CHANGE
+    // if (irSim.get()) {
+    // return true;
+    // } else {
+    // return shooterIO.shooterSensorsEnabled(); // TODO CHANGE
+    // }
   }
 
   // ~ Get Guard and uptake states
@@ -104,6 +104,6 @@ public class Shooter extends SubsystemBase {
     return this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWFeedShooter));
   }
 
-  //^ Manual Commands
+  // ^ Manual Commands
 
 }

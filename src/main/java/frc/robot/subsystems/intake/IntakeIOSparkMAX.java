@@ -11,6 +11,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
   private final DigitalInput entranceSensor;
 
   public IntakeIOSparkMAX() {
+    System.out.println("[Init] Creating IntakeIOSparkMAX!");
     /*
      * Sparkmax
      */
@@ -48,16 +49,24 @@ public class IntakeIOSparkMAX implements IntakeIO {
    */
 
   @Override
-  public void updateInputs(IntakeInputs inputs) {}
+  public void updateInputs(IntakeInputs inputs) {
+    inputs.leftIntakeVoltage = leftIntakeMotor.getAppliedOutput();
+    inputs.leftIntakeVelocity = leftIntakeMotor.getEncoder().getVelocity();
+    inputs.leftIntakeTemp = leftIntakeMotor.getMotorTemperature();
+    inputs.leftIntakeCurrentSetSpeed = leftIntakeMotor.get();
+    inputs.leftIntakeBusVoltage = leftIntakeMotor.getBusVoltage();
+    inputs.leftIntakeOutputCurrent = leftIntakeMotor.getOutputCurrent();
+    inputs.leftIntakeVoltageCompensation = leftIntakeMotor.getVoltageCompensationNominalVoltage();
 
-  @Override
-  public void intakeFloorNote() {
-    setMotorSpeeds(1);
-  }
+    inputs.rightIntakeVoltage = rightIntakeMotor.getAppliedOutput();
+    inputs.rightIntakeVelocity = rightIntakeMotor.getEncoder().getVelocity();
+    inputs.rightIntakeTemp = rightIntakeMotor.getMotorTemperature();
+    inputs.rightIntakeCurrentSetSpeed = rightIntakeMotor.get();
+    inputs.rightIntakeBusVoltage = rightIntakeMotor.getBusVoltage();
+    inputs.rightIntakeOutputCurrent = rightIntakeMotor.getOutputCurrent();
+    inputs.rightIntakeVoltageCompensation = rightIntakeMotor.getVoltageCompensationNominalVoltage();
 
-  @Override
-  public void intakeStop() {
-    setMotorSpeeds(0);
+    inputs.isIntakesEntranceIRSensorOn = intakeEntranceSensorsEnabled();
   }
 
   @Override
@@ -67,7 +76,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
 
   @Override
   public boolean intakeEntranceSensorsEnabled() {
-    return false;
+    return entranceSensor.get();
   }
 
   /*

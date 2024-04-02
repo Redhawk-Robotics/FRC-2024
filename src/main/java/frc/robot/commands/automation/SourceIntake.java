@@ -29,6 +29,7 @@ public class SourceIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("[Command Init] Creating a SourceIntake Command!");
     CommandPreparer.prepareToSourceIntake();
     timer.reset();
   }
@@ -37,7 +38,7 @@ public class SourceIntake extends Command {
   @Override
   public void execute() {
     if (pivot.pivotAtReference() && shooter.getSensorsStatus() && firstSawNote != -1) {
-      System.out.println("pivot at right spot");
+      System.out.println("[Command Debug] SourceIntake will START source intaking timer!");
       firstSawNote = timer.get();
       timer.start();
     }
@@ -45,12 +46,15 @@ public class SourceIntake extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("[Command Interrupt] Interrupting SourceIntake Command!");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (timer.get() - firstSawNote > .2) {
+      System.out.println("[Command Debug] SourceIntake ready to STOP source intake!");
       CommandPreparer.prepareToStopSourceIntake();
       return true;
     }

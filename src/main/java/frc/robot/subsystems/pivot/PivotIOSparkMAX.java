@@ -17,6 +17,8 @@ public class PivotIOSparkMAX implements PivotIO {
   private double targetPosition;
 
   public PivotIOSparkMAX() {
+    System.out.println("[Init] Creating PivotIOSparkMAX!");
+
     /*
      * Sparkmax
      */
@@ -60,11 +62,11 @@ public class PivotIOSparkMAX implements PivotIO {
     leftPivot.burnFlash();
 
     Logger.recordOutput(
-        "Pivot/Forward Soft Limit",
+        "SoftLimits/Pivot/Forward Soft Limit",
         rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kForward));
 
     Logger.recordOutput(
-        "Pivot/Reverse Soft Limit",
+        "SoftLimits/Pivot/Reverse Soft Limit",
         rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kReverse));
   }
 
@@ -74,7 +76,28 @@ public class PivotIOSparkMAX implements PivotIO {
    * Overriden Interface methods
    */
   @Override
-  public void updateInputs(PivotInputs inputs) {}
+  public void updateInputs(PivotInputs inputs) {
+    inputs.leftPivotVoltage = leftPivot.getAppliedOutput();
+    inputs.leftPivotEncoderPose = leftPivot.getEncoder().getPosition();
+    inputs.leftPivotVelocity = leftPivot.getEncoder().getVelocity();
+    inputs.leftPivotTemp = leftPivot.getMotorTemperature();
+    inputs.leftPivotCurrentSetSpeed = leftPivot.get();
+    inputs.leftPivotBusVoltage = leftPivot.getBusVoltage();
+    inputs.leftPivotOutputCurrent = leftPivot.getOutputCurrent();
+    inputs.leftPivotVoltageCompensation = leftPivot.getVoltageCompensationNominalVoltage();
+
+    inputs.rightPivotVoltage = rightPivot.getAppliedOutput();
+    inputs.rightPivotEncoderPose = rightPivot.getEncoder().getPosition();
+    inputs.rightPivotVelocity = rightPivot.getEncoder().getVelocity();
+    inputs.rightPivotTemp = rightPivot.getMotorTemperature();
+    inputs.rightPivotCurrentSetSpeed = rightPivot.get();
+    inputs.rightPivotBusVoltage = rightPivot.getBusVoltage();
+    inputs.rightPivotOutputCurrent = rightPivot.getOutputCurrent();
+    inputs.rightPivotVoltageCompensation = rightPivot.getVoltageCompensationNominalVoltage();
+
+    inputs.isPivotAtRef = atReference();
+    inputs.isPivotAtRefCalculation = Math.abs(pivotEncoder.getPosition() - targetPosition);
+  }
 
   @Override
   public void pivotApplySpeed(double speed) {
@@ -89,8 +112,6 @@ public class PivotIOSparkMAX implements PivotIO {
 
   @Override
   public boolean atReference() {
-    Logger.recordOutput("encoder pose", pivotEncoder.getPosition());
-    Logger.recordOutput("we there", Math.abs(pivotEncoder.getPosition() - targetPosition));
     if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .1) {
       return true;
     }

@@ -1,5 +1,3 @@
 package frc.robot.subsystems.led;
 
-public class blinkinLEDController {
-    
-}
+public class blinkinLEDController {}
