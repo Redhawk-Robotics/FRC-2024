@@ -199,6 +199,9 @@ public interface Settings {
     public static final double kPYController = 0;
     public static final double kPThetaController = 0;
 
+    /* Path names */
+    public static final String kMiddleAuto3 = "Middle auto 3";
+
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
@@ -337,4 +340,5 @@ public interface Settings {
     public static ClimberState climberState = ClimberState.kHome;
     public static ClimberPower climberPower = ClimberPower.kStop;
   }
+
 }
