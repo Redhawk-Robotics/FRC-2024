@@ -45,7 +45,7 @@ public class NoteVisualizer {
   }
 
   public static Command shoot() {
-    System.out.println("Note was shot!");
+    // System.out.println("Note was shot!");
     return new ScheduleCommand( // Branch off and exit immediately
         Commands.defer(
                 () -> {
@@ -53,7 +53,7 @@ public class NoteVisualizer {
                       new Pose3d(robotPoseSupplier.get()).transformBy(launcherTransform);
                   // final boolean isRed = DriverStation.getAlliance().isPresent()
                   // && DriverStation.getAlliance().get().equals(Alliance.Red);
-                  final boolean isRed = false;
+                  final boolean isRed = true;
                   final Pose3d endPose =
                       new Pose3d(isRed ? redSpeaker : blueSpeaker, startPose.getRotation());
 

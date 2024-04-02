@@ -13,6 +13,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
   private final DigitalInput shooterSensor;
 
   public ShooterIOSparkMAX() {
+    System.out.println("[Init] Creating ShooterIOSparkMAX!");
+
     this.topShooter = new CANSparkMax(Ports.shooterID.topShooter, MotorType.kBrushless);
     this.bottomShooter = new CANSparkMax(Ports.shooterID.bottomShooter, MotorType.kBrushless);
     this.uptake = new CANSparkMax(Ports.shooterID.uptakeMotor, MotorType.kBrushless);
@@ -68,18 +70,56 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterInputs inputs) {
-    inputs.on = shooterSensorsEnabled();
+    inputs.topShooterVoltage = topShooter.getAppliedOutput();
+    inputs.topShooterVelocity = topShooter.getEncoder().getVelocity();
+    inputs.topShooterTemp = topShooter.getMotorTemperature();
+    inputs.topShooterCurrentSetSpeed = topShooter.get();
+    inputs.topShooterBusVoltage = topShooter.getBusVoltage();
+    inputs.topShooterOutputCurrent = topShooter.getOutputCurrent();
+    inputs.topShooterVoltageCompensation = topShooter.getVoltageCompensationNominalVoltage();
+
+    inputs.bottomShooterVoltage = bottomShooter.getAppliedOutput();
+    inputs.bottomShooterVelocity = bottomShooter.getEncoder().getVelocity();
+    inputs.bottomShooterTemp = bottomShooter.getMotorTemperature();
+    inputs.bottomShooterCurrentSetSpeed = bottomShooter.get();
+    inputs.bottomShooterBusVoltage = bottomShooter.getBusVoltage();
+    inputs.bottomShooterOutputCurrent = bottomShooter.getOutputCurrent();
+    inputs.bottomShooterVoltageCompensation = bottomShooter.getVoltageCompensationNominalVoltage();
+
+    inputs.guardVoltage = guard.getAppliedOutput();
+    inputs.guardVelocity = guard.getEncoder().getVelocity();
+    inputs.guardTemp = guard.getMotorTemperature();
+    inputs.guardCurrentSetSpeed = guard.get();
+    inputs.guardBusVoltage = guard.getBusVoltage();
+    inputs.guardOutputCurrent = guard.getOutputCurrent();
+    inputs.guardVoltageCompensation = guard.getVoltageCompensationNominalVoltage();
+
+    inputs.topShooterVoltage = uptake.getAppliedOutput();
+    inputs.topShooterVelocity = uptake.getEncoder().getVelocity();
+    inputs.topShooterTemp = uptake.getMotorTemperature();
+    inputs.topShooterCurrentSetSpeed = uptake.get();
+    inputs.topShooterBusVoltage = uptake.getBusVoltage();
+    inputs.topShooterOutputCurrent = uptake.getOutputCurrent();
+    inputs.topShooterVoltageCompensation = uptake.getVoltageCompensationNominalVoltage();
+
+    inputs.isShooterIRSensorOn = shooterSensorsEnabled();
   }
 
   @Override
   public boolean shooterSensorsEnabled() {
-    return !shooterSensor.get();
+    return false;
+    // return shooterSensor.get(); // TODO remove for real life testing
   }
 
   @Override
   public void applySupportWheelSpeeds(double guardPower, double uptakePower) {
     guard.set(guardPower);
     uptake.set(uptakePower);
+  }
+
+  @Override
+  public void applyShooterSpeed(double power) {
+    setMotorSpeeds(power);
   }
 
   /*

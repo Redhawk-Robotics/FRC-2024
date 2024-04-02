@@ -99,10 +99,10 @@ public class Drive extends Command {
         break;
     }
 
-    Logger.recordOutput("State", States.driveState);
-    Logger.recordOutput("translationVal", translationVal);
-    Logger.recordOutput("strafeVal", strafeVal);
-    Logger.recordOutput("rotationVal", rotationVal);
+    Logger.recordOutput("Swerve/State", States.driveState);
+    Logger.recordOutput("Swerve/translationVal", translationVal);
+    Logger.recordOutput("Swerve/strafeVal", strafeVal);
+    Logger.recordOutput("Swerve/rotationVal", rotationVal);
 
     /* Drive */
     s_Swerve.drive(

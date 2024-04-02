@@ -105,11 +105,19 @@ public class Swerve extends SubsystemBase {
         new SwerveDrivePoseEstimator(
             m_kinematics, gyroIO.getRotation2d(), getModulePositions(), getPose());
 
+    // Logging callback for target robot pose
     PathPlannerLogging.setLogTargetPoseCallback(
         (pose) -> {
           // Do whatever you want with the pose here
           pathPlannerPose = pose;
           field.getObject("target pose").setPose(pose);
+        });
+
+    // Logging callback for the active path, this is sent as a list of poses
+    PathPlannerLogging.setLogActivePathCallback(
+        (poses) -> {
+          // Do whatever you want with the poses here
+          field.getObject("path").setPoses(poses);
         });
   }
 
@@ -145,8 +153,8 @@ public class Swerve extends SubsystemBase {
     SwerveModuleState[] swerveModuleStates =
         SwerveConfig.swerveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
     setModuleStates(swerveModuleStates);
-    Logger.recordOutput("tewts states", swerveModuleStates);
-    Logger.recordOutput("speeds", desiredChassisSpeeds);
+    Logger.recordOutput("Swerve/states", swerveModuleStates);
+    Logger.recordOutput("Swerve/desiredChassisSpeeds", desiredChassisSpeeds);
   }
 
   // ! START OF METHODS FOR PATHPLANNER

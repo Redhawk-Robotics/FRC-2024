@@ -31,7 +31,7 @@ public class ModuleIOSparkMAX implements ModuleIO {
   private SparkPIDController angleController;
 
   public ModuleIOSparkMAX(int moduleNumber, RevSwerveModuleConstants moduleConstants) {
-    System.out.println("[Init] Creating ModuleIOSparkMax: " + moduleNumber);
+    System.out.println("[Init] Creating ModuleIOSparkMax: " + moduleNumber + "!");
 
     this.moduleNumber = moduleNumber;
     this.angleOffset = moduleConstants.angleOffset;
@@ -68,11 +68,19 @@ public class ModuleIOSparkMAX implements ModuleIO {
     inputs.driveEncoderPose = relDriveEncoder.getPosition();
     inputs.driveVelocity = relDriveEncoder.getVelocity();
     inputs.driveTemp = mDriveMotor.getMotorTemperature();
+    inputs.driveCurrentSetSpeed = mDriveMotor.get();
+    inputs.driveBusVoltage = mDriveMotor.getBusVoltage();
+    inputs.driveOutputCurrent = mDriveMotor.getOutputCurrent();
+    inputs.driveVoltageCompensation = mDriveMotor.getVoltageCompensationNominalVoltage();
 
     inputs.angleVoltage = mAngleMotor.getAppliedOutput();
     inputs.angleEncoderPose = relAngleEncoder.getPosition();
     inputs.angleVelocity = relAngleEncoder.getVelocity();
     inputs.angleTemp = mAngleMotor.getMotorTemperature();
+    inputs.angleCurrentSetSpeed = mAngleMotor.get();
+    inputs.angleBusVoltage = mAngleMotor.getBusVoltage();
+    inputs.angleOutputCurrent = mAngleMotor.getOutputCurrent();
+    inputs.angleVoltageCompensation = mAngleMotor.getVoltageCompensationNominalVoltage();
   }
 
   @Override
@@ -134,7 +142,6 @@ public class ModuleIOSparkMAX implements ModuleIO {
 
     resetToAbsolute();
     mDriveMotor.burnFlash();
-    mAngleMotor.burnFlash();
   }
 
   private void configAngleMotor() {
@@ -152,6 +159,7 @@ public class ModuleIOSparkMAX implements ModuleIO {
 
     mAngleMotor.setInverted(SwerveConfig.angleMotorInvert);
     mAngleMotor.setIdleMode(SwerveConfig.angleIdleMode);
+    mAngleMotor.burnFlash();
   }
 
   private void configDriveMotor() {
@@ -186,7 +194,7 @@ public class ModuleIOSparkMAX implements ModuleIO {
     SparkPIDController controller = angleController;
 
     double degReference = angle.getDegrees();
-    Logger.recordOutput("anglethingy", degReference);
+    Logger.recordOutput("Swerve/desiredStateAngle", degReference);
 
     controller.setReference(degReference, ControlType.kPosition, 0);
   }
@@ -200,7 +208,7 @@ public class ModuleIOSparkMAX implements ModuleIO {
     }
 
     double velocity = desiredState.speedMetersPerSecond * SwerveConfig.maxSpeed;
-    Logger.recordOutput("velo", velocity);
+    Logger.recordOutput("Swerve/desiredStateVelocity", velocity);
     SparkPIDController controller = driveController;
     controller.setReference(velocity, ControlType.kVelocity, 0);
   }

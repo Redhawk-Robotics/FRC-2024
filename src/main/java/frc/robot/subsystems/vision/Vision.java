@@ -95,17 +95,17 @@ public class Vision extends SubsystemBase {
     // Logger.processInputs("Photonvision", visionInputs);
     Logger.processInputs("Gyro", gyroInputs);
 
-    Logger.recordOutput("Vision_ Nav-X Yaw", gyroInputs.yaw);
-    Logger.recordOutput("Vision_ EstimateFieldToRobot - getRobotPoseTraditional", robotPose);
-    Logger.recordOutput("Vision_ Robotpose3d - estimateFieldToRobotAprilTag", robotPose3D);
-    Logger.recordOutput("Vision_ Distance to target", Units.metersToInches(range));
+    Logger.recordOutput("Vision/Nav-X Yaw", gyroInputs.yaw);
+    Logger.recordOutput("Vision/EstimateFieldToRobot - getRobotPoseTraditional", robotPose);
+    Logger.recordOutput("Vision/Robotpose3d - estimateFieldToRobotAprilTag", robotPose3D);
+    Logger.recordOutput("Vision/Distance to target", Units.metersToInches(range));
     Logger.recordOutput(
-        "Vision_ Distance to Pose - from robotPose", distanceToTarget); // maybe more accurate
+        "Vision/Distance to Pose - from robotPose", distanceToTarget); // maybe more accurate
     Logger.recordOutput(
-        "Vision_ Robot to camera transform", photonPoseEstimator.getRobotToCameraTransform());
+        "Vision/Robot to camera transform", photonPoseEstimator.getRobotToCameraTransform());
     Logger.recordOutput(
-        "Vision_ Estimated global Pose", getEstimatedGlobalPose(robotPose).estimatedPose);
-    Logger.recordOutput("Vision_Test pose value", getBestCamToTag());
+        "Vision/Estimated global Pose", getEstimatedGlobalPose(robotPose).estimatedPose);
+    Logger.recordOutput("Vision/Test pose value", getBestCamToTag());
 
     target = visionIO.getBestTarget();
     updateRobotPoseTraditional();
@@ -120,7 +120,7 @@ public class Vision extends SubsystemBase {
           (gyroInputs.yaw + 90)
               - (2 * Units.radiansToDegrees(getAprilTagLocationMeters().rotation)) % 360;
 
-      Logger.recordOutput("Vision_ Created Gyro Angle", gyroAngleDegrees);
+      Logger.recordOutput("Vision/Created Gyro Angle", gyroAngleDegrees);
       // Now use the adjusted gyro angle in the estimateFieldToRobot method
       robotPose =
           PhotonUtils.estimateFieldToRobot(

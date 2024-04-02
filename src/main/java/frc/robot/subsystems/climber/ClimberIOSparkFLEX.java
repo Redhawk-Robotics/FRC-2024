@@ -5,13 +5,16 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import frc.constants.Ports;
 import frc.constants.Settings;
+import frc.robot.subsystems.climber.ClimberIO.ClimberInputs;
 import org.littletonrobotics.junction.Logger;
 
-public class ClimberIOSparkFLEX {
+public class ClimberIOSparkFLEX implements ClimberIO {
   private final CANSparkFlex leftClimber, rightClimber;
   private final RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
   public ClimberIOSparkFLEX() {
+    System.out.println("[Init] Creating ClimberIOSparkFLEX!");
+
     /*
      * Sparkmax
      */
@@ -50,51 +53,54 @@ public class ClimberIOSparkFLEX {
 
     // ^ RightClimber
     Logger.recordOutput(
-        "rightClimber/Forward Soft Limit",
+        "SoftLimits/rightClimber/Forward Soft Limit",
         rightClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kForward));
 
     Logger.recordOutput(
-        "rightClimber/Reverse Soft Limit",
+        "SoftLimits/rightClimber/Reverse Soft Limit",
         rightClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kReverse));
 
     // ~ LeftClimber
     Logger.recordOutput(
-        "leftClimber/Forward Soft Limit",
+        "SoftLimits/leftClimber/Forward Soft Limit",
         leftClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kForward));
 
     Logger.recordOutput(
-        "leftClimber/Reverse Soft Limit",
+        "SoftLimits/leftClimber/Reverse Soft Limit",
         leftClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kReverse));
   }
 
   /*
    *
    *
-   * Overriden Interface methods - need to INITIALIZE THIS, but it keeps breaking FIXME PLS
+   * Overriden Interface methods - need to INITIALIZE THIS, but it keeps breaking
+   * FIXME PLS
    */
-//   @Override
-//   public void updateInputs(ClimberInputs inputs) {}
+  @Override
+  public void updateInputs(ClimberInputs inputs) {}
 
-//   @Override
-//   public void climberApplySpeed(double speed) {
-//     setMotorSpeeds(speed);
-//   }
+  @Override
+  public void climberApplySpeed(double speed) {
+    setMotorSpeeds(speed);
+  }
 
-  // @Override
-  // public void setReference(double targetPosition) {
-  //     this.targetPosition = targetPosition;
-  //     pivotController.setReference(targetPosition, ControlType.kPosition);
-  // }
+  @Override
+  public void setReference(double targetPosition) {
+    // this.targetPosition = targetPosition;
+    // pivotController.setReference(targetPosition, ControlType.kPosition);
+  }
 
-  // @Override
-  // public boolean atReference() {
-  //     Logger.recordOutput("enocder pose", pivotEncoder.getPosition());
-  //     Logger.recordOutput("we there", Math.abs(pivotEncoder.getPosition() - targetPosition));
-  //     if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .1) {
-  //         return true;
-  //     }
-  //     return false;
-  // }
+  @Override
+  public boolean atReference() {
+    // Logger.recordOutput("enocder pose", pivotEncoder.getPosition());
+    // Logger.recordOutput("we there", Math.abs(pivotEncoder.getPosition() -
+    // targetPosition));
+    // if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .1) {
+    // return true;
+    // }
+    // return false;
+    return false;
+  }
 
   /*
    *

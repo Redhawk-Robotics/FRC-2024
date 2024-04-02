@@ -10,7 +10,6 @@ import frc.robot.subsystems.shooter.ShooterWheelStates;
 
 public class CommandPreparer {
   public static void prepareForFloorIntakeToPivot() {
-    Intake.setIntakeState(IntakeState.kIntakeStop);
     Pivot.setPivotState(PivotStates.kPivotHome);
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterFullShot);
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWUptake);
