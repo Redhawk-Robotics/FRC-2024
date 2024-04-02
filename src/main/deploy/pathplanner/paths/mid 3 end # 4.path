@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8715317631136523,
-        "y": 6.25470203321359
+        "x": 2.437335400986592,
+        "y": 5.76090976743357
       },
       "isLocked": false,
       "linkedName": "mid 3 end #3"
@@ -20,8 +20,8 @@
         "y": 4.166372242518921
       },
       "prevControl": {
-        "x": 1.488772095338677,
-        "y": 4.166372242518921
+        "x": 1.5937736136123908,
+        "y": 4.948209996670621
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,18 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "intake",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
