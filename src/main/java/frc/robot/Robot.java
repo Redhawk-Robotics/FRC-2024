@@ -6,6 +6,15 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.constants.Settings;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeState;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
+import frc.robot.subsystems.shooter.ShooterWheelStates;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -49,7 +58,7 @@ public class Robot extends LoggedRobot {
     }
 
     // Set up data receivers & replay source
-    switch (Constants.currentMode) {
+    switch (Settings.currentMode) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
@@ -76,7 +85,7 @@ public class Robot extends LoggedRobot {
 
     // Start AdvantageKit logger
     DataLogManager.start();
-    URCL.start();
+    // URCL.start();
     Logger.registerURCL(URCL.startExternal());
     Logger.start();
     DriverStation.startDataLog(DataLogManager.getLog());
@@ -95,6 +104,25 @@ public class Robot extends LoggedRobot {
     // This must be called from the robot's periodic block in order for anything in
     // the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    Map<String, Integer> commandCounts = new HashMap<>();
+    BiConsumer<Command, Boolean> logCommandFunction =
+        (Command command, Boolean active) -> {
+          String name = command.getName();
+          int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
+          commandCounts.put(name, count);
+          Logger.recordOutput(
+              "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
+          Logger.recordOutput("CommandsAll/" + name, count > 0);
+        };
+    CommandScheduler.getInstance()
+        .onCommandInitialize(
+            command -> Logger.recordOutput("Command/Command initialized", command.getName()));
+    CommandScheduler.getInstance()
+        .onCommandInterrupt(
+            command -> Logger.recordOutput("Command/Command interrupted", command.getName()));
+    CommandScheduler.getInstance()
+        .onCommandFinish(
+            command -> Logger.recordOutput("Command/Command finished", command.getName()));
   }
 
   /** This function is called once when the robot is disabled. */
@@ -103,7 +131,11 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically when disabled. */
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    Intake.setIntakeState(IntakeState.kIntakeStop);
+    Shooter.setShooterWheelState(ShooterWheelStates.kShooterStop);
+    Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override

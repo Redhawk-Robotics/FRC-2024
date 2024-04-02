@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package frc.robot;
+package frc.constants;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -20,7 +20,6 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N1;
@@ -28,17 +27,26 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.swerveUtil.COTSFalconSwerveConstants;
-import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
+import frc.robot.subsystems.climber.ClimberPower;
+import frc.robot.subsystems.climber.ClimberState;
+import frc.robot.subsystems.intake.IntakeState;
+import frc.robot.subsystems.pivot.PivotPower;
+import frc.robot.subsystems.pivot.PivotStates;
+import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
+import frc.robot.subsystems.shooter.ShooterWheelStates;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
+ * The Settings class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+
+// !Settings for the mechanisms
+public interface Settings {
+
   public static final Mode currentMode = Mode.REAL;
 
   public static enum Mode {
@@ -68,8 +76,8 @@ public final class Constants {
         COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
 
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(28.5);
-    public static final double wheelBase = Units.inchesToMeters(28.5);
+    public static final double trackWidth = Units.inchesToMeters(24);
+    public static final double wheelBase = Units.inchesToMeters(24);
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
     public static final Translation2d m_frontLeftTranslation =
@@ -116,13 +124,13 @@ public final class Constants {
     public static final boolean canCoderInvert = chosenModule.canCoderInvert;
 
     /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 40;
-    public static final int anglePeakCurrentLimit = 60;
+    public static final int angleContinuousCurrentLimit = 20;
+    public static final int anglePeakCurrentLimit = 20;
     public static final double anglePeakCurrentDuration = 0.1;
     public static final boolean angleEnableCurrentLimit = true;
 
     public static final int driveContinuousCurrentLimit = 40;
-    public static final int drivePeakCurrentLimit = 60;
+    public static final int drivePeakCurrentLimit = 40;
     public static final double drivePeakCurrentDuration = 0.1;
     public static final boolean driveEnableCurrentLimit = true;
 
@@ -156,7 +164,7 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double maxSpeed = 4.469892;
+    public static final double maxSpeed = 5.05968;
     /** Radians per Second */
     public static final double maxAngularVelocity = 5; // max 10 or.....
 
@@ -173,64 +181,6 @@ public final class Constants {
     // // SensorInitializationStrategy.BootToAbsolutePosition;
     // // canCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
     // }
-
-    public static final class REV {
-      public static final int pigeonID = 39; // IDK
-
-      /* Module Specific Constants */
-      /* Front Left Module */
-      public static final class frontLeftModule {
-
-        public static final int driveMotorID = 7;
-        public static final int angleMotorID = 8;
-        public static final int canCoderID = 44;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees(.263 * 360); // Rotation2d.fromDegrees(37.7);
-        // 0.540283*360 .334 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      /* Front Right Module */
-      public static final class frontRightModule {
-        public static final int driveMotorID = 5;
-        public static final int angleMotorID = 6;
-        public static final int canCoderID = 33;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees((.196 * 360) + 180); // .394 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      /* Back Left Module */
-      public static final class backLeftModule {
-        public static final int driveMotorID = 1;
-        public static final int angleMotorID = 2;
-        public static final int canCoderID = 11;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees(.228 * 360); // .449 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      /* Back Right Module */
-      public static final class backRightModule {
-        public static final int driveMotorID = 3;
-        public static final int angleMotorID = 4;
-        public static final int canCoderID = 22;
-        public static final Rotation2d angleOffset =
-            Rotation2d.fromDegrees((.014 * 360) + 180); // .586 * 360
-        public static final RevSwerveModuleConstants constants =
-            new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      public static final RevSwerveModuleConstants[] revSwerveModuleConstants = {
-        frontLeftModule.constants,
-        frontRightModule.constants,
-        backLeftModule.constants,
-        backRightModule.constants
-      };
-    }
   }
 
   public static final class PoseEstimator {
@@ -274,14 +224,117 @@ public final class Constants {
     public static final double kRedSpeakerZ = 2.1;
   }
 
-  public static final class IntakeConstants {
-    public static final boolean leftIntakeMotorInvert = false;
-    public static final boolean rightIntakeMotorInvert = true;
+  // !Mechanisms
+  public static final class ShooterConstants {
+    public static int maxVoltage = 12;
+
+    public static boolean topShooterInvert = false;
+    public static boolean bottomShooterInvert = false;
+    public static boolean uptakeInvert = true;
+    public static boolean guardInvert = false;
+
+    public static int shooterCurrentLimit = 40;
+    public static int indexerCurrentLimit = 40;
+    public static int guardCurrentLimit = 40;
+
+    public static final IdleMode topShooterNeutralMode = IdleMode.kCoast;
+    public static final IdleMode bottomShooterNeutralMode = IdleMode.kCoast;
+    public static final IdleMode indexerNeutralMode = IdleMode.kCoast;
+    public static final IdleMode guardNeutralMode = IdleMode.kBrake;
+
+    public static final double shooterKP = 0.0; // FIXME //try 1.0
+    public static final double shooterKI = 0.0; // FIXME
+    public static final double shooterKD = 0.0; // FIXME //try 0.1
+    public static final double shooterKFF = 0.0; // FIXME
+
+    public static ShooterWheelStates currentShooterState = ShooterWheelStates.kShooterStop;
+    public static ShooterSupportWheelStates currentSupportWheelStates =
+        ShooterSupportWheelStates.kSWStop;
   }
 
-  public static final class PivotConstants {}
+  public static final class IntakeConstants {
+    public static boolean leftIntakeInvert = false;
+    public static boolean rightIntakeInvert = true;
 
-  public static final class ShooterConstants {}
+    public static int intakeCurrentLimit = 40;
 
-  public static final class VisionConstants {}
+    public static int maxVoltage = 12;
+
+    public static final IdleMode intakeNeutralMode = IdleMode.kBrake;
+
+    public static final double intakeKP = 0.0; // FIXME //try 1.0
+    public static final double intakeKI = 0.0; // FIXME
+    public static final double intakeKD = 0.0; // FIXME //try 0.1
+    public static final double intakeKFF = 0.0; // FIXME
+
+    public static IntakeState currentIntakeState = IntakeState.kIntakeStop;
+  }
+
+  public static final class PivotConstants {
+    public static boolean leftPivotInvert = true;
+    public static boolean rightPivotInvert = false;
+
+    public static boolean pivotInvert = false;
+
+    public static int pivotCurrent = 40;
+    public static int armContinousCurrentLimit = 40;
+
+    public static int maxVoltage = 12;
+
+    public static int forwardSoftLimit = 0;
+    public static int reverseSoftLimit = 0;
+
+    public static final IdleMode pivotNeutralMode = IdleMode.kBrake;
+
+    public static final double pivotKP = 3.0; // FIXME //try 1.0
+    public static final double pivotKI = 0.0; // FIXME
+    public static final double pivotKD = 0.0; // FIXME //try 0.1
+    public static final double pivotKFF = 0.0; // FIXME
+    public static final double kTolerance = 0.02;
+
+    public static final double ZERO_OFFSET = 0;
+
+    public static final double MIN_INPUT = -1.0;
+    public static final double MAX_INPUT = 1.0;
+    public static final double ARM_DOWN_THRESHOLD = 0;
+    public static final double ARM_MIN_DOWN = 0;
+    public static final double ARM_MAX_UP = 0;
+
+    public static PivotStates pivotState = PivotStates.kPivotHome;
+    public static PivotPower pivotPower = PivotPower.kStop;
+  }
+
+  public static final class ClimberConstants {
+    public static boolean leftClimberInvert = true;
+    public static boolean rightClimberInvert = false;
+
+    public static boolean climberABSEncoderInvert = false;
+
+    public static int climberCurrent = 40;
+    public static int climberContinousCurrentLimit = 40;
+
+    public static int maxVoltage = 12;
+
+    public static int forwardSoftLimit = 0;
+    public static int reverseSoftLimit = 0;
+
+    public static final IdleMode climberNeutralMode = IdleMode.kBrake;
+
+    public static final double climberKP = 3.0; // FIXME //try 1.0
+    public static final double climberKI = 0.0; // FIXME
+    public static final double climberKD = 0.0; // FIXME //try 0.1
+    public static final double climberKFF = 0.0; // FIXME
+    public static final double kTolerance = 0.0;
+
+    public static final double ZERO_OFFSET = 0;
+
+    public static final double MIN_INPUT = -1.0;
+    public static final double MAX_INPUT = 1.0;
+    public static final double CLIMBER_DOWN_THRESHOLD = 0;
+    public static final double CLIMBER_MIN_DOWN = 0;
+    public static final double CLIMBER_MAX_UP = 0;
+
+    public static ClimberState climberState = ClimberState.kHome;
+    public static ClimberPower climberPower = ClimberPower.kStop;
+  }
 }

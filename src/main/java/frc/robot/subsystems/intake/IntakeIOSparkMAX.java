@@ -3,27 +3,43 @@ package frc.robot.subsystems.intake;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Constants.IntakeConstants;
+import frc.constants.Ports;
+import frc.constants.Settings;
 
 public class IntakeIOSparkMAX implements IntakeIO {
   private final CANSparkMax leftIntakeMotor, rightIntakeMotor;
-  private final DigitalInput entranceSensor, exitSensor;
+  private final DigitalInput entranceSensor;
 
   public IntakeIOSparkMAX() {
+    System.out.println("[Init] Creating IntakeIOSparkMAX!");
     /*
      * Sparkmax
      */
-    this.leftIntakeMotor = new CANSparkMax(0, MotorType.kBrushless);
-    this.rightIntakeMotor = new CANSparkMax(0, MotorType.kBrushless);
+    this.leftIntakeMotor = new CANSparkMax(Ports.intakeID.leftIntake, MotorType.kBrushless);
+    this.rightIntakeMotor = new CANSparkMax(Ports.intakeID.rightIntake, MotorType.kBrushless);
 
-    this.leftIntakeMotor.setInverted(IntakeConstants.leftIntakeMotorInvert);
-    this.leftIntakeMotor.setInverted(IntakeConstants.rightIntakeMotorInvert);
+    this.leftIntakeMotor.restoreFactoryDefaults();
+    this.rightIntakeMotor.restoreFactoryDefaults();
+
+    this.leftIntakeMotor.setInverted(Settings.IntakeConstants.leftIntakeInvert);
+    this.rightIntakeMotor.setInverted(Settings.IntakeConstants.rightIntakeInvert);
+
+    this.leftIntakeMotor.setIdleMode(Settings.IntakeConstants.intakeNeutralMode);
+    this.rightIntakeMotor.setIdleMode(Settings.IntakeConstants.intakeNeutralMode);
+
+    this.leftIntakeMotor.setSmartCurrentLimit(Settings.IntakeConstants.intakeCurrentLimit);
+    this.rightIntakeMotor.setSmartCurrentLimit(Settings.IntakeConstants.intakeCurrentLimit);
+
+    this.leftIntakeMotor.enableVoltageCompensation(Settings.IntakeConstants.maxVoltage);
+    this.rightIntakeMotor.enableVoltageCompensation(Settings.IntakeConstants.maxVoltage);
+
+    this.leftIntakeMotor.burnFlash();
+    this.rightIntakeMotor.burnFlash();
 
     /*
      * IR Sensors
      */
-    this.entranceSensor = new DigitalInput(0);
-    this.exitSensor = new DigitalInput(0);
+    this.entranceSensor = new DigitalInput(Ports.irSensorsID.intakeSensor);
   }
 
   /*
@@ -33,16 +49,24 @@ public class IntakeIOSparkMAX implements IntakeIO {
    */
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {}
+  public void updateInputs(IntakeInputs inputs) {
+    inputs.leftIntakeVoltage = leftIntakeMotor.getAppliedOutput();
+    inputs.leftIntakeVelocity = leftIntakeMotor.getEncoder().getVelocity();
+    inputs.leftIntakeTemp = leftIntakeMotor.getMotorTemperature();
+    inputs.leftIntakeCurrentSetSpeed = leftIntakeMotor.get();
+    inputs.leftIntakeBusVoltage = leftIntakeMotor.getBusVoltage();
+    inputs.leftIntakeOutputCurrent = leftIntakeMotor.getOutputCurrent();
+    inputs.leftIntakeVoltageCompensation = leftIntakeMotor.getVoltageCompensationNominalVoltage();
 
-  @Override
-  public void intakeFloorNote() {
-    setMotorSpeeds(1);
-  }
+    inputs.rightIntakeVoltage = rightIntakeMotor.getAppliedOutput();
+    inputs.rightIntakeVelocity = rightIntakeMotor.getEncoder().getVelocity();
+    inputs.rightIntakeTemp = rightIntakeMotor.getMotorTemperature();
+    inputs.rightIntakeCurrentSetSpeed = rightIntakeMotor.get();
+    inputs.rightIntakeBusVoltage = rightIntakeMotor.getBusVoltage();
+    inputs.rightIntakeOutputCurrent = rightIntakeMotor.getOutputCurrent();
+    inputs.rightIntakeVoltageCompensation = rightIntakeMotor.getVoltageCompensationNominalVoltage();
 
-  @Override
-  public void intakeStop() {
-    setMotorSpeeds(0);
+    inputs.isIntakesEntranceIRSensorOn = intakeEntranceSensorsEnabled();
   }
 
   @Override
@@ -52,12 +76,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
 
   @Override
   public boolean intakeEntranceSensorsEnabled() {
-    return false;
-  }
-
-  @Override
-  public boolean intakeExitSensorsEnabled() {
-    return false;
+    return entranceSensor.get();
   }
 
   /*

@@ -9,6 +9,7 @@ import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,11 +21,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.constants.Settings.AutoConstants;
+import frc.constants.Settings.SwerveConfig;
 import frc.lib.math.GeometryUtils;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.SwerveConfig;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -40,6 +43,8 @@ public class Swerve extends SubsystemBase {
   private final SwerveDriveKinematics m_kinematics =
       new SwerveDriveKinematics(m_swerveTranslation2d);
   private SwerveDrivePoseEstimator swerveDrivePoseEstimator;
+  private Pose2d pathPlannerPose;
+  private Field2d field;
 
   private LoggedDashboardNumber PPtranslationP =
       new LoggedDashboardNumber("Pathplanner_ TranslationConstants P");
@@ -81,10 +86,13 @@ public class Swerve extends SubsystemBase {
           // }
           // return false;
 
-          return false;
+          return true;
         },
         this // Reference to this subsystem to set requirements
         );
+
+    field = new Field2d();
+    SmartDashboard.putData("Field", field);
 
     PProtationP.setDefault(2);
     PProtationI.setDefault(0);
@@ -96,6 +104,21 @@ public class Swerve extends SubsystemBase {
     swerveDrivePoseEstimator =
         new SwerveDrivePoseEstimator(
             m_kinematics, gyroIO.getRotation2d(), getModulePositions(), getPose());
+
+    // Logging callback for target robot pose
+    PathPlannerLogging.setLogTargetPoseCallback(
+        (pose) -> {
+          // Do whatever you want with the pose here
+          pathPlannerPose = pose;
+          field.getObject("target pose").setPose(pose);
+        });
+
+    // Logging callback for the active path, this is sent as a list of poses
+    PathPlannerLogging.setLogActivePathCallback(
+        (poses) -> {
+          // Do whatever you want with the poses here
+          field.getObject("path").setPoses(poses);
+        });
   }
 
   // ~ periodic
@@ -130,8 +153,8 @@ public class Swerve extends SubsystemBase {
     SwerveModuleState[] swerveModuleStates =
         SwerveConfig.swerveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
     setModuleStates(swerveModuleStates);
-    Logger.recordOutput("tewts states", swerveModuleStates);
-    Logger.recordOutput("speeds", desiredChassisSpeeds);
+    Logger.recordOutput("Swerve/states", swerveModuleStates);
+    Logger.recordOutput("Swerve/desiredChassisSpeeds", desiredChassisSpeeds);
   }
 
   // ! START OF METHODS FOR PATHPLANNER
@@ -184,6 +207,10 @@ public class Swerve extends SubsystemBase {
     return path.getPreviewStartingHolonomicPose();
   }
 
+  public Pose2d getPathPlannerPose() {
+    return pathPlannerPose;
+  }
+
   // ! Pathplanner follow path
   /**
    * Returns the path the robot will follow.
@@ -234,7 +261,7 @@ public class Swerve extends SubsystemBase {
           // }
           // return false;
 
-          return false;
+          return true;
         },
         this // Reference to this subsystem to set requirements
         );

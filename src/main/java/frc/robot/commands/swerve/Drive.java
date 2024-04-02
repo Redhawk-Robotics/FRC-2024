@@ -1,12 +1,12 @@
-package frc.robot.commands;
+package frc.robot.commands.swerve;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.SwerveConfig;
-import frc.robot.States;
+import frc.constants.Settings.SwerveConfig;
+import frc.robot.subsystems.swerve.States;
 import frc.robot.subsystems.swerve.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -99,10 +99,10 @@ public class Drive extends Command {
         break;
     }
 
-    Logger.recordOutput("State", States.driveState);
-    Logger.recordOutput("translationVal", translationVal);
-    Logger.recordOutput("strafeVal", strafeVal);
-    Logger.recordOutput("rotationVal", rotationVal);
+    Logger.recordOutput("Swerve/State", States.driveState);
+    Logger.recordOutput("Swerve/translationVal", translationVal);
+    Logger.recordOutput("Swerve/strafeVal", strafeVal);
+    Logger.recordOutput("Swerve/rotationVal", rotationVal);
 
     /* Drive */
     s_Swerve.drive(
