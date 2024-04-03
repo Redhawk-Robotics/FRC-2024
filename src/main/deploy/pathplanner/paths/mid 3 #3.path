@@ -1,0 +1,69 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.509346773079512,
+        "y": 7.067401803976541
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.581358145172431,
+        "y": 6.830793009956947
+      },
+      "isLocked": false,
+      "linkedName": "mid 3 end 2"
+    },
+    {
+      "anchor": {
+        "x": 2.715093550487853,
+        "y": 6.522172843844435
+      },
+      "prevControl": {
+        "x": 2.65336951726535,
+        "y": 7.098263820587792
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "mid 3 end #3"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -163.46753316601436,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -155.09523119190476,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Middle auto 3",
+  "previewStartingState": {
+    "rotation": -177.6626941408762,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
