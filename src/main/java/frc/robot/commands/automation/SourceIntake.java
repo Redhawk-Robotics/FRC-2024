@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.util.commandPreparer.CommandPreparer;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.shooter.Shooter;
+import org.littletonrobotics.junction.Logger;
 
 public class SourceIntake extends Command {
   private Pivot pivot;
   private Shooter shooter;
   private Timer timer;
-  private double firstSawNote = -1;
+  private double firstSawNote;
 
   /** Creates a new SourceIntake. */
   public SourceIntake(Pivot pivot, Shooter shooter) {
@@ -33,11 +34,13 @@ public class SourceIntake extends Command {
     CommandPreparer.prepareToSourceIntake();
     timer.reset();
     timer.start();
+    firstSawNote = -1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Logger.recordOutput("firsttime", firstSawNote);
     if (shooter.isSensorsBeamBroken() && firstSawNote == -1) {
       System.out.println("[Command Debug] SourceIntake will START source intaking timer!");
       firstSawNote = timer.get();

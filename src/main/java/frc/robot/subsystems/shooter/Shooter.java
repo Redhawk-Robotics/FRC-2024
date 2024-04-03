@@ -55,13 +55,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean isSensorsBeamBroken() {
-    return irSim.get();
     // return irSim.get(); // TODO CHANGE
-    // if (irSim.get()) {
-    // return true;
-    // } else {
-    // return shooterIO.isShooterSensorsBroken(); // TODO CHANGE
-    // }
+    return shooterIO.isShooterSensorBeamBroken(); // TODO CHANGE
   }
 
   // ~ Get Guard and uptake states
