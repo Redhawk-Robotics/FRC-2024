@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.597315591769332,
-        "y": 6.904672880399351
+        "x": 1.3956310852642924,
+        "y": 5.530093014960553
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.004958988519973,
-        "y": 6.792285196553275
+        "x": 2.3956310852642924,
+        "y": 5.530093014960553
       },
       "isLocked": false,
-      "linkedName": "Note1-Alliance"
+      "linkedName": "SW-Center"
     },
     {
       "anchor": {
-        "x": 2.597315591769332,
-        "y": 5.551187918118233
+        "x": 2.5202357965343594,
+        "y": 5.530093014960553
       },
       "prevControl": {
-        "x": 1.571658036326057,
-        "y": 5.597779868883561
+        "x": 1.5202357965343594,
+        "y": 5.530093014960553
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note2-Alliance"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "sequential",
         "data": {
@@ -69,7 +63,7 @@
   "reversed": false,
   "folder": "3-Piece Alliance",
   "previewStartingState": {
-    "rotation": -157.0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

@@ -39,7 +39,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C-1"
+            "pathName": "C-2"
           }
         },
         {
@@ -55,44 +55,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Pivot Side"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "1-2"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Pivot Mid"
+                  "name": "Pivot Note"
                 }
               },
               {

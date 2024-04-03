@@ -26,6 +26,8 @@ public interface PivotIO {
 
     public boolean isPivotAtRef = false;
     public double isPivotAtRefCalculation = 0;
+
+    public double boreEncoderPose = 0;
   }
 
   public default void updateInputs(PivotInputs inputs) {}

@@ -34,6 +34,12 @@ public class CommandPreparer {
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
   }
 
+  public static void prepareToStopShooterAndPivot() {
+    Pivot.setPivotState(PivotStates.kPivotHome);
+    Shooter.setShooterWheelState(ShooterWheelStates.kShooterStop);
+    Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
+  }
+
   // ~ ShootNote preparer
   public static void prepareToShootNote(
       PivotStates pivotState, ShooterWheelStates shooterWheelState) {

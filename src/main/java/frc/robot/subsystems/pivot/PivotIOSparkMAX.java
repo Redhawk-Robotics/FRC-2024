@@ -50,10 +50,10 @@ public class PivotIOSparkMAX implements PivotIO {
     rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
     rightPivot.setSoftLimit(
-        CANSparkMax.SoftLimitDirection.kForward, (float) .21); // TODO check the value for both
+        CANSparkMax.SoftLimitDirection.kForward, (float) .130); // TODO check the value for both
 
     // // TODO
-    rightPivot.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) -0.02); // .006
+    rightPivot.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 0); // .006
 
     // leftPivot.setSmartCurrentLimit(Settings.pi.armContinousCurrentLimit)
     // rightPivot.setSmartCurrentLimit(Settings.armSetting.armContinousCurrentLimit);
@@ -97,6 +97,8 @@ public class PivotIOSparkMAX implements PivotIO {
 
     inputs.isPivotAtRef = atReference();
     inputs.isPivotAtRefCalculation = Math.abs(pivotEncoder.getPosition() - targetPosition);
+
+    inputs.boreEncoderPose = pivotEncoder.getPosition();
   }
 
   @Override

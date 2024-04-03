@@ -15,6 +15,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class ShootNote extends Command {
   private double timeNoteLastSeen;
+  private ShooterWheelStates shooterWheelState;
   private boolean noteAtStart;
   private static int count;
   private Shooter shooter;
@@ -24,11 +25,22 @@ public class ShootNote extends Command {
   /** Creates a new ShootNote. */
   public ShootNote(Shooter shooter, Pivot pivot) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.shooterWheelState = ShooterWheelStates.kShooterFullShot;
+    this.timer = new Timer();
+    this.shooter = shooter;
+    this.pivot = pivot;
+    count++;
+    addRequirements(shooter, pivot);
+  }
+
+  public ShootNote(Shooter shooter, Pivot pivot, ShooterWheelStates shooterWheelState) {
+    // Use addRequirements() here to declare subsystem dependencies.
     this.timer = new Timer();
     this.shooter = shooter;
     this.pivot = pivot;
     count++;
 
+    this.shooterWheelState = shooterWheelState;
     addRequirements(shooter, pivot);
   }
 
@@ -38,7 +50,7 @@ public class ShootNote extends Command {
     System.out.println("[Command Init] Creating a ShootNote Command!");
     noteAtStart = shooter.isSensorsBeamBroken();
     timeNoteLastSeen = 0;
-    Shooter.setShooterWheelState(ShooterWheelStates.kShooterFullShot);
+    Shooter.setShooterWheelState(shooterWheelState);
     timer.reset();
     Logger.recordOutput("Count/ShootNote", count);
   }
