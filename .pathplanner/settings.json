@@ -3,7 +3,13 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "3-Piece Alliance"
+    "3-Piece Alliance",
+    "Center auto 1",
+    "Center auto 2",
+    "Mid 4",
+    "Middle auto 1",
+    "Middle auto 3",
+    "Middle auto 2"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
