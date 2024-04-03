@@ -7,7 +7,7 @@ public enum ShooterWheelStates {
   kShooterIdle(.35),
   kShooterQuarterShot(.25),
   kShooterThreeQuarterShot(.75),
-  kShooterSourceIntake(-.5),
+  kShooterSourceIntake(-.25),
   kShooterChamferShot(-1);
 
   public double power;

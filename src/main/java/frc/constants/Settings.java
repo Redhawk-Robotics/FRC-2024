@@ -229,7 +229,7 @@ public interface Settings {
     public static int maxVoltage = 12;
 
     public static boolean topShooterInvert = false;
-    public static boolean bottomShooterInvert = false;
+    public static boolean bottomShooterInvert = true;
     public static boolean uptakeInvert = true;
     public static boolean guardInvert = false;
 

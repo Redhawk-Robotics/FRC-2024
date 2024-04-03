@@ -102,13 +102,13 @@ public class ShooterIOSparkMAX implements ShooterIO {
     inputs.topShooterOutputCurrent = uptake.getOutputCurrent();
     inputs.topShooterVoltageCompensation = uptake.getVoltageCompensationNominalVoltage();
 
-    inputs.isShooterIRSensorOn = shooterSensorsEnabled();
+    inputs.isShooterBeamBroken = isshooterSensorsBroken();
   }
 
   @Override
-  public boolean shooterSensorsEnabled() {
-    return false;
-    // return shooterSensor.get(); // TODO remove for real life testing
+  public boolean isshooterSensorsBroken() {
+    // return false;
+    return !shooterSensor.get(); // TODO remove for real life testing
   }
 
   @Override

@@ -41,6 +41,15 @@ public class CommandPreparer {
 
   public static void prepareToStopSourceIntake() {
     Pivot.setPivotState(PivotStates.kPivotHome);
+    Shooter.setShooterWheelState(ShooterWheelStates.kShooterStop);
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
+    Intake.setIntakeState(IntakeState.kIntakeStop);
+  }
+
+  public static void prepareRobotForRejection() {
+    Pivot.setPivotState(PivotStates.kPivotHome);
+    Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
+    Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWFeedShooter);
+    Intake.setIntakeState(IntakeState.kIntakeReverse);
   }
 }

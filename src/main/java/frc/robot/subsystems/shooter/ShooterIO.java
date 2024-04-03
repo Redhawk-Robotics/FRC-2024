@@ -38,7 +38,7 @@ public interface ShooterIO {
     public double uptakeOutputCurrent = 0;
     public double uptakeVoltageCompensation = 0;
 
-    boolean isShooterIRSensorOn = false;
+    boolean isShooterBeamBroken = false;
   }
 
   public default void updateInputs(ShooterInputs inputs) {}
@@ -49,5 +49,5 @@ public interface ShooterIO {
 
   public default void indexerApplySpeed(double power) {}
 
-  public boolean shooterSensorsEnabled();
+  public boolean isshooterSensorsBroken();
 }
