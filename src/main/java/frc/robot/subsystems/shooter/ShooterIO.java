@@ -49,5 +49,5 @@ public interface ShooterIO {
 
   public default void indexerApplySpeed(double power) {}
 
-  public boolean isshooterSensorsBroken();
+  public boolean isShooterSensorBeamBroken();
 }
