@@ -340,5 +340,4 @@ public interface Settings {
     public static ClimberState climberState = ClimberState.kHome;
     public static ClimberPower climberPower = ClimberPower.kStop;
   }
-
 }

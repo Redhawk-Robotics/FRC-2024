@@ -45,9 +45,9 @@ import frc.robot.utils.NoteVisualizer;
  */
 public class RobotContainer {
 
-    /* Configuring Shuffleboard */
-    //private final SendableChooser<String> m_pathChooser = new SendableChooser<>();
-    private final SendableChooser<String> m_autonChooser = new SendableChooser<>();
+  /* Configuring Shuffleboard */
+  // private final SendableChooser<String> m_pathChooser = new SendableChooser<>();
+  private final SendableChooser<String> m_autonChooser = new SendableChooser<>();
 
   /* Controllers */
   private final XboxController DRIVER = new XboxController(Ports.Gamepad.DRIVER);
@@ -233,6 +233,7 @@ public class RobotContainer {
     m_autonChooser.setDefaultOption("Middle Auto 3", Settings.AutoConstants.kMiddleAuto3);
     SmartDashboard.putData("Autonomous", m_autonChooser);
   }
+
   public Command getAutonomousCommand() {
     return new PathPlannerAuto(m_autonChooser.getSelected());
     // var path = swerve.followPathCommand("T1");
