@@ -3,6 +3,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -45,6 +47,11 @@ import frc.robot.utils.NoteVisualizer;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+	/* Setting Up Autonomous Dropdown */
+
+
+	SendableChooser<String> m_autonChooser = new SendableChooser<>();
 
   /* Controllers */
   private final XboxController DRIVER = new XboxController(Ports.Gamepad.DRIVER);
@@ -181,6 +188,7 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+	configrueAutos();
   }
 
   private void configureButtonBindings() {
@@ -261,7 +269,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("3P");
+    return new PathPlannerAuto(m_autonChooser.getSelected());
     // var path = swerve.followPathCommand("T1");
     // return new FunctionalCommand(
     // path::initialize,
@@ -308,5 +316,13 @@ public class RobotContainer {
         "Shoot",
         new SequentialCommandGroup(
             Commands.print("[AUTO COMMAND] ShootNote Command"), new ShootNote(shooter, pivot)));
+  }
+
+
+  public void configrueAutos() {
+	m_autonChooser.setDefaultOption("3 Piece Auto", Settings.AutoConstants.p3PieceAuto);
+	m_autonChooser.setDefaultOption("Middle Auto 4", Settings.AutoConstants.p4PieceAuto);
+
+	SmartDashboard.putData(m_autonChooser);
   }
 }
