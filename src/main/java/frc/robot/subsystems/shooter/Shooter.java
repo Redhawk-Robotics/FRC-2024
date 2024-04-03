@@ -5,6 +5,7 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.constants.Settings;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -53,13 +54,13 @@ public class Shooter extends SubsystemBase {
     shooterIO.applySupportWheelSpeeds(guardPower, uptakePower);
   }
 
-  public boolean getSensorsStatus() {
+  public boolean isSensorsBroken() {
     // return irSim.get();
-    return irSim.get(); // TODO CHANGE
+    // return irSim.get(); // TODO CHANGE
     // if (irSim.get()) {
     // return true;
     // } else {
-    // return shooterIO.shooterSensorsEnabled(); // TODO CHANGE
+    return shooterIO.isshooterSensorsBroken(); // TODO CHANGE
     // }
   }
 
@@ -102,6 +103,18 @@ public class Shooter extends SubsystemBase {
 
   public Command guardsOn() {
     return this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWFeedShooter));
+  }
+
+  public Command rejectNote() {
+    return new SequentialCommandGroup(
+        this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWFeedShooter)),
+        this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterIdle)));
+  }
+
+  public Command stopRejectNote() {
+    return new SequentialCommandGroup(
+        this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWStop)),
+        this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterStop)));
   }
 
   // ^ Manual Commands

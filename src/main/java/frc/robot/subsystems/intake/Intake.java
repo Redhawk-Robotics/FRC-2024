@@ -24,7 +24,6 @@ public class Intake extends SubsystemBase {
   public Intake(IntakeIO intakeIO) {
     this.intakeIO = intakeIO;
     this.intakeInputs = new IntakeInputsAutoLogged();
-
     this.intakeIO.updateInputs(intakeInputs);
   }
 
@@ -37,7 +36,7 @@ public class Intake extends SubsystemBase {
       intakeIO.intakeApplySpeed(power.get());
     }
 
-    // intakeIO.intakeApplySpeed(getIntakeState().intakePower);
+    intakeIO.intakeApplySpeed(getIntakeState().intakePower);
   }
 
   public boolean getEntraceSensorStatus() {

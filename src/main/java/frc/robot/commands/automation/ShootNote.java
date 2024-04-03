@@ -39,7 +39,7 @@ public class ShootNote extends Command {
   @Override
   public void initialize() {
     System.out.println("[Command Init] Creating a ShootNote Command!");
-    noteAtStart = shooter.getSensorsStatus();
+    noteAtStart = shooter.isSensorsBroken();
     timeNoteLastSeen = 0;
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterFullShot);
     Pivot.setPivotState(desiredPivotStates);
@@ -62,7 +62,7 @@ public class ShootNote extends Command {
       timer.start();
     }
 
-    if (shooter.getSensorsStatus()) {
+    if (shooter.isSensorsBroken()) {
       System.out.println("[Command Debug] ShootNote currently has a Note!");
       timeNoteLastSeen = timer.get();
     }
@@ -88,7 +88,7 @@ public class ShootNote extends Command {
       }
     } else {
       System.out.println("[Command Debug] ShootNote command had a Note at the start!");
-      if (!shooter.getSensorsStatus()
+      if (!shooter.isSensorsBroken()
           && timer.get() - timeNoteLastSeen > .1
           && pivot.pivotAtReference()) {
         System.out.println("[Command Debug] ShootNote shot!");

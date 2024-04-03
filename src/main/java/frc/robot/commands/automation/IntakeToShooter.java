@@ -68,7 +68,7 @@ public class IntakeToShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (shooter.getSensorsStatus() && pivot.pivotAtReference()) {
+    if (shooter.isSensorsBroken() && pivot.pivotAtReference()) {
       CommandPreparer.prepareForIntakeToPivotStop(PivotStates.kPivotSubwoofer);
       System.out.println("[Command Debug] IntakeToShooter is now FINISHED!");
       return true; // TODO FLIP VALUE

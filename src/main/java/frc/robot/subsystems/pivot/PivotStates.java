@@ -8,7 +8,7 @@ public enum PivotStates {
   kEject(0),
   kPivotAmp(0),
   kPivotPodium(0),
-  kPivotSource(0),
+  kPivotSource(.1),
   kPivotNoteSides(.084),
   kPivotStageMidForwardToSpeaker(0),
   kPivotStageMidSideToSpeaker(0);
