@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.constants.Settings;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
 import java.util.function.Supplier;
@@ -32,9 +31,6 @@ public class ShooterWheels extends Command {
   @Override
   public void initialize() {
     var alliance = DriverStation.getAlliance();
-    if (Settings.currentMode == Settings.Mode.REAL) { // TODO PLEASE CHANGE THIS AFTER DEWEY
-      return;
-    }
     if (alliance.isPresent()) {
       currentAlliance =
           alliance.get() == DriverStation.Alliance.Red
@@ -46,20 +42,9 @@ public class ShooterWheels extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (DriverStation.isTeleopEnabled()) {
-      return;
-    }
-
     currentAlliance = DriverStation.Alliance.Blue;
 
     Logger.recordOutput("alliance", currentAlliance);
-    if (currentAlliance == null) {
-      Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
-      System.out.println("shooter idle called!");
-      return;
-    }
-
-    System.out.println("in??");
     if (currentAlliance == DriverStation.Alliance.Blue) {
       if (robotPose.getX() < switchpoint) {
         Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);

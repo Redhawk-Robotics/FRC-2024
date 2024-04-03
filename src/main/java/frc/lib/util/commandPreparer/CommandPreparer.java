@@ -9,30 +9,39 @@ import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
 
 public class CommandPreparer {
-  public static void prepareForFloorIntakeToPivot() {
+  // ~ IntakeToPivot preparer
+  public static void prepareToIntakeToPivot() {
     Pivot.setPivotState(PivotStates.kPivotHome);
-    Shooter.setShooterWheelState(ShooterWheelStates.kShooterFullShot);
+    Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWUptake);
   }
 
-  public static void prepareForIntakeToPivotStop(PivotStates pivotState) {
-    Intake.setIntakeState(IntakeState.kIntakeStop);
-    Pivot.setPivotState(pivotState);
-    Shooter.setShooterWheelState(ShooterWheelStates.kShooterFullShot);
-    Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
-  }
-
-  public static void prepareForStoppingIntakeToPivot() {
+  public static void prepareToStopIntakeToPivot() {
     Intake.setIntakeState(IntakeState.kIntakeStop);
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
   }
 
+  // ~ Shooter end state preparer
   public static void prepareToStopAllShooter() {
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
   }
 
+  public static void prepareShooterForAnotherIntake() {
+    Pivot.setPivotState(PivotStates.kPivotHome);
+    Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);
+    Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
+  }
+
+  // ~ ShootNote preparer
+  public static void prepareToShootNote(
+      PivotStates pivotState, ShooterWheelStates shooterWheelState) {
+    Shooter.setShooterWheelState(shooterWheelState);
+    Pivot.setPivotState(pivotState);
+  }
+
+  // ~ SourceIntake preparer
   public static void prepareToSourceIntake() {
     Pivot.setPivotState(PivotStates.kPivotSource);
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterSourceIntake);
@@ -46,6 +55,7 @@ public class CommandPreparer {
     Intake.setIntakeState(IntakeState.kIntakeStop);
   }
 
+  // ~ RejectNote preparer
   public static void prepareRobotForRejection() {
     Pivot.setPivotState(PivotStates.kPivotHome);
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle);

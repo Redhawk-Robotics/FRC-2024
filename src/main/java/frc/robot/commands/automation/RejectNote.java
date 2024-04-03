@@ -40,7 +40,7 @@ public class RejectNote extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("[Command Interrupt] Interrupting RejectNote Command!");
-    CommandPreparer.prepareForStoppingIntakeToPivot();
+    CommandPreparer.prepareToStopIntakeToPivot();
   }
 
   // Returns true when the command should end.

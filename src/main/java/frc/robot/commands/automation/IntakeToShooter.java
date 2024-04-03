@@ -9,7 +9,6 @@ import frc.lib.util.commandPreparer.CommandPreparer;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeState;
 import frc.robot.subsystems.pivot.Pivot;
-import frc.robot.subsystems.pivot.PivotStates;
 import frc.robot.subsystems.shooter.Shooter;
 import org.littletonrobotics.junction.Logger;
 
@@ -36,7 +35,7 @@ public class IntakeToShooter extends Command {
   @Override
   public void initialize() {
     System.out.println("[Command Init] Creating a IntakeToShooter Command!");
-    CommandPreparer.prepareForFloorIntakeToPivot();
+    CommandPreparer.prepareToIntakeToPivot();
     Logger.recordOutput("Count/IntakeToShooter", count);
   }
 
@@ -68,8 +67,8 @@ public class IntakeToShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (shooter.isSensorsBroken() && pivot.pivotAtReference()) {
-      CommandPreparer.prepareForIntakeToPivotStop(PivotStates.kPivotSubwoofer);
+    if (shooter.isSensorsBeamBroken() && pivot.pivotAtReference()) {
+      CommandPreparer.prepareToStopIntakeToPivot();
       System.out.println("[Command Debug] IntakeToShooter is now FINISHED!");
       return true; // TODO FLIP VALUE
     }

@@ -54,13 +54,13 @@ public class Shooter extends SubsystemBase {
     shooterIO.applySupportWheelSpeeds(guardPower, uptakePower);
   }
 
-  public boolean isSensorsBroken() {
-    // return irSim.get();
+  public boolean isSensorsBeamBroken() {
+    return irSim.get();
     // return irSim.get(); // TODO CHANGE
     // if (irSim.get()) {
     // return true;
     // } else {
-    return shooterIO.isshooterSensorsBroken(); // TODO CHANGE
+    // return shooterIO.isShooterSensorsBroken(); // TODO CHANGE
     // }
   }
 
@@ -111,12 +111,9 @@ public class Shooter extends SubsystemBase {
         this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterIdle)));
   }
 
-  public Command stopRejectNote() {
+  public Command stopNoteRejection() {
     return new SequentialCommandGroup(
         this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWStop)),
         this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterStop)));
   }
-
-  // ^ Manual Commands
-
 }

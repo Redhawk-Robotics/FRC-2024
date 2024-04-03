@@ -38,7 +38,7 @@ public class SourceIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooter.isSensorsBroken() && firstSawNote == -1) {
+    if (shooter.isSensorsBeamBroken() && firstSawNote == -1) {
       System.out.println("[Command Debug] SourceIntake will START source intaking timer!");
       firstSawNote = timer.get();
     }
@@ -54,8 +54,8 @@ public class SourceIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (firstSawNote != -1 && timer.get() - firstSawNote > .15) {
-      System.out.println("[Command Debug] SourceIntake ready to STOP source intake!");
+    if (firstSawNote != -1 && timer.get() - firstSawNote > .1) {
+      System.out.println("[Command Debug] SourceIntake STOPPED!");
       CommandPreparer.prepareToStopSourceIntake();
       return true;
     }

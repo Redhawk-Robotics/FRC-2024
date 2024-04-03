@@ -47,11 +47,11 @@ public class Pivot extends SubsystemBase {
 
   @AutoLogOutput(key = "place")
   public boolean pivotAtReference() {
-    // return goodRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
+    return goodRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
     // if (goodRef.get()) {
     // return true;
     // } else {
-    return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
+    // return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
     // }
   }
 

@@ -6,30 +6,27 @@ package frc.robot.commands.automation;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.util.commandPreparer.CommandPreparer;
 import frc.robot.subsystems.pivot.Pivot;
-import frc.robot.subsystems.pivot.PivotStates;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
-import frc.robot.utils.NoteVisualizer;
 import org.littletonrobotics.junction.Logger;
 
 public class ShootNote extends Command {
+  private double timeNoteLastSeen;
+  private boolean noteAtStart;
+  private static int count;
   private Shooter shooter;
   private Pivot pivot;
-  private PivotStates desiredPivotStates;
-  private boolean noteAtStart;
-  private double timeNoteLastSeen;
   private Timer timer;
-  private static int count;
 
   /** Creates a new ShootNote. */
-  public ShootNote(Shooter shooter, Pivot pivot, PivotStates desiredPivotStates) {
+  public ShootNote(Shooter shooter, Pivot pivot) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.timer = new Timer();
     this.shooter = shooter;
     this.pivot = pivot;
-    this.desiredPivotStates = desiredPivotStates;
-    this.timer = new Timer();
     count++;
 
     addRequirements(shooter, pivot);
@@ -39,10 +36,9 @@ public class ShootNote extends Command {
   @Override
   public void initialize() {
     System.out.println("[Command Init] Creating a ShootNote Command!");
-    noteAtStart = shooter.isSensorsBroken();
+    noteAtStart = shooter.isSensorsBeamBroken();
     timeNoteLastSeen = 0;
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterFullShot);
-    Pivot.setPivotState(desiredPivotStates);
     timer.reset();
     Logger.recordOutput("Count/ShootNote", count);
   }
@@ -50,8 +46,6 @@ public class ShootNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(
-        "[Command Debug] ShootNote current Pivot state: " + desiredPivotStates + "!");
     if (!pivot.pivotAtReference()) {
       System.out.println("[Command Debug] ShootNote at WRONG Ref!");
       Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWStop);
@@ -62,7 +56,7 @@ public class ShootNote extends Command {
       timer.start();
     }
 
-    if (shooter.isSensorsBroken()) {
+    if (shooter.isSensorsBeamBroken()) {
       System.out.println("[Command Debug] ShootNote currently has a Note!");
       timeNoteLastSeen = timer.get();
     }
@@ -83,16 +77,16 @@ public class ShootNote extends Command {
     if (!noteAtStart && pivot.pivotAtReference()) {
       if (timer.get() > .35) {
         System.out.println("[Command Debug] ShootNote shot since no note was at start!");
-        NoteVisualizer.shoot();
+        CommandPreparer.prepareShooterForAnotherIntake();
         return true;
       }
     } else {
       System.out.println("[Command Debug] ShootNote command had a Note at the start!");
-      if (!shooter.isSensorsBroken()
+      if (!shooter.isSensorsBeamBroken()
           && timer.get() - timeNoteLastSeen > .1
           && pivot.pivotAtReference()) {
         System.out.println("[Command Debug] ShootNote shot!");
-        NoteVisualizer.shoot();
+        CommandPreparer.prepareShooterForAnotherIntake();
         return true;
       }
     }

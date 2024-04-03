@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pivot Subwoofer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
           }
         },
         {
@@ -31,6 +44,12 @@
                 "type": "named",
                 "data": {
                   "name": "Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pivot Subwoofer"
                 }
               },
               {
@@ -61,16 +80,16 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "Pivot Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "Shoot"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 60.0
           }
         }
       ]
