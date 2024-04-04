@@ -70,16 +70,16 @@ public class RobotContainer {
 	// XboxController.Button.kLeftBumper.value);
 
 	// Xbox triggers
-	private final int leftTrigger = XboxController.Axis.kLeftTrigger.value;
-	private final int rightTrigger = XboxController.Axis.kRightTrigger.value;
+	private final int Driver_leftTrigger = XboxController.Axis.kLeftTrigger.value;
+	private final int Driver_rightTrigger = XboxController.Axis.kRightTrigger.value;
 
 	// Xbox buttons
-	private final Trigger DRIVER_XButton = new JoystickButton(DRIVER, XboxController.Button.kX.value);
-	private final Trigger DRIVER_YButton = new JoystickButton(DRIVER, XboxController.Button.kY.value);
-	private final Trigger DRIVER_BButton = new JoystickButton(DRIVER, XboxController.Button.kB.value);
+	private final Trigger Driver_XButton = new JoystickButton(DRIVER, XboxController.Button.kX.value);
+	private final Trigger Driver_YButton = new JoystickButton(DRIVER, XboxController.Button.kY.value);
+	private final Trigger Driver_BButton = new JoystickButton(DRIVER, XboxController.Button.kB.value);
 
 	// Xbox bumpers
-	private final Trigger leftBumper = new JoystickButton(DRIVER, XboxController.Button.kLeftBumper.value);
+	private final Trigger Driver_leftBumper = new JoystickButton(DRIVER, XboxController.Button.kLeftBumper.value);
 	private final Trigger dampen = new JoystickButton(DRIVER, XboxController.Button.kRightBumper.value);
 
 	// Extra Buttons
@@ -87,21 +87,21 @@ public class RobotContainer {
 	private final Trigger backButton = new JoystickButton(DRIVER, XboxController.Button.kBack.value);
 
 	// Dpad buttons
-	private final Trigger DRIVER_up = new POVButton(DRIVER, 0);
-	private final Trigger down = new POVButton(DRIVER, 180);
+	private final Trigger Driver_up = new POVButton(DRIVER, 0);
+	private final Trigger Driver_down = new POVButton(DRIVER, 180);
 	private final Trigger Driver_right = new POVButton(DRIVER, 90);
-	private final Trigger left = new POVButton(DRIVER, 270);
+	private final Trigger Driver_left = new POVButton(DRIVER, 270);
 
 	/* OPERATOR BUTTONS */
 	// Xbox values
-	private final int OPleftYAxis = XboxController.Axis.kLeftY.value;
-	private final int OPleftXAxis = XboxController.Axis.kLeftX.value;
-	private final int OPrightXAxis = XboxController.Axis.kRightX.value;
-	private final int OPrightYAxis = XboxController.Axis.kRightY.value;
+	private final int OP_leftYAxis = XboxController.Axis.kLeftY.value;
+	private final int OP_leftXAxis = XboxController.Axis.kLeftX.value;
+	private final int OP_rightXAxis = XboxController.Axis.kRightX.value;
+	private final int OP_rightYAxis = XboxController.Axis.kRightY.value;
 
 	// Xbox triggers
-	private final int OPleftTrigger = XboxController.Axis.kLeftTrigger.value;
-	private final int OPrightTrigger = XboxController.Axis.kRightTrigger.value;
+	private final int OP_leftTrigger = XboxController.Axis.kLeftTrigger.value;
+	private final int OP_rightTrigger = XboxController.Axis.kRightTrigger.value;
 	// Xbox buttons
 	private final Trigger OP_AButton = new JoystickButton(OPERATOR, XboxController.Button.kA.value);
 	private final Trigger OP_XButton = new JoystickButton(OPERATOR, XboxController.Button.kX.value);
@@ -109,8 +109,8 @@ public class RobotContainer {
 	private final Trigger OP_BButton = new JoystickButton(OPERATOR, XboxController.Button.kB.value);
 
 	// Xbox bumpers
-	private final Trigger OPrightBumper = new JoystickButton(OPERATOR, XboxController.Button.kRightBumper.value);
-	private final Trigger OPleftBumper = new JoystickButton(OPERATOR, XboxController.Button.kLeftBumper.value);
+	private final Trigger OP_rightBumper = new JoystickButton(OPERATOR, XboxController.Button.kRightBumper.value);
+	private final Trigger OP_leftBumper = new JoystickButton(OPERATOR, XboxController.Button.kLeftBumper.value);
 
 	// Extra Buttons
 	private final Trigger OP_startButton = new JoystickButton(OPERATOR, XboxController.Button.kStart.value);
@@ -118,9 +118,9 @@ public class RobotContainer {
 
 	// Dpad buttons
 	private final Trigger OP_up = new Trigger(() -> OPERATOR.getPOV() == 0);
-	private final Trigger OP_Down = new Trigger(() -> OPERATOR.getPOV() == 180);
+	private final Trigger OP_down = new Trigger(() -> OPERATOR.getPOV() == 180);
 	private final Trigger OP_right = new Trigger(() -> OPERATOR.getPOV() == 90);
-	private final Trigger OPLeft = new Trigger(() -> OPERATOR.getPOV() == 270);
+	private final Trigger OP_left = new Trigger(() -> OPERATOR.getPOV() == 270);
 	// END OF BUTTONS
 
 	/* Subsystems */
@@ -195,20 +195,20 @@ public class RobotContainer {
 
 		Driver_right.toggleOnTrue(new SourceIntake(pivot, shooter));
 
-		DRIVER_XButton.toggleOnTrue(
+		Driver_XButton.toggleOnTrue(
 				new IntakeToShooter(intake, pivot, shooter)
 						.handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot())
 						.andThen(
 								new PivotToShoot(
 										pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)));
 
-		DRIVER_BButton.toggleOnTrue(
+		Driver_BButton.toggleOnTrue(
 				new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
 						.andThen(
 								new ShootNote(shooter, pivot)
 										.handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter())));
 
-		DRIVER_YButton.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
+		Driver_YButton.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
 				.toggleOnFalse(shooter.stopNoteRejection().alongWith(intake.stopIntake()));
 
 		// ! TO BE REPLACED WITH SWERVE X-LOCK
@@ -220,31 +220,62 @@ public class RobotContainer {
 		/*
 		 * OPERATOR CONTROLS
 		 */
-
+		//^Climber but going to be change for manual
 		OP_up.onTrue(new InstantCommand(() -> pivot.pivot(-.25)))
 				.onFalse(
 						new InstantCommand(() -> pivot.pivot(0))
 								.andThen(() -> pivot.setOpOverridePower(false)));
-		OP_Down.onTrue(new InstantCommand(() -> pivot.pivot(.25)))
+		//!!! Climber down but need to be made
+		OP_down.onTrue(new InstantCommand(() -> pivot.pivot(.25)))
 				.onFalse(new InstantCommand(() -> pivot.pivot(0)));
 
-		OP_startButton.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
+		//^Eject Note/horizontal shot
+		OP_right.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
 				.toggleOnFalse(shooter.stopNoteRejection().alongWith(intake.stopIntake()));
-		OP_backButton.toggleOnTrue(
+
+		//^Source Intake
+		OP_left.toggleOnTrue(
 				new SourceIntake(pivot, shooter)
 						.handleInterrupt(() -> CommandPreparer.prepareToStopShooterAndPivot()));
 
-		OPleftBumper.onTrue(new ShootNote(shooter, pivot, ShooterConstants.currentShooterState));
+		//^Confirmed Shot
+		OP_leftBumper.onTrue(new ShootNote(shooter, pivot, ShooterConstants.currentShooterState));
+		
+		// ! !!! CAUTION CAN HURT SOMEONE
+		//^Pivot Home
+		OP_rightBumper.toggleOnTrue(new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome)));
+		// OP_XButton.toggleOnTrue(
+		// new PivotToShoot(pivot, PivotStates.kCenterLine,
+		// ShooterWheelStates.kShooterFullShot)
+		// .handleInterrupt(() -> new ShootNote(shooter, pivot))
+		// .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 
-		OP_right.toggleOnTrue(
+		//^Floor Intake 
+		OP_startButton.whileTrue(
 				new IntakeToShooter(intake, pivot, shooter)
 						.handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot()));
-
+		//^Floor Intake Reverse
+		OP_backButton.whileTrue(
+				new IntakeToShooter(intake, pivot, shooter)
+						.handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot()));
+						
+		//^Subwoofer 
 		OP_AButton.toggleOnTrue(
 				new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
 						.handleInterrupt(() -> new ShootNote(shooter, pivot))
 						.andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+	
+		//^Podium 
+		OP_BButton.toggleOnTrue(
+				new PivotToShoot(pivot, PivotStates.kPivotPodium, ShooterWheelStates.kShooterThreeQuarterShot)
+						.handleInterrupt(() -> new ShootNote(shooter, pivot))
+						.andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 
+		//^Center Line 
+		OP_XButton.toggleOnTrue(
+				new PivotToShoot(pivot, PivotStates.kCenterLine, ShooterWheelStates.kShooterFullShot)
+						.handleInterrupt(() -> new ShootNote(shooter, pivot))
+						.andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 		// ! Amp comand has to be made
 		// OPYButton.toggleOnTrue(
 		// new PivotToShoot(pivot, PivotStates.kPivotSubwoofer,
@@ -252,20 +283,6 @@ public class RobotContainer {
 		// .handleInterrupt(() -> new ShootNote(shooter, pivot))
 		// .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 
-		// ! !!! CAUTION CAN HURT SOMEONE
-		OP_XButton.toggleOnTrue(new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome)));
-		// OP_XButton.toggleOnTrue(
-		// new PivotToShoot(pivot, PivotStates.kCenterLine,
-		// ShooterWheelStates.kShooterFullShot)
-		// .handleInterrupt(() -> new ShootNote(shooter, pivot))
-		// .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
-
-		OP_BButton.toggleOnTrue(new InstantCommand(() -> Pivot.setPivotState(PivotStates.kEject)));
-		// OP_BButton.toggleOnTrue(
-		// new PivotToShoot(pivot, PivotStates.kPivotPodium,
-		// ShooterWheelStates.kShooterFullShot)
-		// .handleInterrupt(() -> new ShootNote(shooter, pivot))
-		// .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 	}
 
 	public Command getAutonomousCommand() {
