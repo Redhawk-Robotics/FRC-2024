@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import frc.constants.Ports;
 import frc.constants.Settings;
-import frc.robot.subsystems.climber.ClimberIO.ClimberInputs;
 import org.littletonrobotics.junction.Logger;
 
 public class ClimberIOSparkFLEX implements ClimberIO {
@@ -32,6 +31,12 @@ public class ClimberIOSparkFLEX implements ClimberIO {
 
     rightClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kForward, true);
     rightClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, true);
+
+    leftClimber.setSmartCurrentLimit(Settings.ClimberConstants.climberCurrent);
+    rightClimber.setSmartCurrentLimit(Settings.ClimberConstants.climberCurrent);
+
+    leftClimber.enableVoltageCompensation(Settings.ClimberConstants.maxVoltage);
+    rightClimber.enableVoltageCompensation(Settings.ClimberConstants.maxVoltage);
 
     // ^ RightClimber
     rightClimber.setSoftLimit(
@@ -77,7 +82,8 @@ public class ClimberIOSparkFLEX implements ClimberIO {
    * FIXME PLS
    */
   @Override
-  public void updateInputs(ClimberInputs inputs) {}
+  public void updateInputs(ClimberInputs inputs) {
+  }
 
   @Override
   public void climberApplySpeed(double speed) {

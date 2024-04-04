@@ -249,15 +249,19 @@ public class RobotContainer {
     // .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 
     // ! !!! CAUTION CAN HURT SOMEONE
-    OP_XButton.toggleOnTrue(
-        new PivotToShoot(pivot, PivotStates.kCenterLine, ShooterWheelStates.kShooterFullShot)
-            .handleInterrupt(() -> new ShootNote(shooter, pivot))
-            .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+    OP_XButton.toggleOnTrue(new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome)));
+    // OP_XButton.toggleOnTrue(
+    // new PivotToShoot(pivot, PivotStates.kCenterLine,
+    // ShooterWheelStates.kShooterFullShot)
+    // .handleInterrupt(() -> new ShootNote(shooter, pivot))
+    // .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 
-    OP_BButton.toggleOnTrue(
-        new PivotToShoot(pivot, PivotStates.kPivotPodium, ShooterWheelStates.kShooterFullShot)
-            .handleInterrupt(() -> new ShootNote(shooter, pivot))
-            .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+    OP_BButton.toggleOnTrue(new InstantCommand(() -> Pivot.setPivotState(PivotStates.kEject)));
+    // OP_BButton.toggleOnTrue(
+    // new PivotToShoot(pivot, PivotStates.kPivotPodium,
+    // ShooterWheelStates.kShooterFullShot)
+    // .handleInterrupt(() -> new ShootNote(shooter, pivot))
+    // .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
   }
 
   public Command getAutonomousCommand() {
