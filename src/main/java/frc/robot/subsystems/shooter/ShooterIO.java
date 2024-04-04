@@ -43,7 +43,7 @@ public interface ShooterIO {
 
   public default void updateInputs(ShooterInputs inputs) {}
 
-  public default void applyShooterSpeed(double power) {}
+  public default void applyShooterSpeed(double topShooterPower, double bottomShooterPower) {}
 
   public default void applySupportWheelSpeeds(double guardPower, double uptakePower) {}
 
