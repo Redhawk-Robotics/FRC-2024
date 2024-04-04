@@ -118,8 +118,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
   }
 
   @Override
-  public void applyShooterSpeed(double power) {
-    setMotorSpeeds(power);
+  public void applyShooterSpeed(double topShooterPower, double bottomShooterPower) {
+    setMotorSpeeds(topShooterPower, bottomShooterPower);
   }
 
   /*
@@ -127,8 +127,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
    * Class methods
    *
    */
-  public void setMotorSpeeds(double speed) {
-    topShooter.set(speed);
-    bottomShooter.set(-speed);
+  public void setMotorSpeeds(double topShooterPower, double bottomShooterPower) {
+    topShooter.set(topShooterPower);
+    bottomShooter.set(-bottomShooterPower);
   }
 }

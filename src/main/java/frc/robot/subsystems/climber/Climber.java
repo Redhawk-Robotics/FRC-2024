@@ -28,9 +28,10 @@ public class Climber extends SubsystemBase {
     climberIO.updateInputs(climberInputs);
     Logger.processInputs("Climber", climberInputs);
 
-    if (runPower.get()) {
-      climberIO.climberApplySpeed(power.get());
-    }
+    // if (runPower.get()) {
+    //   climberIO.climberApplySpeed(power.get());
+    // }
+
   }
 
   @AutoLogOutput(key = "States/ClimberState")
@@ -44,6 +45,10 @@ public class Climber extends SubsystemBase {
 
   public static void setClimberPower(ClimberPower desiredState) {
     Settings.ClimberConstants.climberPower = desiredState;
+  }
+
+  public void climberApplySpeed(double leftPower, double rightPower) {
+    climberIO.climberApplySpeed(leftPower, rightPower);
   }
 
   /*

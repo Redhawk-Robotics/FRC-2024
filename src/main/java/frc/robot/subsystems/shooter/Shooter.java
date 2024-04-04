@@ -38,16 +38,17 @@ public class Shooter extends SubsystemBase {
     Logger.processInputs("Shooter", shooterInputs);
 
     if (runPower.get()) {
-      shooterIO.applyShooterSpeed(power.get());
+      shooterIO.applyShooterSpeed(power.get(), power.get());
     }
 
-    shooterIO.applyShooterSpeed(getShooterWheelStates().power);
+    shooterIO.applyShooterSpeed(
+        getShooterWheelStates().topShooterPower, getShooterWheelStates().bottomShooterPower);
     shooterIO.applySupportWheelSpeeds(
         getShooterSupportWheelStates().guardPower, getShooterSupportWheelStates().uptakePower);
   }
 
-  public void applyShooterSpeed(double setPower) {
-    shooterIO.applyShooterSpeed(setPower);
+  public void applyShooterSpeed(double setPowerTop, double setPowerBottom) {
+    shooterIO.applyShooterSpeed(setPowerTop, setPowerBottom);
   }
 
   public void applySupportWheelSpeeds(double guardPower, double uptakePower) {

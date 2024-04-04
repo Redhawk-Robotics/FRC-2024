@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import frc.constants.Ports;
 import frc.constants.Settings;
-import org.littletonrobotics.junction.Logger;
 
 public class ClimberIOSparkFLEX implements ClimberIO {
   private final CANSparkFlex leftClimber, rightClimber;
@@ -26,11 +25,11 @@ public class ClimberIOSparkFLEX implements ClimberIO {
     rightClimber.setInverted(Settings.ClimberConstants.rightClimberInvert);
     rightClimber.setIdleMode(Settings.ClimberConstants.climberNeutralMode);
 
-    leftClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kForward, true);
-    leftClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, true);
+    leftClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kForward, false);
+    leftClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, false);
 
-    rightClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kForward, true);
-    rightClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, true);
+    rightClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kForward, false);
+    rightClimber.enableSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, false);
 
     leftClimber.setSmartCurrentLimit(Settings.ClimberConstants.climberCurrent);
     rightClimber.setSmartCurrentLimit(Settings.ClimberConstants.climberCurrent);
@@ -39,16 +38,16 @@ public class ClimberIOSparkFLEX implements ClimberIO {
     rightClimber.enableVoltageCompensation(Settings.ClimberConstants.maxVoltage);
 
     // ^ RightClimber
-    rightClimber.setSoftLimit(
-        CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // TODO check the value for both
+    // rightClimber.setSoftLimit(
+    //     CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // TODO check the value for both
 
-    rightClimber.setSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, (float) 0);
+    // rightClimber.setSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, (float) 0);
 
     // ~ LeftClimber
-    leftClimber.setSoftLimit(
-        CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // TODO check the value for both
+    // leftClimber.setSoftLimit(
+    //     CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // TODO check the value for both
 
-    leftClimber.setSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, (float) 0);
+    // leftClimber.setSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, (float) 0);
 
     rightClimber.burnFlash();
     leftClimber.burnFlash();
@@ -57,22 +56,22 @@ public class ClimberIOSparkFLEX implements ClimberIO {
     leftClimberEncoder = leftClimber.getEncoder();
 
     // ^ RightClimber
-    Logger.recordOutput(
-        "SoftLimits/rightClimber/Forward Soft Limit",
-        rightClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kForward));
+    // Logger.recordOutput(
+    //     "SoftLimits/rightClimber/Forward Soft Limit",
+    //     rightClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kForward));
 
-    Logger.recordOutput(
-        "SoftLimits/rightClimber/Reverse Soft Limit",
-        rightClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kReverse));
+    // Logger.recordOutput(
+    //     "SoftLimits/rightClimber/Reverse Soft Limit",
+    //     rightClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kReverse));
 
-    // ~ LeftClimber
-    Logger.recordOutput(
-        "SoftLimits/leftClimber/Forward Soft Limit",
-        leftClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kForward));
+    // // ~ LeftClimber
+    // Logger.recordOutput(
+    //     "SoftLimits/leftClimber/Forward Soft Limit",
+    //     leftClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kForward));
 
-    Logger.recordOutput(
-        "SoftLimits/leftClimber/Reverse Soft Limit",
-        leftClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kReverse));
+    // Logger.recordOutput(
+    //     "SoftLimits/leftClimber/Reverse Soft Limit",
+    //     leftClimber.isSoftLimitEnabled(CANSparkFlex.SoftLimitDirection.kReverse));
   }
 
   /*
@@ -83,11 +82,27 @@ public class ClimberIOSparkFLEX implements ClimberIO {
    */
   @Override
   public void updateInputs(ClimberInputs inputs) {
+    inputs.leftClimberVoltage = leftClimber.getAppliedOutput();
+    inputs.leftClimberVelocity = leftClimber.getEncoder().getVelocity();
+    inputs.leftClimberTemp = leftClimber.getMotorTemperature();
+    inputs.leftClimberCurrentSetSpeed = leftClimber.get();
+    inputs.leftClimberBusVoltage = leftClimber.getBusVoltage();
+    inputs.leftClimberOutputCurrent = leftClimber.getOutputCurrent();
+    inputs.leftClimberVoltageCompensation = leftClimber.getVoltageCompensationNominalVoltage();
+
+    inputs.rightClimberVoltage = rightClimber.getAppliedOutput();
+    inputs.rightClimberVelocity = rightClimber.getEncoder().getVelocity();
+    inputs.rightClimberTemp = rightClimber.getMotorTemperature();
+    inputs.rightClimberCurrentSetSpeed = rightClimber.get();
+    inputs.rightClimberBusVoltage = rightClimber.getBusVoltage();
+    inputs.rightClimberOutputCurrent = rightClimber.getOutputCurrent();
+    inputs.rightClimberVoltageCompensation = rightClimber.getVoltageCompensationNominalVoltage();
   }
 
   @Override
-  public void climberApplySpeed(double speed) {
-    setMotorSpeeds(speed);
+  public void climberApplySpeed(double leftPower, double rightPower) {
+    leftClimber.set(leftPower);
+    rightClimber.set(rightPower);
   }
 
   @Override
