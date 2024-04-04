@@ -5,7 +5,7 @@ public enum PivotStates {
   kPivotSubwoofer(.123),
   kPivotNoteMid(.084),
   kCenterLine(.015),
-  kEject(0),
+  kEject(.125),
   kPivotAmp(0),
   kPivotPodium(.120),
   kPivotSource(.1),
