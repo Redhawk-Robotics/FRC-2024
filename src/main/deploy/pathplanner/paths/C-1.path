@@ -3,15 +3,15 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3956310852642924,
+        "x": 1.35,
         "y": 5.530093014960553
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4663417633829472,
+        "x": 1.420710678118655,
         "y": 5.600803693079207
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "SW-Center"
     },
     {
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 2.597315591769332,
+        "x": 2.65,
         "y": 6.904672880399351
       },
       "prevControl": {
-        "x": 2.2448592160157927,
-        "y": 6.722570419593357
+        "x": 2.472314818628514,
+        "y": 6.812868870024084
       },
       "nextControl": null,
       "isLocked": true,
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.8,
+      "waypointRelativePos": 0.7,
       "rotationDegrees": -157.0,
       "rotateFast": false
     }

@@ -4,7 +4,9 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.constants.Settings.SwerveConfig;
 import java.util.function.DoubleSupplier;
 
 public class Climber extends Command {
@@ -33,7 +35,11 @@ public class Climber extends Command {
   @Override
   public void execute() {
     System.out.println("are we working?");
-    climber.climberApplySpeed(leftPower.getAsDouble() * 1, rightPower.getAsDouble() * 1);
+    double leftYaxis = MathUtil.applyDeadband(leftPower.getAsDouble(), SwerveConfig.stickDeadband);
+    double rightYaxis =
+        MathUtil.applyDeadband(rightPower.getAsDouble(), SwerveConfig.stickDeadband);
+
+    climber.climberApplySpeed(leftYaxis, rightYaxis);
   }
 
   // Called once the command ends or is interrupted.

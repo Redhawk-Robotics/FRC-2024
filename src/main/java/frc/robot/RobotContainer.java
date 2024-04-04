@@ -28,6 +28,7 @@ import frc.robot.subsystems.climber.ClimberIOSparkFLEX;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSparkMAX;
+import frc.robot.subsystems.intake.IntakeState;
 import frc.robot.subsystems.pivot.Pivot;
 import frc.robot.subsystems.pivot.PivotIO;
 import frc.robot.subsystems.pivot.PivotIOSparkMAX;
@@ -211,22 +212,23 @@ public class RobotContainer {
 
     Driver_right.toggleOnTrue(new SourceIntake(pivot, shooter));
 
-    // Driver_XButton.toggleOnTrue(
-    //     new IntakeToShooter(intake, pivot, shooter)
-    //         .handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot())
-    //         .andThen(
-    //             new PivotToShoot(
-    //                 pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)));
-
-    // Driver_BButton.toggleOnTrue(
-    //     new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
-    //         .andThen(
-    //             new ShootNote(shooter, pivot)
-    //                 .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter())));
-
     Driver_XButton.toggleOnTrue(
-        new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome)));
-    Driver_BButton.toggleOnTrue(new InstantCommand(() -> Pivot.setPivotState(PivotStates.kEject)));
+        new IntakeToShooter(intake, pivot, shooter)
+            .handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot())
+            .andThen(
+                new PivotToShoot(
+                    pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)));
+
+    Driver_BButton.toggleOnTrue(
+        new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
+            .andThen(
+                new ShootNote(shooter, pivot)
+                    .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter())));
+
+    // Driver_XButton.toggleOnTrue(
+    //     new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome)));
+    // Driver_BButton.toggleOnTrue(new InstantCommand(() ->
+    // Pivot.setPivotState(PivotStates.kEject)));
 
     Driver_YButton.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
         .toggleOnFalse(shooter.stopNoteRejection().alongWith(intake.stopIntake()));
@@ -250,11 +252,11 @@ public class RobotContainer {
     // .onFalse(new InstantCommand(() -> pivot.pivot(0)));
 
     // ^Eject Note/horizontal shot
-    OP_right.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
+    OP_up.toggleOnTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
         .toggleOnFalse(shooter.stopNoteRejection().alongWith(intake.stopIntake()));
 
     // ^Source Intake
-    OP_left.toggleOnTrue(
+    OP_down.toggleOnTrue(
         new SourceIntake(pivot, shooter)
             .handleInterrupt(() -> CommandPreparer.prepareToStopShooterAndPivot()));
 
@@ -272,41 +274,38 @@ public class RobotContainer {
     // .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
 
     // ^Floor Intake
-    OP_startButton.whileTrue(
+    OP_left.whileTrue(
         new IntakeToShooter(intake, pivot, shooter)
             .handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot()));
     // ^Floor Intake Reverse
-    OP_backButton.whileTrue(
-        new IntakeToShooter(intake, pivot, shooter)
+    OP_right.whileTrue(
+        new InstantCommand(() -> Intake.setIntakeState(IntakeState.kIntakeReverse))
             .handleInterrupt(() -> CommandPreparer.prepareToStopIntakeToPivot()));
 
     // ^Subwoofer
     OP_AButton.toggleOnTrue(
         new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
-            .handleInterrupt(() -> new ShootNote(shooter, pivot))
-            .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
 
     // ^Podium
     OP_BButton.toggleOnTrue(
         new PivotToShoot(
                 pivot, PivotStates.kPivotPodium, ShooterWheelStates.kShooterThreeQuarterShot)
-            .handleInterrupt(() -> new ShootNote(shooter, pivot))
-            .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
 
     // ^Center Line
     OP_XButton.toggleOnTrue(
         new PivotToShoot(pivot, PivotStates.kCenterLine, ShooterWheelStates.kShooterFullShot)
-            .handleInterrupt(() -> new ShootNote(shooter, pivot))
-            .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
+
     // ! Amp comand has to be made
     OPYButton.toggleOnTrue(
         new PivotToShoot(pivot, PivotStates.kPivotAmp, ShooterWheelStates.kAmpShot)
-            .handleInterrupt(() -> new ShootNote(shooter, pivot))
-            .andThen(() -> CommandPreparer.prepareToStopAllShooter()));
+            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto(m_autonChooser.getSelected());
+    return new PathPlannerAuto("3P");
     // var path = swerve.followPathCommand("T1");
     // return new FunctionalCommand(
     // path::initialize,

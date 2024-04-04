@@ -206,8 +206,8 @@ public interface Settings {
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig =
         new HolonomicPathFollowerConfig(
-            new PIDConstants(1.9, 0, 0), // Translation PID constants, around 2.25
-            new PIDConstants(2, 0, 0), // Rotation PID constants
+            new PIDConstants(3, 0, 0), // Translation PID constants, around 2.25
+            new PIDConstants(0, 0, 0), // Rotation PID constants
             SwerveConfig.maxSpeed, // Max module speed, in m/s
             kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
             // module.

@@ -54,7 +54,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Middle auto 3",
+  "folder": null,
   "previewStartingState": {
     "rotation": -176.56636963754963,
     "velocity": 0
