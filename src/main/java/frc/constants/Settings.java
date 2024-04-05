@@ -36,11 +36,15 @@ import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
 
 /**
- * The Settings class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Settings class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 
@@ -72,37 +76,32 @@ public interface Settings {
 
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-    public static final COTSFalconSwerveConstants chosenModule =
-        COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
+    public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants
+        .SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
 
     /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(24);
     public static final double wheelBase = Units.inchesToMeters(24);
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
-    public static final Translation2d m_frontLeftTranslation =
-        new Translation2d(wheelBase / 2, trackWidth / 2);
-    public static final Translation2d m_frontRightTranslation =
-        new Translation2d(wheelBase / 2, -trackWidth / 2);
-    public static final Translation2d m_backLeftTranslation =
-        new Translation2d(-wheelBase / 2, trackWidth / 2);
-    public static final Translation2d m_backRightTranslation =
-        new Translation2d(-wheelBase / 2, -trackWidth / 2);
+    public static final Translation2d m_frontLeftTranslation = new Translation2d(wheelBase / 2, trackWidth / 2);
+    public static final Translation2d m_frontRightTranslation = new Translation2d(wheelBase / 2, -trackWidth / 2);
+    public static final Translation2d m_backLeftTranslation = new Translation2d(-wheelBase / 2, trackWidth / 2);
+    public static final Translation2d m_backRightTranslation = new Translation2d(-wheelBase / 2, -trackWidth / 2);
 
     public static final Translation2d[] m_swerveTranslation2d = {
-      m_frontLeftTranslation, m_frontRightTranslation, m_backLeftTranslation, m_backRightTranslation
+        m_frontLeftTranslation, m_frontRightTranslation, m_backLeftTranslation, m_backRightTranslation
     };
 
     /*
      * Swerve Kinematics No need to ever change this unless you are not doing a
      * traditional rectangular/square 4 module swerve
      */
-    public static final SwerveDriveKinematics swerveKinematics =
-        new SwerveDriveKinematics(
-            m_frontLeftTranslation,
-            m_frontRightTranslation,
-            m_backLeftTranslation,
-            m_backRightTranslation);
+    public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+        m_frontLeftTranslation,
+        m_frontRightTranslation,
+        m_backLeftTranslation,
+        m_backRightTranslation);
 
     /* Module Gear Ratios */
     public static final double driveGearRatio = chosenModule.driveGearRatio;
@@ -200,18 +199,24 @@ public interface Settings {
     public static final double kPThetaController = 0;
 
     // Constraint for the motion profiled robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
-    public static final HolonomicPathFollowerConfig kPathFollowerConfig =
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(3, 0, 0), // Translation PID constants, around 2.25
-            new PIDConstants(0, 0, 0), // Rotation PID constants
-            SwerveConfig.maxSpeed, // Max module speed, in m/s
-            kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
-            // module.
-            new ReplanningConfig(false, false));
+    public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(3, 0, 0), // Translation PID constants, around 2.25
+        new PIDConstants(0, 0, 0), // Rotation PID constants
+        SwerveConfig.maxSpeed, // Max module speed, in m/s
+        kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
+        // module.
+        new ReplanningConfig(false, false));
+  }
+
+  public static final class AutoPaths {
+    public static final String k3P = "";
+    public static final String b = "";
+    public static final String c = "";
+    public static final String d = "";
+
   }
 
   public static final class FieldConstants {
@@ -248,8 +253,7 @@ public interface Settings {
     public static final double shooterKFF = 0.0; // FIXME
 
     public static ShooterWheelStates currentShooterState = ShooterWheelStates.kShooterStop;
-    public static ShooterSupportWheelStates currentSupportWheelStates =
-        ShooterSupportWheelStates.kSWStop;
+    public static ShooterSupportWheelStates currentSupportWheelStates = ShooterSupportWheelStates.kSWStop;
   }
 
   public static final class IntakeConstants {
@@ -277,12 +281,11 @@ public interface Settings {
     public static boolean pivotInvert = false;
 
     public static int pivotCurrent = 40;
-    public static int armContinousCurrentLimit = 40;
 
     public static int maxVoltage = 12;
 
-    public static int forwardSoftLimit = 0;
-    public static int reverseSoftLimit = 0;
+    public static double forwardSoftLimit = .150;
+    public static double reverseSoftLimit = 0;
 
     public static final IdleMode pivotNeutralMode = IdleMode.kBrake;
 
