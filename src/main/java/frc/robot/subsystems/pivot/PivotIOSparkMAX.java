@@ -8,6 +8,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 import frc.constants.Ports;
 import frc.constants.Settings;
+import frc.constants.Settings.PivotConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class PivotIOSparkMAX implements PivotIO {
@@ -50,13 +51,15 @@ public class PivotIOSparkMAX implements PivotIO {
     rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
     rightPivot.setSoftLimit(
-        CANSparkMax.SoftLimitDirection.kForward, (float) .130); // TODO check the value for both
+        CANSparkMax.SoftLimitDirection.kForward,
+        (float) PivotConstants.forwardSoftLimit); // TODO check the value for
+    // both
 
     // // TODO
     rightPivot.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 0); // .006
 
-    // leftPivot.setSmartCurrentLimit(Settings.pi.armContinousCurrentLimit)
-    // rightPivot.setSmartCurrentLimit(Settings.armSetting.armContinousCurrentLimit);
+    leftPivot.setSmartCurrentLimit(Settings.PivotConstants.pivotCurrent);
+    rightPivot.setSmartCurrentLimit(Settings.PivotConstants.pivotCurrent);
 
     rightPivot.burnFlash();
     leftPivot.burnFlash();
@@ -114,7 +117,7 @@ public class PivotIOSparkMAX implements PivotIO {
 
   @Override
   public boolean atReference() {
-    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .1) {
+    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .75) { // TODO CHECK NEW
       return true;
     }
     return false;
