@@ -20,4 +20,6 @@ public interface GyroIO {
   public default void setYaw(double deg) {}
 
   public Rotation2d getRotation2d();
+
+  public void offsetGyroPosition(double offset);
 }

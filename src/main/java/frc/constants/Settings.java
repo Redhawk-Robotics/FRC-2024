@@ -128,8 +128,8 @@ public interface Settings {
     public static final double anglePeakCurrentDuration = 0.1;
     public static final boolean angleEnableCurrentLimit = true;
 
-    public static final int driveContinuousCurrentLimit = 40;
-    public static final int drivePeakCurrentLimit = 40;
+    public static final int driveContinuousCurrentLimit = 60;
+    public static final int drivePeakCurrentLimit = 60;
     public static final double drivePeakCurrentDuration = 0.1;
     public static final boolean driveEnableCurrentLimit = true;
 
@@ -203,8 +203,8 @@ public interface Settings {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(3, 0, 0), // Translation PID constants, around 2.25
-        new PIDConstants(0, 0, 0), // Rotation PID constants
+        new PIDConstants(2.5, 0, 0), // Translation PID constants, around 2.25
+        new PIDConstants(2, 0, 0), // Rotation PID constants
         SwerveConfig.maxSpeed, // Max module speed, in m/s
         kDriveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
         // module.
@@ -212,11 +212,13 @@ public interface Settings {
   }
 
   public static final class AutoPaths {
-    public static final String k3P = "";
-    public static final String b = "";
-    public static final String c = "";
-    public static final String d = "";
-
+    public static final String k3P_MID_SOURCESIDE = "3P-MID-SOURCESIDE";
+    public static final String k4P_AMPSIDE_SOURCESIDE = "4P-AMPSIDE-SOURCESIDE";
+    public static final String K3P_MID_AMPSIDE = "3P-MID-AMPSIDE";
+    public static final String kONE = "ONE";
+    public static final String k3P_AMPSIDE = "3P-AMPSIDE";
+    public static final String k3P_SOURCESIDE = "3P-SOURCESIDE";
+    public static final String k3P_AMP_PICKER = "Amp Picker";
   }
 
   public static final class FieldConstants {
@@ -257,7 +259,7 @@ public interface Settings {
   }
 
   public static final class IntakeConstants {
-    public static boolean leftIntakeInvert = false;
+    public static boolean leftIntakeInvert = true;
     public static boolean rightIntakeInvert = true;
 
     public static int intakeCurrentLimit = 40;
@@ -284,12 +286,12 @@ public interface Settings {
 
     public static int maxVoltage = 12;
 
-    public static double forwardSoftLimit = .150;
+    public static double forwardSoftLimit = .160;
     public static double reverseSoftLimit = 0;
 
     public static final IdleMode pivotNeutralMode = IdleMode.kBrake;
 
-    public static final double pivotKP = 3.0; // FIXME //try 1.0
+    public static final double pivotKP = 10.0; // FIXME //try 1.0
     public static final double pivotKI = 0.0; // FIXME
     public static final double pivotKD = 0.0; // FIXME //try 0.1
     public static final double pivotKFF = 0.0; // FIXME
@@ -308,7 +310,7 @@ public interface Settings {
   }
 
   public static final class ClimberConstants {
-    public static boolean leftClimberInvert = true;
+    public static boolean leftClimberInvert = false;
     public static boolean rightClimberInvert = false;
 
     public static boolean climberABSEncoderInvert = false;

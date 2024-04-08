@@ -107,6 +107,12 @@ public class Shooter extends SubsystemBase {
         this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterIdle)));
   }
 
+  public Command rejectNoteCenterLine() {
+    return new SequentialCommandGroup(
+        this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWFeedShooter)),
+        this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterIdle)));
+  }
+
   public Command stopNoteRejection() {
     return new SequentialCommandGroup(
         this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWStop)),

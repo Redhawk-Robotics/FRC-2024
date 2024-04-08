@@ -36,4 +36,9 @@ public class GyroIONavX implements GyroIO {
   public Rotation2d getRotation2d() {
     return m_gyro.getRotation2d();
   }
+
+  @Override
+  public void offsetGyroPosition(double offset) {
+    m_gyro.setAngleAdjustment(offset);
+  }
 }

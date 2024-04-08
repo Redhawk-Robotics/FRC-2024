@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3956310852642924,
-      "y": 5.530093014960553
+      "x": 1.3491521419562087,
+      "y": 1.5106979144058135
     },
     "rotation": 180.0
   },
@@ -12,20 +12,20 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "C-1"
+            "waitTime": 3.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "1-2"
+            "pathName": "Forward"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Zero Piece",
   "choreoAuto": false
 }

@@ -20,7 +20,7 @@ public class Pivot extends SubsystemBase {
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
   private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
   private LoggedDashboardBoolean goodRef = new LoggedDashboardBoolean("Good pivot ref?");
-  private boolean OpOverridePower = false;
+  private LoggedDashboardBoolean OPOverride = new LoggedDashboardBoolean("Override Pivot?");
 
   public Pivot(PivotIO pivotIO) {
     this.pivotIO = pivotIO;
@@ -40,8 +40,20 @@ public class Pivot extends SubsystemBase {
     }
 
     // if (!OpOverridePower) {
-    pivotIO.setReference(getPivotStates().encoderPose);
+    // if (pivotInputs.boreEncoderPose < .08 || pivotInputs.boreEncoderPose > .9) {
+    // pivotIO.pivotApplySpeed(.5);
+    // } else {
+    // pivotIO.pivotApplySpeed(0);
+    if (!OPOverride.get()) {
+      pivotIO.setReference(getPivotStates().encoderPose);
+    }
     // }
+    // }
+
+    // System.out.println("LEFT CLIMBER ENCODER POSE: " +
+    // pivotInputs.leftPivotEncoderPose);
+    // System.out.println("RIGHT CLIMBER ENCODER POSE: " +
+    // pivotInputs.rightPivotEncoderPose);
   }
 
   public void setReference(double targetPosition) {
@@ -50,7 +62,7 @@ public class Pivot extends SubsystemBase {
 
   @AutoLogOutput(key = "place")
   public boolean pivotAtReference() {
-    // return goodRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
+    // return goodvRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
     return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
   }
 
@@ -66,6 +78,11 @@ public class Pivot extends SubsystemBase {
   public static void setPivotPower(PivotPower desiredState) {
     Settings.PivotConstants.pivotPower = desiredState;
   }
+
+  public boolean areWeOverriding() {
+    return OPOverride.get();
+  }
+
   /*
    * Commands!
    */
@@ -83,12 +100,7 @@ public class Pivot extends SubsystemBase {
   }
 
   public void pivot(double power) {
-    setOpOverridePower(true);
-    if (power == 0) {
-      setReference(pivotInputs.boreEncoderPose);
-    } else {
-      pivotIO.pivotApplySpeed(power);
-    }
+    pivotIO.pivotApplySpeed(power);
   }
 
   public Command pivotDown() {
@@ -98,9 +110,5 @@ public class Pivot extends SubsystemBase {
   public Command pivotStop() {
     return this.runOnce(
         () -> setPivotPower(PivotPower.kStop)); // ~ FIXME IDk if this need to be runOnce or run
-  }
-
-  public void setOpOverridePower(boolean set) {
-    OpOverridePower = set;
   }
 }

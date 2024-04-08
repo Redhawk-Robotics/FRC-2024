@@ -1,0 +1,76 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.5202357965343594,
+        "y": 5.530093014960553
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9278791932850003,
+        "y": 5.417705331114476
+      },
+      "isLocked": false,
+      "linkedName": "Note2-Alliance"
+    },
+    {
+      "anchor": {
+        "x": 2.56,
+        "y": 6.86
+      },
+      "prevControl": {
+        "x": 1.7733319397604421,
+        "y": 6.556656548674602
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Note1-Alliance"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -157.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 90.0,
+    "maxAngularAcceleration": 90.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -157.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Pieces",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

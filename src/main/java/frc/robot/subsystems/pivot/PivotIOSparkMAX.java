@@ -117,7 +117,7 @@ public class PivotIOSparkMAX implements PivotIO {
 
   @Override
   public boolean atReference() {
-    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .75) { // TODO CHECK NEW
+    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .05) { // TODO CHECK NEW
       return true;
     }
     return false;

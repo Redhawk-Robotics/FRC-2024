@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.4,
         "y": 5.530093014960553
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.420710678118655,
+        "x": 1.4707106781186545,
         "y": 5.600803693079207
       },
       "isLocked": false,
@@ -20,38 +20,50 @@
         "y": 6.640330598584198
       },
       "prevControl": {
-        "x": 1.610066579225715,
-        "y": 6.36272817668537
+        "x": 1.8475037558071419,
+        "y": 6.4946377192306075
       },
       "nextControl": {
         "x": 2.374093220458757,
         "y": 6.787187421814839
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.65,
-        "y": 6.904672880399351
+        "x": 2.56,
+        "y": 6.86
       },
       "prevControl": {
-        "x": 2.472314818628514,
-        "y": 6.812868870024084
+        "x": 2.3823148186285112,
+        "y": 6.768195989624733
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "Note1-Alliance"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 0.75,
       "rotationDegrees": -157.0,
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Slow",
+      "minWaypointRelativePos": 1.4,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 90.0,
+        "maxAngularAcceleration": 90.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Intake",
@@ -74,8 +86,8 @@
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
-    "maxAngularVelocity": 360.0,
-    "maxAngularAcceleration": 360.0
+    "maxAngularVelocity": 90.0,
+    "maxAngularAcceleration": 90.0
   },
   "goalEndState": {
     "velocity": 0,
@@ -83,7 +95,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3-Piece Alliance",
+  "folder": "Pieces",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

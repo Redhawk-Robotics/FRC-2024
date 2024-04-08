@@ -34,4 +34,9 @@ public class GyroIOPigeon implements GyroIO {
   public Rotation2d getRotation2d() {
     return m_pigeon.getRotation2d();
   }
+
+  @Override
+  public void offsetGyroPosition(double offset) {
+    m_pigeon.setYaw(offset);
+  }
 }

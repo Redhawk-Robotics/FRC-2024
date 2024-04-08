@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.95817138804089,
+        "y": 0.9195438590655206
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.220388685656655,
+        "y": 1.5636398690835034
+      },
+      "isLocked": false,
+      "linkedName": "Cl-N5"
+    },
+    {
+      "anchor": {
+        "x": 6.045197596814594,
+        "y": 3.7591785311958636
+      },
+      "prevControl": {
+        "x": 6.806401972290393,
+        "y": 3.4312751079139816
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "CS"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 140.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Amp flick",
+  "previewStartingState": {
+    "rotation": 155.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -1,11 +1,23 @@
 {
-  "robotWidth": 0.61,
-  "robotLength": 0.61,
+  "robotWidth": 0.62,
+  "robotLength": 0.762,
   "holonomicMode": true,
   "pathFolders": [
-    "3-Piece Alliance"
+    "Pieces",
+    "Amp flick",
+    "Foward",
+    "Other"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Five Piece",
+    "Four Piece",
+    "Other",
+    "One Piece",
+    "Test",
+    "Three Piece",
+    "Two Piece",
+    "Zero Piece"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

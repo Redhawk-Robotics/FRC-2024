@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.util.commandPreparer.CommandPreparer;
 import frc.robot.subsystems.pivot.Pivot;
+import frc.robot.subsystems.pivot.PivotStates;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterSupportWheelStates;
 import frc.robot.subsystems.shooter.ShooterWheelStates;
@@ -21,10 +22,12 @@ public class ShootNote extends Command {
   private Shooter shooter;
   private Pivot pivot;
   private Timer timer;
+  private PivotStates changedPivotState;
 
   /** Creates a new ShootNote. */
   public ShootNote(Shooter shooter, Pivot pivot) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.changedPivotState = null;
     this.shooterWheelState = ShooterWheelStates.kShooterFullShot;
     this.timer = new Timer();
     this.shooter = shooter;
@@ -35,6 +38,20 @@ public class ShootNote extends Command {
 
   public ShootNote(Shooter shooter, Pivot pivot, ShooterWheelStates shooterWheelState) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.changedPivotState = null;
+    this.timer = new Timer();
+    this.shooter = shooter;
+    this.pivot = pivot;
+    count++;
+
+    this.shooterWheelState = shooterWheelState;
+    addRequirements(shooter, pivot);
+  }
+
+  public ShootNote(
+      Shooter shooter, Pivot pivot, PivotStates pivotState, ShooterWheelStates shooterWheelState) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.changedPivotState = pivotState;
     this.timer = new Timer();
     this.shooter = shooter;
     this.pivot = pivot;
@@ -53,6 +70,10 @@ public class ShootNote extends Command {
     Shooter.setShooterWheelState(shooterWheelState);
     timer.reset();
     Logger.recordOutput("Count/ShootNote", count);
+
+    if (changedPivotState != null) {
+      Pivot.setPivotState(changedPivotState);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

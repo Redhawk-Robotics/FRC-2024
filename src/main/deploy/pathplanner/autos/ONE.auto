@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3956310852642924,
-      "y": 5.530093014960553
+      "x": 0.8536446817621717,
+      "y": 6.555434553710396
     },
-    "rotation": 180.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -37,37 +37,19 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "C-2"
+            "waitTime": 9.0
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Pivot Note"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
+                  "pathName": "One"
                 }
               }
             ]
@@ -76,6 +58,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Three Piece",
   "choreoAuto": false
 }

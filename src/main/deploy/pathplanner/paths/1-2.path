@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.65,
-        "y": 6.904672880399351
+        "x": 2.56,
+        "y": 6.86
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.057643396750641,
-        "y": 6.792285196553275
+        "x": 1.9676433967506415,
+        "y": 6.747612316153924
       },
       "isLocked": false,
       "linkedName": "Note1-Alliance"
     },
     {
       "anchor": {
-        "x": 2.597315591769332,
-        "y": 5.551187918118233
+        "x": 2.5202357965343594,
+        "y": 5.530093014960553
       },
       "prevControl": {
-        "x": 1.571658036326057,
-        "y": 5.597779868883561
+        "x": 1.4945782410910846,
+        "y": 5.576684965725881
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note2-Alliance"
     }
   ],
   "rotationTargets": [
@@ -58,8 +58,8 @@
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
-    "maxAngularVelocity": 360.0,
-    "maxAngularAcceleration": 360.0
+    "maxAngularVelocity": 90.0,
+    "maxAngularAcceleration": 90.0
   },
   "goalEndState": {
     "velocity": 0,
@@ -67,7 +67,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3-Piece Alliance",
+  "folder": "Pieces",
   "previewStartingState": {
     "rotation": -157.0,
     "velocity": 0

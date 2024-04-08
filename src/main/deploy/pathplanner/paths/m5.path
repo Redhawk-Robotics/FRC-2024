@@ -12,7 +12,7 @@
         "y": 6.985103093013204
       },
       "isLocked": false,
-      "linkedName": "end mid2 # 4"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Other",
   "previewStartingState": {
     "rotation": -178.83086067209257,
     "velocity": 0

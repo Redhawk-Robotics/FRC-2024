@@ -1,0 +1,58 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.85,
+        "y": 4.48
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.85,
+        "y": 4.48
+      },
+      "isLocked": false,
+      "linkedName": "SW-Left"
+    },
+    {
+      "anchor": {
+        "x": 2.6,
+        "y": 4.22
+      },
+      "prevControl": {
+        "x": 1.325730468864645,
+        "y": 4.859997166499325
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "note3-Alliance"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 155.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 90.0,
+    "maxAngularAcceleration": 90.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 155.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Pieces",
+  "previewStartingState": {
+    "rotation": 125.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

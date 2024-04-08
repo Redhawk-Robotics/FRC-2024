@@ -7,6 +7,7 @@ public interface ClimberIO {
   @AutoLog
   public static class ClimberInputs {
     public double leftClimberVoltage = 0;
+    public double leftClimberEncoderPose = 0;
     public double leftClimberVelocity = 0;
     public double leftClimberTemp = 0;
     public double leftClimberCurrentSetSpeed = 0;
@@ -15,6 +16,7 @@ public interface ClimberIO {
     public double leftClimberVoltageCompensation = 0;
 
     public double rightClimberVoltage = 0;
+    public double rightClimberEncoderPose = 0;
     public double rightClimberVelocity = 0;
     public double rightClimberTemp = 0;
     public double rightClimberCurrentSetSpeed = 0;
