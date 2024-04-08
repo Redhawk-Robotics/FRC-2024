@@ -213,7 +213,7 @@ public interface Settings {
 
   public static final class AutoPaths {
     public static final String k3P_MID_SOURCESIDE = "3P-MID-SOURCESIDE";
-    public static final String k4P_AMPSIDE_SOURCESIDE = "4P-AMPSIDE-SOURCESIDE";
+    public static final String k4P_AMPSIDE_SOURCESIDE = "4P-AMPSIDE-SOURCESIDE"; // ! Not tested
     public static final String K3P_MID_AMPSIDE = "3P-MID-AMPSIDE";
     public static final String kONE = "ONE";
     public static final String k3P_AMPSIDE = "3P-AMPSIDE";
