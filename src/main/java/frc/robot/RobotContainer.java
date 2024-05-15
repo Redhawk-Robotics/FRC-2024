@@ -25,7 +25,6 @@ import frc.robot.commands.automation.SourceIntake;
 import frc.robot.commands.swerve.Drive;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
-import frc.robot.subsystems.climber.ClimberIOSparkFLEX;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSparkMAX;
@@ -177,8 +176,8 @@ public class RobotContainer {
         this.pivot = new Pivot(pivotIO);
         this.intakeIO = new IntakeIOSparkMAX();
         this.intake = new Intake(intakeIO);
-        this.climberIO = new ClimberIOSparkFLEX();
-        this.climber = new Climber(climberIO);
+        // this.climberIO = new ClimberIOSparkFLEX();
+        // this.climber = new Climber(climberIO);
     }
 
     NoteVisualizer.setRobotPoseSupplier(swerve::getPathPlannerPose);
@@ -197,11 +196,11 @@ public class RobotContainer {
             ));
 
     // shooter.setDefaultCommand(new ShooterWheels(shooter, swerve::getRobotPose));
-    climber.setDefaultCommand(
-        new frc.robot.commands.climber.Climber(
-            climber,
-            () -> OPERATOR.getRawAxis(translationAxisLeft), // raw joystick axis up == -1
-            () -> OPERATOR.getRawAxis(translationAxisRight)));
+    // climber.setDefaultCommand(
+    // new frc.robot.commands.climber.Climber(
+    // climber,
+    // () -> OPERATOR.getRawAxis(translationAxisLeft), // raw joystick axis up == -1
+    // () -> OPERATOR.getRawAxis(translationAxisRight)));
 
     // Configure the button bindings
     // CameraServer.startAutomaticCapture();
@@ -308,11 +307,11 @@ public class RobotContainer {
         new PivotToShoot(pivot, PivotStates.kPivotAmp, ShooterWheelStates.kShooterQuarterShot)
             .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
 
-    OP_startButton.toggleOnTrue(
-        new InstantCommand(() -> Pivot.setPivotState(PivotStates.kClimberUp)));
+    OP_startButton.whileTrue(new InstantCommand(() -> pivot.pivot(1)))
+        .toggleOnFalse(new InstantCommand(() -> pivot.setReference(pivot.getEncoderPose())));
 
-    OP_backButton.toggleOnTrue(
-        new InstantCommand(() -> Pivot.setPivotState(PivotStates.kClimberDown)));
+    OP_backButton.toggleOnTrue(new InstantCommand(() -> new InstantCommand(() -> pivot.pivot(-.5))))
+        .toggleOnFalse(new InstantCommand(() -> pivot.setReference(pivot.getEncoderPose())));
   }
 
   public Command getAutonomousCommand() {

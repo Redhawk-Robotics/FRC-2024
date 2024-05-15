@@ -63,14 +63,6 @@ public class PivotIOSparkMAX implements PivotIO {
 
     rightPivot.burnFlash();
     leftPivot.burnFlash();
-
-    Logger.recordOutput(
-        "SoftLimits/Pivot/Forward Soft Limit",
-        rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kForward));
-
-    Logger.recordOutput(
-        "SoftLimits/Pivot/Reverse Soft Limit",
-        rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kReverse));
   }
 
   /*
@@ -80,6 +72,13 @@ public class PivotIOSparkMAX implements PivotIO {
    */
   @Override
   public void updateInputs(PivotInputs inputs) {
+    Logger.recordOutput(
+        "SoftLimits/Pivot/Forward Soft Limit",
+        rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kForward));
+
+    Logger.recordOutput(
+        "SoftLimits/Pivot/Reverse Soft Limit",
+        rightPivot.isSoftLimitEnabled(CANSparkMax.SoftLimitDirection.kReverse));
     inputs.leftPivotVoltage = leftPivot.getAppliedOutput();
     inputs.leftPivotEncoderPose = leftPivot.getEncoder().getPosition();
     inputs.leftPivotVelocity = leftPivot.getEncoder().getVelocity();
@@ -107,6 +106,12 @@ public class PivotIOSparkMAX implements PivotIO {
   @Override
   public void pivotApplySpeed(double speed) {
     setMotorSpeeds(speed);
+  }
+
+  @Override
+  public void enableLimits(boolean enable) {
+    rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, enable);
+    rightPivot.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, enable);
   }
 
   @Override

@@ -37,4 +37,6 @@ public interface PivotIO {
   public boolean atReference();
 
   public default void pivotApplySpeed(double power) {}
+
+  public default void enableLimits(boolean enable) {}
 }

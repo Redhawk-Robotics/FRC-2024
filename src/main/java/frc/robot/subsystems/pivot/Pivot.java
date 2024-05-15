@@ -19,6 +19,7 @@ public class Pivot extends SubsystemBase {
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
   private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
+  private LoggedDashboardNumber runPowerSpeed = new LoggedDashboardNumber("POINT OF PIVOT");
   private LoggedDashboardBoolean goodRef = new LoggedDashboardBoolean("Good pivot ref?");
   private LoggedDashboardBoolean OPOverride = new LoggedDashboardBoolean("Override Pivot?");
 
@@ -36,7 +37,9 @@ public class Pivot extends SubsystemBase {
     Logger.processInputs("Pivot", pivotInputs);
 
     if (runPower.get()) {
-      pivotIO.pivotApplySpeed(power.get());
+      // pivotIO.pivotApplySpeed(power.get());
+      pivotIO.enableLimits(false);
+      pivotIO.setReference(runPowerSpeed.get());
     }
 
     // if (!OpOverridePower) {
@@ -45,6 +48,7 @@ public class Pivot extends SubsystemBase {
     // } else {
     // pivotIO.pivotApplySpeed(0);
     if (!OPOverride.get()) {
+      pivotIO.enableLimits(true);
       pivotIO.setReference(getPivotStates().encoderPose);
     }
     // }
@@ -62,7 +66,7 @@ public class Pivot extends SubsystemBase {
 
   @AutoLogOutput(key = "place")
   public boolean pivotAtReference() {
-    // return goodvRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
+    // return goodRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
     return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
   }
 
@@ -81,6 +85,10 @@ public class Pivot extends SubsystemBase {
 
   public boolean areWeOverriding() {
     return OPOverride.get();
+  }
+
+  public double getEncoderPose() {
+    return pivotInputs.rightPivotEncoderPose;
   }
 
   /*
