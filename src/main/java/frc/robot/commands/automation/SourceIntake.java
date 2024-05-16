@@ -41,6 +41,11 @@ public class SourceIntake extends Command {
   @Override
   public void execute() {
     Logger.recordOutput("firsttime", firstSawNote);
+
+    // &if a note is detected and timer has not started
+    // & firstSawNote timer is started
+    // & records time since first note is seen?
+
     if (shooter.isSensorsBeamBroken() && firstSawNote == -1) {
       System.out.println("[Command Debug] SourceIntake will START source intaking timer!");
       firstSawNote = timer.get();
@@ -57,6 +62,7 @@ public class SourceIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // ! SOURCE INTAKE MUST RUN FOR AT LEAST .1 SECONDS..
     if (firstSawNote != -1 && timer.get() - firstSawNote > .1) {
       System.out.println("[Command Debug] SourceIntake STOPPED!");
       CommandPreparer.prepareToStopSourceIntake();

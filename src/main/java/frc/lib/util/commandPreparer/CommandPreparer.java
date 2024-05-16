@@ -49,7 +49,10 @@ public class CommandPreparer {
 
   // ~ SourceIntake preparer
   public static void prepareToSourceIntake() {
+    // &pivot states are angles
     Pivot.setPivotState(PivotStates.kPivotSource);
+
+    // & shooter states are speeds
     Shooter.setShooterWheelState(ShooterWheelStates.kShooterSourceIntake);
     Shooter.setSupportWheelStates(ShooterSupportWheelStates.kSWIntake);
   }

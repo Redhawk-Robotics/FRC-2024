@@ -17,6 +17,9 @@ public class Pivot extends SubsystemBase {
   private final PivotInputsAutoLogged pivotInputs;
   private final PivotIO pivotIO;
 
+  /* *
+   * power used to in enum to change modes
+   */
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
   private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
   private LoggedDashboardBoolean goodRef = new LoggedDashboardBoolean("Good pivot ref?");

@@ -29,22 +29,21 @@ public class Climber extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double leftYaxis = MathUtil.applyDeadband(leftPower.getAsDouble(), SwerveConfig.stickDeadband);
-    double rightYaxis = MathUtil.applyDeadband(rightPower.getAsDouble(), SwerveConfig.stickDeadband);
+    double rightYaxis =
+        MathUtil.applyDeadband(rightPower.getAsDouble(), SwerveConfig.stickDeadband);
 
     climber.climberApplySpeed(leftYaxis, rightYaxis);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
