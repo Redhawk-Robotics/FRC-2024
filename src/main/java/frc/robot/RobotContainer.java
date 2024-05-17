@@ -69,9 +69,9 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
   private final int translationAxisRight = XboxController.Axis.kRightY.value;
 
-  /* 
-  *Controllable Wheel Velocity Variables 
-  */
+  /*
+   *Controllable Wheel Velocity Variables
+   */
   private double sliderFrontWheelVelocity, sliderBackWheelVelocity = 0.0;
 
   /* DRIVER BUTTONS */
@@ -188,10 +188,8 @@ public class RobotContainer {
     NoteVisualizer.setRobotPoseSupplier(swerve::getPathPlannerPose);
     setupNamedCommands();
 
-
     shooter.setDefaultCommand(
-        new shuffleBoardShooter(shooter, sliderFrontWheelVelocity, sliderBackWheelVelocity)
-    );
+        new shuffleBoardShooter(shooter, sliderFrontWheelVelocity, sliderBackWheelVelocity));
 
     swerve.setDefaultCommand(
         new Drive(
@@ -372,7 +370,5 @@ public class RobotContainer {
     SmartDashboard.putData(m_autonChooser);
   }
 
-  public void configureWidgets() {
-
-  }
+  public void configureWidgets() {}
 }
