@@ -18,7 +18,7 @@ public class Shooter extends SubsystemBase {
   private final ShooterInputsAutoLogged shooterInputs;
 
   private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
-  private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
+  private LoggedDashboardBoolean galaMode = new LoggedDashboardBoolean("Enable gala mode shooter?");
   private LoggedDashboardBoolean overrideAutoWheels =
       new LoggedDashboardBoolean("Override auto wheels?");
   private LoggedDashboardBoolean irSim = new LoggedDashboardBoolean("Enable ir shooter?");
@@ -37,14 +37,12 @@ public class Shooter extends SubsystemBase {
     shooterIO.updateInputs(shooterInputs);
     Logger.processInputs("Shooter", shooterInputs);
 
-    if (runPower.get()) {
-      shooterIO.applyShooterSpeed(power.get(), power.get());
+    if (!galaMode.get()) {
+      shooterIO.applyShooterSpeed(
+          getShooterWheelStates().topShooterPower, getShooterWheelStates().bottomShooterPower);
+      shooterIO.applySupportWheelSpeeds(
+          getShooterSupportWheelStates().guardPower, getShooterSupportWheelStates().uptakePower);
     }
-
-    shooterIO.applyShooterSpeed(
-        getShooterWheelStates().topShooterPower, getShooterWheelStates().bottomShooterPower);
-    shooterIO.applySupportWheelSpeeds(
-        getShooterSupportWheelStates().guardPower, getShooterSupportWheelStates().uptakePower);
   }
 
   public void applyShooterSpeed(double setPowerTop, double setPowerBottom) {
@@ -117,5 +115,18 @@ public class Shooter extends SubsystemBase {
     return new SequentialCommandGroup(
         this.runOnce(() -> setSupportWheelStates(ShooterSupportWheelStates.kSWStop)),
         this.runOnce(() -> setShooterWheelState(ShooterWheelStates.kShooterStop)));
+  }
+
+  public void setPower(double power, boolean shoot) {
+    if (Math.abs(power) < .1) {
+      shooterIO.applyShooterSpeed(0, 0);
+    }
+    shooterIO.applyShooterSpeed(power, power);
+
+    if (shoot) {
+      shooterIO.applySupportWheelSpeeds(1, 1);
+    } else {
+      shooterIO.applySupportWheelSpeeds(0, 0);
+    }
   }
 }

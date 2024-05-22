@@ -16,12 +16,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.constants.Ports;
 import frc.constants.Ports.REV;
 import frc.constants.Settings;
-import frc.constants.Settings.ShooterConstants;
 import frc.lib.util.commandPreparer.CommandPreparer;
 import frc.robot.commands.automation.IntakeToShooter;
 import frc.robot.commands.automation.PivotToShoot;
 import frc.robot.commands.automation.ShootNote;
 import frc.robot.commands.automation.SourceIntake;
+import frc.robot.commands.galaPivot;
+import frc.robot.commands.galaShooter;
 import frc.robot.commands.swerve.Drive;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
@@ -195,6 +196,13 @@ public class RobotContainer {
             // multiplier
             ));
 
+    shooter.setDefaultCommand(
+        new galaShooter(
+            shooter,
+            () -> -OPERATOR.getRawAxis(OP_leftYAxis),
+            () -> OP_rightBumper.getAsBoolean()));
+    pivot.setDefaultCommand(new galaPivot(pivot, () -> OPERATOR.getRawAxis(OP_rightYAxis)));
+
     // shooter.setDefaultCommand(new ShooterWheels(shooter, swerve::getRobotPose));
     // climber.setDefaultCommand(
     // new frc.robot.commands.climber.Climber(
@@ -270,7 +278,8 @@ public class RobotContainer {
             .handleInterrupt(() -> CommandPreparer.prepareToStopShooterAndPivot()));
 
     // ^Confirmed Shot
-    OP_rightBumper.onTrue(new ShootNote(shooter, pivot, ShooterConstants.currentShooterState));
+    // OP_rightBumper.onTrue(new ShootNote(shooter, pivot,
+    // ShooterConstants.currentShooterState));
 
     // ^Pivot Home
     OP_leftBumper.toggleOnTrue(

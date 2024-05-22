@@ -10,18 +10,15 @@ import frc.constants.Settings;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardBoolean;
-import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 public class Pivot extends SubsystemBase {
 
   private final PivotInputsAutoLogged pivotInputs;
   private final PivotIO pivotIO;
 
-  private LoggedDashboardNumber power = new LoggedDashboardNumber("Power of pivot");
-  private LoggedDashboardBoolean runPower = new LoggedDashboardBoolean("Run power to pivot?");
-  private LoggedDashboardNumber runPowerSpeed = new LoggedDashboardNumber("POINT OF PIVOT");
   private LoggedDashboardBoolean goodRef = new LoggedDashboardBoolean("Good pivot ref?");
   private LoggedDashboardBoolean OPOverride = new LoggedDashboardBoolean("Override Pivot?");
+  private LoggedDashboardBoolean galaMode = new LoggedDashboardBoolean("Enable gala mode pivot?");
 
   public Pivot(PivotIO pivotIO) {
     this.pivotIO = pivotIO;
@@ -36,28 +33,10 @@ public class Pivot extends SubsystemBase {
     pivotIO.updateInputs(pivotInputs);
     Logger.processInputs("Pivot", pivotInputs);
 
-    if (runPower.get()) {
-      // pivotIO.pivotApplySpeed(power.get());
-      pivotIO.enableLimits(false);
-      pivotIO.setReference(runPowerSpeed.get());
-    }
-
-    // if (!OpOverridePower) {
-    // if (pivotInputs.boreEncoderPose < .08 || pivotInputs.boreEncoderPose > .9) {
-    // pivotIO.pivotApplySpeed(.5);
-    // } else {
-    // pivotIO.pivotApplySpeed(0);
     if (!OPOverride.get()) {
       pivotIO.enableLimits(true);
-      pivotIO.setReference(getPivotStates().encoderPose);
+      // pivotIO.setReference(getPivotStates().encoderPose);
     }
-    // }
-    // }
-
-    // System.out.println("LEFT CLIMBER ENCODER POSE: " +
-    // pivotInputs.leftPivotEncoderPose);
-    // System.out.println("RIGHT CLIMBER ENCODER POSE: " +
-    // pivotInputs.rightPivotEncoderPose);
   }
 
   public void setReference(double targetPosition) {
@@ -66,6 +45,9 @@ public class Pivot extends SubsystemBase {
 
   @AutoLogOutput(key = "place")
   public boolean pivotAtReference() {
+    if (galaMode.get()) {
+      return true;
+    }
     // return goodRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
     return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
   }
@@ -118,5 +100,13 @@ public class Pivot extends SubsystemBase {
   public Command pivotStop() {
     return this.runOnce(
         () -> setPivotPower(PivotPower.kStop)); // ~ FIXME IDk if this need to be runOnce or run
+  }
+
+  public void setPower(double power) {
+    if (Math.abs(power) < .15) {
+      System.out.println("hello?");
+      pivotIO.pivotApplySpeed(.1);
+    }
+    pivotIO.pivotApplySpeed(power);
   }
 }
