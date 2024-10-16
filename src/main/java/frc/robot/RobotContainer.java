@@ -244,54 +244,54 @@ public class RobotContainer {
      * OPERATOR CONTROLS
      */
 
-    // ^Eject Note/horizontal shot
-    OP_up.whileTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
-        .toggleOnFalse(shooter.stopNoteRejection().alongWith(intake.stopIntake()));
+    // // ^Eject Note/horizontal shot
+    // OP_up.whileTrue(shooter.rejectNote().alongWith(intake.enableReverseIntake()))
+    //     .toggleOnFalse(shooter.stopNoteRejection().alongWith(intake.stopIntake()));
 
-    // ^Source Intake
-    OP_down.toggleOnTrue(
-        new SourceIntake(pivot, shooter)
-            .handleInterrupt(() -> CommandPreparer.prepareToStopShooterAndPivot()));
+    // // ^Source Intake
+    // OP_down.toggleOnTrue(
+    //     new SourceIntake(pivot, shooter)
+    //         .handleInterrupt(() -> CommandPreparer.prepareToStopShooterAndPivot()));
 
-    // ^Confirmed Shot
-    OP_rightBumper.onTrue(new ShootNote(shooter, pivot, ShooterConstants.currentShooterState));
+    // // ^Confirmed Shot
+    // OP_rightBumper.onTrue(new ShootNote(shooter, pivot, ShooterConstants.currentShooterState));
 
-    // ^Pivot Home
-    OP_leftBumper.toggleOnTrue(
-        new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome))
-            .alongWith(
-                new InstantCommand(
-                    () -> Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle))));
+    // // ^Pivot Home
+    // OP_leftBumper.toggleOnTrue(
+    //     new InstantCommand(() -> Pivot.setPivotState(PivotStates.kPivotHome))
+    //         .alongWith(
+    //             new InstantCommand(
+    //                 () -> Shooter.setShooterWheelState(ShooterWheelStates.kShooterIdle))));
 
-    // ^Floor Intake
-    OP_left.whileTrue(new IntakeToShooter(intake, pivot, shooter))
-        .toggleOnFalse(new InstantCommand(() -> CommandPreparer.prepareToStopIntakeToPivot()));
+    // // ^Floor Intake
+    // OP_left.whileTrue(new IntakeToShooter(intake, pivot, shooter))
+    //     .toggleOnFalse(new InstantCommand(() -> CommandPreparer.prepareToStopIntakeToPivot()));
 
-    // ^Floor Intake Reverse
-    OP_right.whileTrue(new InstantCommand(() -> Intake.setIntakeState(IntakeState.kIntakeReverse)))
-        .toggleOnFalse(new InstantCommand(() -> CommandPreparer.prepareToStopIntakeToPivot()));
+    // // ^Floor Intake Reverse
+    // OP_right.whileTrue(new InstantCommand(() -> Intake.setIntakeState(IntakeState.kIntakeReverse)))
+    //     .toggleOnFalse(new InstantCommand(() -> CommandPreparer.prepareToStopIntakeToPivot()));
 
-    // ^Subwoofer
-    OP_AButton.toggleOnTrue(
-        new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
-            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
+    // // ^Subwoofer
+    // OP_AButton.toggleOnTrue(
+    //     new PivotToShoot(pivot, PivotStates.kPivotSubwoofer, ShooterWheelStates.kShooterFullShot)
+    //         .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
 
-    // ^Podium
-    OP_BButton.toggleOnTrue(
-            new PivotToShoot(
-                    pivot, PivotStates.kPivotPodium, ShooterWheelStates.kShooterThreeQuarterShot)
-                .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()))
-        .debounce(Driver_leftTrigger);
+    // // ^Podium
+    // OP_BButton.toggleOnTrue(
+    //         new PivotToShoot(
+    //                 pivot, PivotStates.kPivotPodium, ShooterWheelStates.kShooterThreeQuarterShot)
+    //             .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()))
+    //     .debounce(Driver_leftTrigger);
 
-    // ^Center Line
-    OP_XButton.toggleOnTrue(
-        new PivotToShoot(pivot, PivotStates.kCenterLine, ShooterWheelStates.kShooterFullShot)
-            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
+    // // ^Center Line
+    // OP_XButton.toggleOnTrue(
+    //     new PivotToShoot(pivot, PivotStates.kCenterLine, ShooterWheelStates.kShooterFullShot)
+    //         .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
 
-    // ! Amp comand has to be made
-    OP_YButton.toggleOnTrue(
-        new PivotToShoot(pivot, PivotStates.kPivotAmp, ShooterWheelStates.kAmpShot)
-            .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
+    // // ! Amp comand has to be made
+    // OP_YButton.toggleOnTrue(
+    //     new PivotToShoot(pivot, PivotStates.kPivotAmp, ShooterWheelStates.kAmpShot)
+    //         .handleInterrupt(() -> CommandPreparer.prepareToStopAllShooter()));
   }
 
   public Command getAutonomousCommand() {
