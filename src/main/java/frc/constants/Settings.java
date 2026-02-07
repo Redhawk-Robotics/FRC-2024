@@ -249,10 +249,10 @@ public interface Settings {
     public static final IdleMode indexerNeutralMode = IdleMode.kCoast;
     public static final IdleMode guardNeutralMode = IdleMode.kBrake;
 
-    public static final double shooterKP = 0.0; // FIXME //try 1.0
-    public static final double shooterKI = 0.0; // FIXME
-    public static final double shooterKD = 0.0; // FIXME //try 0.1
-    public static final double shooterKFF = 0.0; // FIXME
+    public static final double shooterKP = 0.0; // try 1.0
+    public static final double shooterKI = 0.0;
+    public static final double shooterKD = 0.0; // try 0.1
+    public static final double shooterKFF = 0.0;
 
     public static ShooterWheelStates currentShooterState = ShooterWheelStates.kShooterStop;
     public static ShooterSupportWheelStates currentSupportWheelStates =
@@ -269,10 +269,10 @@ public interface Settings {
 
     public static final IdleMode intakeNeutralMode = IdleMode.kBrake;
 
-    public static final double intakeKP = 0.0; // FIXME //try 1.0
-    public static final double intakeKI = 0.0; // FIXME
-    public static final double intakeKD = 0.0; // FIXME //try 0.1
-    public static final double intakeKFF = 0.0; // FIXME
+    public static final double intakeKP = 0.0; // try 1.0
+    public static final double intakeKI = 0.0;
+    public static final double intakeKD = 0.0; // try 0.1
+    public static final double intakeKFF = 0.0;
 
     public static IntakeState currentIntakeState = IntakeState.kIntakeStop;
   }
@@ -292,10 +292,10 @@ public interface Settings {
 
     public static final IdleMode pivotNeutralMode = IdleMode.kBrake;
 
-    public static final double pivotKP = 3.0; // FIXME //try 1.0
-    public static final double pivotKI = 0.0; // FIXME
-    public static final double pivotKD = 0.0; // FIXME //try 0.1
-    public static final double pivotKFF = 0.0; // FIXME
+    public static final double pivotKP = 3.0; // try 1.0
+    public static final double pivotKI = 0.0;
+    public static final double pivotKD = 0.0; // try 0.1
+    public static final double pivotKFF = 0.0;
     public static final double kTolerance = 0.02;
 
     public static final double ZERO_OFFSET = 0;
@@ -326,10 +326,10 @@ public interface Settings {
 
     public static final IdleMode climberNeutralMode = IdleMode.kBrake;
 
-    public static final double climberKP = 3.0; // FIXME //try 1.0
-    public static final double climberKI = 0.0; // FIXME
-    public static final double climberKD = 0.0; // FIXME //try 0.1
-    public static final double climberKFF = 0.0; // FIXME
+    public static final double climberKP = 3.0; // try 1.0
+    public static final double climberKI = 0.0;
+    public static final double climberKD = 0.0; // try 0.1
+    public static final double climberKFF = 0.0;
     public static final double kTolerance = 0.0;
 
     public static final double ZERO_OFFSET = 0;

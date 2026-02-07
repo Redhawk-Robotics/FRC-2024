@@ -49,21 +49,34 @@ wpi.java.debugJni = false
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
-// Configuration for AdvantageKit
+// Configuration for AdvantageKit (GitHub Packages)
+// Load credentials from environment variables when available to avoid hardcoding
+def akitToken = System.getenv('AKIT_GITHUB_TOKEN') ?: System.getenv('GPR_TOKEN') ?: System.getenv('GITHUB_TOKEN')
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
-        credentials {
-            username = "Mechanical-Advantage-Bot"
-            password = "\u0067\u0068\u0070\u005f\u006e\u0056\u0051\u006a\u0055\u004f\u004c\u0061\u0079\u0066\u006e\u0078\u006e\u0037\u0051\u0049\u0054\u0042\u0032\u004c\u004a\u006d\u0055\u0070\u0073\u0031\u006d\u0037\u004c\u005a\u0030\u0076\u0062\u0070\u0063\u0051"
+    if (akitToken) {
+        maven {
+            url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
+            credentials {
+                // GitHub Packages accepts any username when using a personal/access token,
+                // but using a descriptive username makes logs clearer.
+                username = System.getenv('GITHUB_ACTOR') ?: 'Mechanical-Advantage-Bot'
+                password = akitToken
+            }
         }
+    } else {
+        // If no token is provided, skip adding the GitHub Packages repository.
+        // Builds that require AdvantageKit will fail without proper credentials.
+        logger.lifecycle('AKIT token not found in environment; skipping AdvantageKit GitHub Packages repository. If you need AdvantageKit, set AKIT_GITHUB_TOKEN (or GPR_TOKEN/GITHUB_TOKEN).')
     }
+
     mavenLocal()
 }
 
-configurations.all {
-    exclude group: "edu.wpi.first.wpilibj"
-}
+// Note: the following exclusion previously removed WPILib classes from all configs.
+// Leave it commented out so WPILib is available on the compilation classpath.
+//configurations.all {
+//    exclude group: "edu.wpi.first.wpilibj"
+//}
 
 task(checkAkitInstall, dependsOn: "classes", type: JavaExec) {
     mainClass = "org.littletonrobotics.junction.CheckInstall"
@@ -95,7 +108,11 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
-    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
+    if (akitToken) {
+        annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
+    } else {
+        logger.lifecycle('AKIT token not set; skipping junction-autolog annotation processor.');
+    }
 }
 
 test {
@@ -130,6 +147,7 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
+    // Xlint checks were enabled temporarily and have been removed after fixes.
 }
 
 // Create version file

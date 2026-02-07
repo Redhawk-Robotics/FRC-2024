@@ -39,13 +39,13 @@ public class ClimberIOSparkFLEX implements ClimberIO {
 
     // ^ RightClimber
     // rightClimber.setSoftLimit(
-    //     CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // TODO check the value for both
+    //     CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // check the value for both
 
     // rightClimber.setSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, (float) 0);
 
     // ~ LeftClimber
     // leftClimber.setSoftLimit(
-    //     CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // TODO check the value for both
+    //     CANSparkFlex.SoftLimitDirection.kForward, (float) 0); // check the value for both
 
     // leftClimber.setSoftLimit(CANSparkFlex.SoftLimitDirection.kReverse, (float) 0);
 
@@ -78,7 +78,7 @@ public class ClimberIOSparkFLEX implements ClimberIO {
    *
    *
    * Overriden Interface methods - need to INITIALIZE THIS, but it keeps breaking
-   * FIXME PLS
+   * Note: needs initialization
    */
   @Override
   public void updateInputs(ClimberInputs inputs) {

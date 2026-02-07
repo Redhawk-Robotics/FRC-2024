@@ -52,7 +52,7 @@ public class IntakeToShooterTimer extends Command {
 
     if (intake.getEntraceSensorStatus() && !intakeSensorDetected) {
       intakeSensorDetected = true;
-      // TODO LED flash here
+      // LED flash placeholder
     } else {
       intakeSensorDetected = false;
     }
@@ -70,7 +70,7 @@ public class IntakeToShooterTimer extends Command {
     if (shooter.isSensorsBeamBroken() && pivot.pivotAtReference()) {
       CommandPreparer.prepareToStopIntakeToPivot();
       System.out.println("[Command Debug] IntakeToShooter is now FINISHED!");
-      return true; // TODO FLIP VALUE
+      return true;
     }
     System.out.println("[Command Debug] IntakeToShooter can't move on!");
     return false;

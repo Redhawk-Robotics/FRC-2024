@@ -41,13 +41,14 @@ public class ShooterIOSparkMAX implements ShooterIO {
     this.guard.setSmartCurrentLimit(Settings.ShooterConstants.guardCurrentLimit);
 
     this.topShooter.enableVoltageCompensation(
-        Settings.ShooterConstants.maxVoltage); // TODO IDK if we need this
+        Settings.ShooterConstants.maxVoltage); // check if needed
     this.bottomShooter.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
     this.uptake.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
     this.guard.enableVoltageCompensation(Settings.ShooterConstants.maxVoltage);
 
     this.velocityController = topShooter.getPIDController();
-    this.velocityController = bottomShooter.getPIDController(); // * IDK IF WE NEED THIS
+    this.velocityController =
+        bottomShooter.getPIDController(); // optional: assign second controller if needed
 
     this.velocityController.setP(0);
     this.velocityController.setI(0);
@@ -108,7 +109,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
   @Override
   public boolean isShooterSensorBeamBroken() {
     // return false;
-    return !shooterSensor.get(); // TODO remove for real life testing
+    return !shooterSensor.get(); // remove for real life testing
   }
 
   @Override

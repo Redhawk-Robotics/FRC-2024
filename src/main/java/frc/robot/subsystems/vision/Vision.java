@@ -58,7 +58,7 @@ public class Vision extends SubsystemBase {
     gyroIO.reset();
     this.robotPose = new Pose2d();
     this.robotPose3D = new Pose3d();
-    this.visionOffset = new Pose2d();
+    Vision.visionOffset = new Pose2d();
     this.range = 0;
     this.cam = visionIO.getCam();
     this.distanceToTarget = 0;

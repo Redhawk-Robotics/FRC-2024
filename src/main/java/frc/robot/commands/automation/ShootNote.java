@@ -72,7 +72,7 @@ public class ShootNote extends Command {
       System.out.println("[Command Debug] ShootNote currently has a Note!");
       timeNoteLastSeen = timer.get();
     }
-    // TODO change LEDs to shooting mode
+    // change LEDs to shooting mode
   }
 
   // Called once the command ends or is interrupted.

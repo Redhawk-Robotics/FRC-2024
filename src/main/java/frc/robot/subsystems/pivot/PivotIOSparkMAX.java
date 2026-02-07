@@ -52,10 +52,9 @@ public class PivotIOSparkMAX implements PivotIO {
 
     rightPivot.setSoftLimit(
         CANSparkMax.SoftLimitDirection.kForward,
-        (float) PivotConstants.forwardSoftLimit); // TODO check the value for
-    // both
+        (float) PivotConstants.forwardSoftLimit); // check the value for both
 
-    // // TODO
+    // reverse limit
     rightPivot.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 0); // .006
 
     leftPivot.setSmartCurrentLimit(Settings.PivotConstants.pivotCurrent);
@@ -117,7 +116,7 @@ public class PivotIOSparkMAX implements PivotIO {
 
   @Override
   public boolean atReference() {
-    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .75) { // TODO CHECK NEW
+    if (Math.abs(pivotEncoder.getPosition() - targetPosition) < .75) {
       return true;
     }
     return false;

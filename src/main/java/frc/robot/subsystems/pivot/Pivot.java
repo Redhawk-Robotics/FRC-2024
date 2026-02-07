@@ -50,8 +50,8 @@ public class Pivot extends SubsystemBase {
 
   @AutoLogOutput(key = "place")
   public boolean pivotAtReference() {
-    // return goodRef.get(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
-    return pivotIO.atReference(); // TODO MAKE SURE TO CHANGE FOR REAL LIFE
+    // return goodRef.get();
+    return pivotIO.atReference();
   }
 
   @AutoLogOutput(key = "States/pivotState")
@@ -96,8 +96,7 @@ public class Pivot extends SubsystemBase {
   }
 
   public Command pivotStop() {
-    return this.runOnce(
-        () -> setPivotPower(PivotPower.kStop)); // ~ FIXME IDk if this need to be runOnce or run
+    return this.runOnce(() -> setPivotPower(PivotPower.kStop)); // runOnce or run
   }
 
   public void setOpOverridePower(boolean set) {

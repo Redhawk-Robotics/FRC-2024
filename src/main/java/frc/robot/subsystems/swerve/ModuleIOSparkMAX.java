@@ -19,7 +19,7 @@ import org.littletonrobotics.junction.Logger;
 public class ModuleIOSparkMAX implements ModuleIO {
   public int moduleNumber;
   private Rotation2d angleOffset;
-
+  
   private CANSparkMax mAngleMotor;
   private CANSparkMax mDriveMotor;
 
@@ -147,10 +147,7 @@ public class ModuleIOSparkMAX implements ModuleIO {
   private void configAngleMotor() {
     mAngleMotor.restoreFactoryDefaults();
     angleController = mAngleMotor.getPIDController();
-    angleController.setP(
-        SwerveConfig
-            .angleKP); // FIXME IDK if you would need the second paramater for the slotID, I just
-    // remove it since it was 0
+    angleController.setP(SwerveConfig.angleKP); // removed second parameter since it was 0
     angleController.setI(SwerveConfig.angleKI);
     angleController.setD(SwerveConfig.angleKD);
     angleController.setFF(SwerveConfig.angleKF);
@@ -207,9 +204,14 @@ public class ModuleIOSparkMAX implements ModuleIO {
       return;
     }
 
-    double velocity = desiredState.speedMetersPerSecond * SwerveConfig.maxSpeed;
+    double velocity = desiredState.speedMetersPerSecond;
     Logger.recordOutput("Swerve/desiredStateVelocity", velocity);
     SparkPIDController controller = driveController;
     controller.setReference(velocity, ControlType.kVelocity, 0);
+
+    // Note: desiredState.speedMetersPerSecond is already in meters per second
+    // (the rest of the code converts joystick inputs to m/s before kinematics),
+    // and the encoder velocity conversion factor is set to meters/second.
+    // Using the raw value avoids an incorrect extra multiply by maxSpeed.
   }
 }

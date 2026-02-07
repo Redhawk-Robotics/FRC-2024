@@ -39,7 +39,7 @@ public interface Ports {
   }
 
   public static final class REV {
-    public static final int pigeonID = 39; // IDK
+    public static final int pigeonID = 39; // placeholder ID
 
     /* Module Specific Constants */
     /* Front Left Module */
